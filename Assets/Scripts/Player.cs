@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -8,6 +9,8 @@ public class Player : MonoBehaviour {
 
 	public static int Score = 0;
 	public static int Health = 3;
+
+	private Vector2 inputMovement;
 
 	private Camera cam;
 	private new Renderer renderer;
@@ -66,12 +69,20 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	// Siehe Component "Player Input"
+	// onMove wird aufgerufen, wenn das zugehörige Input-Device einen Input (Joystick / WASD) liefert.
+	public void onMove(InputAction.CallbackContext context)
+	{
+		inputMovement = context.ReadValue<Vector2>();
+	}
+
 	private void HandleKeyInput() {
 		if (state != State.Playing) return;
 		var trans = transform;
 		var pos = trans.position;
 
-		var axis = Input.GetAxis("Horizontal");
+		// var axis = Input.GetAxis("Horizontal");
+		var axis = inputMovement.x;
 		var rotationY = -axis * moveRotation;
 		var moveAmount = axis * playerSpeed * Time.deltaTime;
 
@@ -118,6 +129,7 @@ public class Player : MonoBehaviour {
 		StartCoroutine(Death());
 	}
 
+	// TODO: Für 2 Schiffe entsprechend sinnvoll implementieren.
 	private IEnumerator Death() {
 		state = Health > 0 ? State.Respawning : State.Death;
 		Instantiate(explosion, transform.position, Quaternion.identity);
