@@ -27,30 +27,33 @@ public class PlayerInputManagerScript : MonoBehaviour
         // Geräte und Control Scheme zuweisen
         var gamepadCount = Gamepad.all.Count;
         Debug.Log("Anzahl erfasster Controller: " + gamepadCount);
-        
-        if (gamepadCount >= 2)
+
+        switch (gamepadCount)
         {
-            InputUser.PerformPairingWithDevice(Gamepad.all[0], user: player1.user);
-            InputUser.PerformPairingWithDevice(Gamepad.all[1], user: player2.user);
-            player1.user.ActivateControlScheme("Gamepad");
-            player2.user.ActivateControlScheme("Gamepad");
-            
-        } else if (gamepadCount == 1) {
-            InputUser.PerformPairingWithDevice(Gamepad.all[0], user: player1.user);
-            InputUser.PerformPairingWithDevice(Keyboard.current, user: player2.user);
-            
-            player1.user.ActivateControlScheme("Gamepad");
-            player2.user.ActivateControlScheme("KeyboardLR"); 
-        } else {
-            InputUser.PerformPairingWithDevice(Keyboard.current, user: player1.user);
-            InputUser.PerformPairingWithDevice(Keyboard.current, user: player2.user);
-            
-            player1.user.ActivateControlScheme("KeyboardL");
-            player2.user.ActivateControlScheme("KeyboardR");
+            case var n when (n >= 2):
+                InputUser.PerformPairingWithDevice(Gamepad.all[0], user: player1.user);
+                InputUser.PerformPairingWithDevice(Gamepad.all[1], user: player2.user);
+                player1.user.ActivateControlScheme("Gamepad");
+                player2.user.ActivateControlScheme("Gamepad");
+                break;
+            case 1:
+                InputUser.PerformPairingWithDevice(Gamepad.all[0], user: player1.user);
+                InputUser.PerformPairingWithDevice(Keyboard.current, user: player2.user);
+                player1.user.ActivateControlScheme("Gamepad");
+                player2.user.ActivateControlScheme("KeyboardLR");
+                break;
+            default:
+                InputUser.PerformPairingWithDevice(Keyboard.current, user: player1.user);
+                InputUser.PerformPairingWithDevice(Keyboard.current, user: player2.user);
+                player1.user.ActivateControlScheme("KeyboardL");
+                player2.user.ActivateControlScheme("KeyboardR");
+                break;
         }
         
-        Debug.Log("Player 1 verbunden mit: " + player1.user.pairedDevices.ToArray()[0].description.ToString());
-        Debug.Log("Player 2 verbunden mit: " + player2.user.pairedDevices.ToArray()[0].description.ToString());
+        Debug.Log("Player 1 verbunden mit: "
+                  + player1.user.pairedDevices.ToArray()[0].description.ToString() 
+                  + "\nPlayer 2 verbunden mit: " 
+                  + player2.user.pairedDevices.ToArray()[0].description.ToString());
     }
 
     // Update is called once per frame
