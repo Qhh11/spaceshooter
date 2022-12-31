@@ -1,5 +1,7 @@
+using System;
 using Unity.VisualScripting;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Enemy : MonoBehaviour {
 
@@ -23,6 +25,19 @@ public class Enemy : MonoBehaviour {
 	private float enemyRotationSpeedX;
 	private float enemyRotationSpeedY;
 	private float enemyRotationSpeedZ;
+	public Vector3 throwbackAngle = Vector3.zero;
+	private bool fallingDownVal = true;
+
+	public bool fallingDown {
+		set {
+			fallingDownVal = value;
+			if (!fallingDownVal) {
+				GameManager.Meteors.Remove(this);
+			} else {
+				GameManager.Meteors.Add(this);
+			}
+		}
+	}
 
 	// Start is called before the first frame update
 	void Start() {
@@ -33,7 +48,11 @@ public class Enemy : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		var trans = gameObject.transform;
-		trans.Translate(Vector3.down * (enemySpeed * Time.deltaTime), Space.World);
+		var enemySpeedNormalized = enemySpeed * Time.deltaTime;
+		var translation = (fallingDownVal ? Vector3.down : Vector3.up) * enemySpeedNormalized;
+		translation += throwbackAngle * enemySpeedNormalized;
+		
+		trans.Translate(translation, Space.World);
 		trans.Rotate(new Vector3(enemyRotationSpeedX, enemyRotationSpeedY, enemyRotationSpeedZ));
 		trans.localScale = Vector3.one * enemyScale;
 	}
@@ -54,6 +73,7 @@ public class Enemy : MonoBehaviour {
 		var randomX = Random.Range(minX, maxX);
 
 		gameObject.transform.position = new Vector3(randomX, cam.transform.position.y + 50);
+		throwbackAngle = Vector3.zero;
 		RandomizeData();
 	}
 
@@ -61,8 +81,15 @@ public class Enemy : MonoBehaviour {
 		Instantiate(explosion, transform.position, Quaternion.identity);
 	}
 
+	private void OnBecameVisible() {
+		if (!GameManager.Meteors.Contains(this)) {
+			GameManager.Meteors.Add(this);
+		}
+	}
+
 	private void OnBecameInvisible() {
 		SetSpeedAndPosition();
+		fallingDown = true;
 	}
 
 	public void ChangeSpeed(float f) {
