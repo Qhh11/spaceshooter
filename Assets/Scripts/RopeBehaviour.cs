@@ -1,11 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Numerics;
 using UnityEngine;
 using UnityEngine.Serialization;
-using Quaternion = UnityEngine.Quaternion;
-using Vector3 = UnityEngine.Vector3;
 
 [RequireComponent(typeof(LineRenderer))]
 public class RopeBehaviour : MonoBehaviour {
@@ -15,14 +11,19 @@ public class RopeBehaviour : MonoBehaviour {
 	public GameObject spring;
 	private float maxLength;
 
-	[FormerlySerializedAs("springAnchor")] [FormerlySerializedAs("shipCenter")] public GameObject springAnchObj;
+	[FormerlySerializedAs("springAnchor")]
+	[FormerlySerializedAs("shipCenter")]
+	public GameObject springAnchObj;
 
 	[Range(1, 100)]
 	public int numPoints = 50;
+	[Range(0, 1)]
+	public float fullyStretchedTolerance = 0.01f;
 	private Vector3[] positions;
 	private SpringJoint springJoint;
 	private bool calculateAnchor = true;
 	private Dictionary<Enemy, Vector3> closest = new();
+	private bool switchedToStretched;
 
 	void Start() {
 		lineRenderer = GetComponent<LineRenderer>();
@@ -30,9 +31,9 @@ public class RopeBehaviour : MonoBehaviour {
 		lineRenderer.positionCount = numPoints;
 		springJoint = spring.GetComponent<SpringJoint>();
 
-		var cam = UnityEngine.Camera.main;
+		var cam = Camera.main;
 		var viewportToWorldPoint = cam!.ViewportToWorldPoint(Vector3.zero);
-		maxLength = Mathf.Abs(viewportToWorldPoint.z) * .75f;
+		maxLength = Mathf.Abs(viewportToWorldPoint.z);
 	}
 
 	private void Update() {
@@ -68,7 +69,7 @@ public class RopeBehaviour : MonoBehaviour {
 	private void MakeSpringAnchorPoint(Vector3 p0, Vector3 p1) {
 		if (!calculateAnchor) return;
 		Vector3 conAnchor = (p0 + p1) / 2;
-		conAnchor.y -= Mathf.Max(0,  maxLength - Vector3.Distance(p0, p1));
+		conAnchor.y -= Mathf.Max(0, maxLength - Vector3.Distance(p0, p1));
 		springAnchObj.transform.position = conAnchor;
 
 		Vector3 temp = new Vector3(conAnchor.x, spring.transform.position.y, spring.transform.position.z);
@@ -80,17 +81,17 @@ public class RopeBehaviour : MonoBehaviour {
 	IEnumerator Bounce(float meteorSize, float velocity) {
 		calculateAnchor = false;
 		springJoint.damper = 0;
-		float bounceFactor = (meteorSize + velocity/2) / 4;
+		float bounceFactor = (meteorSize + velocity / 2) / 4;
 		var newPos = springAnchObj.transform.position;
-		
+
 		newPos -= new Vector3(0, bounceFactor, 0);
 		springAnchObj.transform.position = newPos;
 		yield return new WaitForSeconds(.1f);
-		
-		newPos += new Vector3(0, bounceFactor*1.3f, 0);
+
+		newPos += new Vector3(0, bounceFactor * 1.3f, 0);
 		springAnchObj.transform.position = newPos;
 		yield return new WaitForSeconds(.1f);
-		
+
 		calculateAnchor = true;
 	}
 
@@ -118,9 +119,8 @@ public class RopeBehaviour : MonoBehaviour {
 					closestPoint = pos;
 				}
 
-				if (distance < 1)
-				{
-					meteor.throwbackAngle = calculcateThrowbackAngle(point0.position, point1.position, Vector3.down);
+				if (distance < 1) {
+					meteor.throwbackAngle = CalculateThrowbackAngle(point0.position, point1.position, Vector3.down);
 					meteor.fallingDown = false;
 					StartCoroutine(Bounce(meteor.getEnemyScale(), meteor.getEnemySpeed()));
 				}
@@ -130,15 +130,32 @@ public class RopeBehaviour : MonoBehaviour {
 		}
 	}
 
-	private Vector3 calculcateThrowbackAngle(Vector3 ship1, Vector3 ship2, Vector3 incidentAngle)
-	{
+	private Vector3 CalculateThrowbackAngle(Vector3 ship1, Vector3 ship2, Vector3 incidentAngle) {
 		Vector3 line = ship2 - ship1;
 		Vector3 normal = new Vector3(-line.y, line.x).normalized;
 		return Vector3.Reflect(incidentAngle, normal);
 	}
-	
+
+	public float GetStretch() {
+		if (maxLength == 0) return 0;
+		return Mathf.Min(1f, Vector3.Distance(point0.position, point1.position) / maxLength);
+	}
+
+	public bool IsFullyStretched() {
+		var isFullyStretched = 1 - GetStretch() < fullyStretchedTolerance;
+		if (switchedToStretched && !isFullyStretched) {
+			switchedToStretched = false;
+		}
+
+		return isFullyStretched;
+	}
+
+	public Vector3 GetRopeCenter() {
+		return (point0.position + point1.position) / 2;
+	}
+
+	public float GetMaxLength() {
+		return maxLength;
+	}
+
 }
-
-
-
-

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.024901927, g: 0.022690432, b: 0.07040433, a: 1}
+  m_IndirectSpecularColor: {r: 0.02495846, g: 0.02274444, b: 0.07047759, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -159,6 +159,7 @@ MonoBehaviour:
   spring: {fileID: 1153950158}
   springAnchObj: {fileID: 127124840}
   numPoints: 50
+  fullyStretchedTolerance: 0.01
 --- !u!120 &48324883
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -5161,7 +5162,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 231844437}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.888, z: -9.432}
+  m_LocalPosition: {x: 0, y: 3.5, z: -9.432}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5633,7 +5634,41 @@ MonoBehaviour:
   playerSpeed: 7
   moveRotation: 10
   explosion: {fileID: 2476257155559655172, guid: 8050ab3c2e013e944b08fc3797715013, type: 3}
-  state: 0
+  shipState: 0
+  otherShip: {fileID: 1870301438}
+  rope: {fileID: 48324882}
+  shakeAnimation:
+    shakeDurationSecs: 1
+    shakesPerSecond: 4
+    maxShakePower: 25
+    shakePowerDropOff:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: -2.827522
+        outSlope: -2.827522
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.033333335
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    playable: 1
+    active: 0
+    rotationY: 0
+    rotationStartDirection: 0
   scoreText: {fileID: 695359908}
   healthText: {fileID: 1608660012}
   transitionScreen: {fileID: 622526496}
@@ -6707,7 +6742,41 @@ MonoBehaviour:
   playerSpeed: 7
   moveRotation: 10
   explosion: {fileID: 2476257155559655172, guid: 8050ab3c2e013e944b08fc3797715013, type: 3}
-  state: 0
+  shipState: 0
+  otherShip: {fileID: 804544408}
+  rope: {fileID: 48324882}
+  shakeAnimation:
+    shakeDurationSecs: 1
+    shakesPerSecond: 4
+    maxShakePower: 25
+    shakePowerDropOff:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: -2.827522
+        outSlope: -2.827522
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.033333335
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    playable: 1
+    active: 0
+    rotationY: 0
+    rotationStartDirection: 0
   scoreText: {fileID: 695359908}
   healthText: {fileID: 1608660012}
   transitionScreen: {fileID: 622526496}

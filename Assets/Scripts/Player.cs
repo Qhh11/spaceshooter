@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
@@ -10,9 +11,9 @@ public class Player : MonoBehaviour {
 	public static int Score = 0;
 	public static int Health = 3;
 
-	private Vector2 inputMovement;
+	public Vector2 InputMovement { get; private set; }
 
-	protected UnityEngine.Camera cam;
+	protected Camera cam;
 	private new Renderer renderer;
 	[Header("Basic Player Data")]
 	[SerializeField]
@@ -23,8 +24,17 @@ public class Player : MonoBehaviour {
 	private float moveRotation = 35f;
 	[SerializeField]
 	private ParticleSystem explosion;
+	[FormerlySerializedAs("state")]
 	[SerializeField]
-	private State state;
+	private ShipState shipState;
+
+	[Header("Rope and other Ship")]
+	[SerializeField]
+	private Player otherShip;
+	[SerializeField]
+	private RopeBehaviour rope;
+	[SerializeField]
+	public ShakeAnimation shakeAnimation;
 
 	[Header("UI Elements")]
 	[SerializeField]
@@ -51,7 +61,7 @@ public class Player : MonoBehaviour {
 	void Start() {
 		Score = 0;
 		Health = 3;
-		cam = UnityEngine.Camera.main;
+		cam = Camera.main;
 		renderer = GetComponent<Renderer>();
 		UpdateUI();
 	}
@@ -60,7 +70,7 @@ public class Player : MonoBehaviour {
 	void Update() {
 		HandleKeyInput();
 
-		if (state == State.Death) {
+		if (shipState == ShipState.Death) {
 			currentTransitionTime += Time.deltaTime;
 
 			var color = transitionScreen.color;
@@ -71,46 +81,21 @@ public class Player : MonoBehaviour {
 
 	// Siehe Component "Player Input"
 	// onMove wird aufgerufen, wenn das zugehörige Input-Device einen Input (Joystick / WASD) liefert.
-	public void onMove(InputAction.CallbackContext context)
-	{
-		inputMovement = context.ReadValue<Vector2>();
+	public void onMove(InputAction.CallbackContext context) {
+		InputMovement = context.ReadValue<Vector2>();
 	}
 
 	private void HandleKeyInput() {
-		if (state != State.Playing) return;
-		var trans = transform;
-		var pos = trans.position;
+		if (shipState != ShipState.Playing) return;
 
 		// var axis = Input.GetAxis("Horizontal");
-		var axis = inputMovement.x;
-		var rotationY = -axis * moveRotation;
-		var moveAmount = axis * playerSpeed * Time.deltaTime;
-		
-		// Testing vertical movement
-		var yAxis = inputMovement.y;
-		var yMoveAmount = yAxis * playerSpeed * Time.deltaTime;
-		pos += Vector3.up * yMoveAmount;
-
-		pos += Vector3.right * moveAmount;
-		trans.position = pos;
-		trans.rotation = Quaternion.Euler(0, rotationY, 0);
-
-		var posOnScreen = cam.WorldToScreenPoint(pos);
-		if (posOnScreen.x < 0) {
-			var screenMax = cam.ScreenToWorldPoint(new Vector3(cam.pixelWidth, 0, 0));
-			trans.position = new Vector3(screenMax.x, pos.y, pos.z);
-		}
-
-		if (posOnScreen.x > cam.pixelWidth) {
-			var screenMax = cam.ScreenToWorldPoint(Vector3.zero);
-			trans.position = new Vector3(screenMax.x, pos.y, pos.z);
-		}
+		MoveShip();
 
 		if (Input.GetKeyDown(KeyCode.Mouse0)) {
 			Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 			if (!Physics.Raycast(ray, out _, 150f)) return;
 			Vector3 point = ray.GetPoint(50);
-				
+
 			Debug.Log($"Clicked at {Input.mousePosition} which is {point} as world point");
 			var cannonPos = laserCannonTransform.position;
 			var rotation = Quaternion.FromToRotation(Vector3.up, cannonPos - point);
@@ -119,6 +104,111 @@ public class Player : MonoBehaviour {
 			obj.GetComponent<Projectile>().shooter = this;
 			obj.transform.rotation = rotation;
 		}
+	}
+
+	private void MoveShip() {
+		var trans = transform;
+		var pos = trans.position;
+
+		var xAxis = InputMovement.x;
+		var moveAmountX = xAxis * playerSpeed * Time.deltaTime;
+		var yAxis = InputMovement.y;
+		var moveAmountY = yAxis * playerSpeed * Time.deltaTime;
+		var otherPos = otherShip.transform.position;
+		var isLeftOfOther = pos.x < otherPos.x;
+		var isBelowOther = pos.y < otherPos.y;
+		var stretchStateX = GetRopeStretchState(isLeftOfOther, InputMovement.x, otherShip.InputMovement.x);
+		var stretchStateY = GetRopeStretchState(isBelowOther, InputMovement.y, otherShip.InputMovement.y);
+
+		pos += Vector3.right * moveAmountX;
+		// Testing vertical movement
+		pos += Vector3.up * moveAmountY;
+
+		if (TriedToFlyOutOfView(pos)) {
+			trans.rotation = Quaternion.identity;
+			return;
+		}
+
+		if (rope.IsFullyStretched()) {
+			if (stretchStateX == StretchState.Both || stretchStateY == StretchState.Both) {
+				if (!shakeAnimation.active && shakeAnimation.playable) StartCoroutine(DoShake(isLeftOfOther));
+				PerformRotation();
+				pos = RestrictMovementInCircle(pos);
+				trans.position = pos;
+				return;
+			}
+
+			if (stretchStateX == StretchState.ByMyself || stretchStateY == StretchState.ByMyself) {
+				pos -= Vector3.right * moveAmountX / 2;
+				pos -= Vector3.up * moveAmountY / 2;
+				shakeAnimation.playable = false;
+			}
+
+			if (stretchStateX == StretchState.ByOther || stretchStateY == StretchState.ByOther) {
+				var otherMoveAmountX = otherShip.InputMovement.x * otherShip.playerSpeed * Time.deltaTime;
+				var otherMoveAmountY = otherShip.InputMovement.y * otherShip.playerSpeed * Time.deltaTime;
+				pos += Vector3.right * otherMoveAmountX / 2;
+				pos += Vector3.up * otherMoveAmountY / 2;
+				shakeAnimation.playable = false;
+			}
+		} else {
+			shakeAnimation.playable = true;
+		}
+
+		if (stretchStateX == StretchState.Both || stretchStateY == StretchState.Both) {
+			trans.position = RestrictMovementInCircle(pos);
+		} else {
+			trans.position = pos;
+		}
+
+		PerformRotation();
+	}
+
+	private Vector3 RestrictMovementInCircle(Vector3 pos) {
+		var center = rope.GetRopeCenter();
+		return center + Vector3.ClampMagnitude(pos - center, rope.GetMaxLength() / 2);
+	}
+
+	private void PerformRotation() {
+		var axis = InputMovement.x;
+		if (shakeAnimation.active) {
+			shakeAnimation.CalculateRotation();
+			transform.rotation = Quaternion.Euler(0, shakeAnimation.rotationY, 0);
+		} else if (!shakeAnimation.playable) {
+			transform.rotation = Quaternion.identity;
+		} else {
+			var rotationY = -axis * moveRotation;
+			transform.rotation = Quaternion.Euler(0, rotationY, 0);
+		}
+	}
+
+	private IEnumerator DoShake(bool isLeftOf) {
+		shakeAnimation.Start(isLeftOf ? -1 : 1);
+		yield return new WaitForSeconds(shakeAnimation.shakeDurationSecs);
+		shakeAnimation.Stop();
+	}
+
+	private bool TriedToFlyOutOfView(Vector3 pos) {
+		var posOnScreen = cam.WorldToScreenPoint(pos);
+		return posOnScreen.x <= 40 || posOnScreen.x > cam.pixelWidth - 40 ||
+			   posOnScreen.y <= 10 || posOnScreen.y > cam.pixelHeight - 10;
+	}
+
+	private StretchState GetRopeStretchState(bool negativeToOther, float ownMovement, float otherMovement) {
+		// ReSharper disable twice ConvertIfStatementToSwitchStatement
+		// Switch statements make it more unreadable
+
+		if (negativeToOther) {
+			if (ownMovement < 0 && otherMovement > 0) return StretchState.Both;
+			if (ownMovement == 0 && otherMovement > 0) return StretchState.ByOther;
+			if (ownMovement < 0 && otherMovement == 0) return StretchState.ByMyself;
+		} else {
+			if (ownMovement > 0 && otherMovement < 0) return StretchState.Both;
+			if (ownMovement == 0 && otherMovement < 0) return StretchState.ByOther;
+			if (ownMovement > 0 && otherMovement == 0) return StretchState.ByMyself;
+		}
+
+		return StretchState.NoOne;
 	}
 
 	private void OnTriggerEnter(Collider other) {
@@ -136,7 +226,7 @@ public class Player : MonoBehaviour {
 
 	// TODO: Für 2 Schiffe entsprechend sinnvoll implementieren.
 	private IEnumerator Death() {
-		state = Health > 0 ? State.Respawning : State.Death;
+		shipState = Health > 0 ? ShipState.Respawning : ShipState.Death;
 		Instantiate(explosion, transform.position, Quaternion.identity);
 		renderer.enabled = false;
 
@@ -147,7 +237,7 @@ public class Player : MonoBehaviour {
 		} else {
 			transform.position = new Vector3(respawnPoint.x, respawnPoint.y, 0);
 			renderer.enabled = true;
-			state = State.Playing;
+			shipState = ShipState.Playing;
 		}
 	}
 
@@ -158,10 +248,19 @@ public class Player : MonoBehaviour {
 
 }
 
-public enum State {
+public enum ShipState {
 
 	Playing,
 	Respawning,
 	Death
+
+}
+
+public enum StretchState {
+
+	NoOne,    // No one is currently stretching the rope
+	ByMyself, // This ship is currently stretching the rope
+	ByOther,  // The other ship is currently stretching the rope
+	Both      // Both ships are stretching the rope
 
 }
