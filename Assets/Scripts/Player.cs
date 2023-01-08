@@ -228,6 +228,7 @@ public class Player : MonoBehaviour {
 	private IEnumerator Death() {
 		shipState = Health > 0 ? ShipState.Respawning : ShipState.Death;
 		Instantiate(explosion, transform.position, Quaternion.identity);
+		StartCoroutine(cam.GetComponent<CamShaker>().ShakeFadeout(2, .3f));
 		renderer.enabled = false;
 
 		yield return new WaitForSeconds(transitionDuration);

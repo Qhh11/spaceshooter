@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CosineAsteroid : Enemy
 {
+    [Header("Cosine specific")]
     [SerializeField] private float _amplitude = .75f;
     [SerializeField] private float _frequency = 15f;
     void Start()
