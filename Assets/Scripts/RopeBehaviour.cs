@@ -81,7 +81,7 @@ public class RopeBehaviour : MonoBehaviour {
 	IEnumerator Bounce(float meteorSize, float velocity) {
 		calculateAnchor = false;
 		springJoint.damper = 0;
-		float bounceFactor = (meteorSize + velocity / 2) / 4;
+		float bounceFactor = (meteorSize*3 + velocity) * 0.1f;
 		var newPos = springAnchObj.transform.position;
 
 		newPos -= new Vector3(0, bounceFactor, 0);
@@ -123,6 +123,8 @@ public class RopeBehaviour : MonoBehaviour {
 					meteor.throwbackAngle = CalculateThrowbackAngle(point0.position, point1.position, Vector3.down);
 					meteor.fallingDown = false;
 					StartCoroutine(Bounce(meteor.getEnemyScale(), meteor.getEnemySpeed()));
+					StartCoroutine(Camera.main.GetComponent<CamShaker>()
+						.ShakeFadeout(.3f, meteor.getEnemyScale() / 10));
 				}
 			}
 
