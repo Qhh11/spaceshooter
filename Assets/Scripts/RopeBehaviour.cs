@@ -80,7 +80,7 @@ public class RopeBehaviour : MonoBehaviour {
 	IEnumerator Bounce(float meteorSize, float velocity) {
 		calculateAnchor = false;
 		springJoint.damper = 0;
-		float bounceFactor = (meteorSize + velocity) / 6;
+		float bounceFactor = (meteorSize + velocity/2) / 4;
 		var newPos = springAnchObj.transform.position;
 		
 		newPos -= new Vector3(0, bounceFactor, 0);
