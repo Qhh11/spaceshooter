@@ -3,61 +3,66 @@ using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class Enemy : MonoBehaviour {
+public class Enemy : MonoBehaviour
+{
 
-	private Camera cam;
-	[SerializeField]
-	private float minSpeed = 1f;
-	[SerializeField]
-	private float maxSpeed = 10f;
-	[SerializeField]
-	private float minRotationSpeed = 1f;
-	[SerializeField]
-	private float maxRotationSpeed = 10f;
-	[SerializeField]
-	private float minScale = 0.2f;
-	[SerializeField]
-	private float maxScale = 1f;
-	[SerializeField]
-	private ParticleSystem explosion;
-	private float enemySpeed;
-	private float enemyScale;
-	private float enemyRotationSpeedX;
-	private float enemyRotationSpeedY;
-	private float enemyRotationSpeedZ;
+	protected Camera cam;
+	[SerializeField] protected float minSpeed = 1f;
+	[SerializeField] protected float maxSpeed = 3f;
+	[SerializeField] protected float minRotationSpeed = 1f;
+	[SerializeField] protected float maxRotationSpeed = 10f;
+	[SerializeField] protected float minScale = 0.2f;
+	[SerializeField] protected float maxScale = 1f;
+	[SerializeField] protected ParticleSystem explosion;
+	protected float enemySpeed;
+	protected float enemyScale;
+	protected float enemyRotationSpeedX;
+	protected float enemyRotationSpeedY;
+	protected float enemyRotationSpeedZ;
 	public Vector3 throwbackAngle = Vector3.zero;
-	private bool fallingDownVal = true;
+	protected bool fallingDownVal = true;
 
-	public bool fallingDown {
-		set {
+	public Vector3 fallDirection = Vector3.down;
+	public Vector3 throwbackDirection = Vector3.up;
+
+	public bool fallingDown
+	{
+		set
+		{
 			fallingDownVal = value;
-			if (!fallingDownVal) {
+			if (!fallingDownVal)
+			{
 				GameManager.Meteors.Remove(this);
-			} else {
+			}
+			else
+			{
 				GameManager.Meteors.Add(this);
 			}
 		}
 	}
 
 	// Start is called before the first frame update
-	void Start() {
-		cam = Camera.main;
+	void Start()
+	{
+		cam = UnityEngine.Camera.main;
 		SetSpeedAndPosition();
 	}
 
 	// Update is called once per frame
-	void Update() {
+	void Update()
+	{
 		var trans = gameObject.transform;
 		var enemySpeedNormalized = enemySpeed * Time.deltaTime;
 		var translation = (fallingDownVal ? Vector3.down : Vector3.up) * enemySpeedNormalized;
 		translation += throwbackAngle * enemySpeedNormalized;
-		
+
 		trans.Translate(translation, Space.World);
 		trans.Rotate(new Vector3(enemyRotationSpeedX, enemyRotationSpeedY, enemyRotationSpeedZ));
 		trans.localScale = Vector3.one * enemyScale;
 	}
 
-	private void RandomizeData() {
+	protected void RandomizeData()
+	{
 		enemySpeed = Random.Range(minSpeed, maxSpeed);
 		enemyScale = Random.Range(minScale, maxScale);
 		enemyRotationSpeedX = Random.Range(minRotationSpeed, maxRotationSpeed);
@@ -65,7 +70,8 @@ public class Enemy : MonoBehaviour {
 		enemyRotationSpeedZ = Random.Range(minRotationSpeed, maxRotationSpeed);
 	}
 
-	public void SetSpeedAndPosition() {
+	public void SetSpeedAndPosition()
+	{
 		if (cam is null || cam.IsDestroyed()) return;
 
 		var minX = cam.ScreenToWorldPoint(Vector3.zero).x;
@@ -77,24 +83,39 @@ public class Enemy : MonoBehaviour {
 		RandomizeData();
 	}
 
-	public void PlayExplosion() {
+	public void PlayExplosion()
+	{
 		Instantiate(explosion, transform.position, Quaternion.identity);
 	}
 
-	private void OnBecameVisible() {
-		if (!GameManager.Meteors.Contains(this)) {
+	private void OnBecameVisible()
+	{
+		if (!GameManager.Meteors.Contains(this))
+		{
 			GameManager.Meteors.Add(this);
 		}
 	}
 
-	private void OnBecameInvisible() {
+	private void OnBecameInvisible()
+	{
 		SetSpeedAndPosition();
 		fallingDown = true;
 	}
 
-	public void ChangeSpeed(float f) {
+	public void ChangeSpeed(float f)
+	{
 		minSpeed += f;
 		maxSpeed += f;
+	}
+
+	public float getEnemyScale()
+	{
+		return enemyScale;
+	}
+
+	public float getEnemySpeed()
+	{
+		return enemySpeed; 
 	}
 
 }

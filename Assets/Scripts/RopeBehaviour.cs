@@ -1,7 +1,11 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Numerics;
 using UnityEngine;
+using UnityEngine.Serialization;
+using Quaternion = UnityEngine.Quaternion;
+using Vector3 = UnityEngine.Vector3;
 
 [RequireComponent(typeof(LineRenderer))]
 public class RopeBehaviour : MonoBehaviour {
@@ -9,12 +13,14 @@ public class RopeBehaviour : MonoBehaviour {
 	public LineRenderer lineRenderer;
 	public Transform point0, point1;
 	public GameObject spring;
-	public float maxLength = 10f;
+	private float maxLength;
+
+	[FormerlySerializedAs("springAnchor")] [FormerlySerializedAs("shipCenter")] public GameObject springAnchObj;
 
 	[Range(1, 100)]
 	public int numPoints = 50;
 	private Vector3[] positions;
-	private SpringJoint _spring;
+	private SpringJoint springJoint;
 	private bool calculateAnchor = true;
 	private Dictionary<Enemy, Vector3> closest = new();
 
@@ -22,20 +28,16 @@ public class RopeBehaviour : MonoBehaviour {
 		lineRenderer = GetComponent<LineRenderer>();
 		positions = new Vector3[numPoints];
 		lineRenderer.positionCount = numPoints;
-		_spring = spring.GetComponent<SpringJoint>();
+		springJoint = spring.GetComponent<SpringJoint>();
 
-		var cam = Camera.main;
+		var cam = UnityEngine.Camera.main;
 		var viewportToWorldPoint = cam!.ViewportToWorldPoint(Vector3.zero);
-		maxLength = Mathf.Abs(viewportToWorldPoint.z) * 1.5f;
+		maxLength = Mathf.Abs(viewportToWorldPoint.z) * .75f;
 	}
 
 	private void Update() {
 		DrawCurve();
 		MakeSpringAnchorPoint(point0.position, point1.position);
-		if (Input.GetKeyDown(KeyCode.O)) {
-			StartCoroutine(Bounce());
-		}
-
 		CheckCollision();
 	}
 
@@ -65,25 +67,30 @@ public class RopeBehaviour : MonoBehaviour {
 
 	private void MakeSpringAnchorPoint(Vector3 p0, Vector3 p1) {
 		if (!calculateAnchor) return;
-		Vector3 pos = (p0 + p1) / 2;
-		var position = spring.transform.position;
-		position = new Vector3(pos.x, position.y, position.z);
-		spring.transform.position = position;
-		pos.y -= maxLength - Vector3.Distance(p0, p1);
-		if (pos.y > 0) {
-			pos.y = 0;
-		}
+		Vector3 conAnchor = (p0 + p1) / 2;
+		conAnchor.y -= Mathf.Max(0,  maxLength - Vector3.Distance(p0, p1));
+		springAnchObj.transform.position = conAnchor;
 
-		_spring.connectedAnchor = pos;
+		Vector3 temp = new Vector3(conAnchor.x, spring.transform.position.y, spring.transform.position.z);
+		spring.transform.position = temp;
+
+		springJoint.damper = Mathf.Max(0, (maxLength - Vector3.Distance(p0, p1)));
 	}
 
-	IEnumerator Bounce() {
+	IEnumerator Bounce(float meteorSize, float velocity) {
 		calculateAnchor = false;
-		var connectedAnchor = _spring.connectedAnchor;
-		connectedAnchor += new Vector3(0, 10, 0);
+		springJoint.damper = 0;
+		float bounceFactor = (meteorSize + velocity) / 6;
+		var newPos = springAnchObj.transform.position;
+		
+		newPos -= new Vector3(0, bounceFactor, 0);
+		springAnchObj.transform.position = newPos;
 		yield return new WaitForSeconds(.1f);
-		connectedAnchor -= new Vector3(0, 10, 0);
-		_spring.connectedAnchor = connectedAnchor;
+		
+		newPos += new Vector3(0, bounceFactor*1.3f, 0);
+		springAnchObj.transform.position = newPos;
+		yield return new WaitForSeconds(.1f);
+		
 		calculateAnchor = true;
 	}
 
@@ -92,7 +99,7 @@ public class RopeBehaviour : MonoBehaviour {
 
 		foreach (var entry in closest) {
 			if (!GameManager.Meteors.Contains(entry.Key)) continue;
-			Debug.Log($"Drawing line from {entry.Key.transform.position} to {entry.Value}");
+			// Debug.Log($"Drawing line from {entry.Key.transform.position} to {entry.Value}");
 			Gizmos.DrawLine(entry.Key.transform.position, entry.Value);
 		}
 	}
@@ -111,9 +118,11 @@ public class RopeBehaviour : MonoBehaviour {
 					closestPoint = pos;
 				}
 
-				if (distance < 1) {
-					meteor.throwbackAngle = Vector3.Reflect(meteorPos, pos.normalized).normalized;
+				if (distance < 1)
+				{
+					meteor.throwbackAngle = calculcateThrowbackAngle(point0.position, point1.position, Vector3.down);
 					meteor.fallingDown = false;
+					StartCoroutine(Bounce(meteor.getEnemyScale(), meteor.getEnemySpeed()));
 				}
 			}
 
@@ -121,4 +130,15 @@ public class RopeBehaviour : MonoBehaviour {
 		}
 	}
 
+	private Vector3 calculcateThrowbackAngle(Vector3 ship1, Vector3 ship2, Vector3 incidentAngle)
+	{
+		Vector3 line = ship2 - ship1;
+		Vector3 normal = new Vector3(-line.y, line.x).normalized;
+		return Vector3.Reflect(incidentAngle, normal);
+	}
+	
 }
+
+
+
+

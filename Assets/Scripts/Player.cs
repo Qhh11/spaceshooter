@@ -12,7 +12,7 @@ public class Player : MonoBehaviour {
 
 	private Vector2 inputMovement;
 
-	private Camera cam;
+	protected UnityEngine.Camera cam;
 	private new Renderer renderer;
 	[Header("Basic Player Data")]
 	[SerializeField]
@@ -51,7 +51,7 @@ public class Player : MonoBehaviour {
 	void Start() {
 		Score = 0;
 		Health = 3;
-		cam = Camera.main;
+		cam = UnityEngine.Camera.main;
 		renderer = GetComponent<Renderer>();
 		UpdateUI();
 	}
@@ -85,6 +85,11 @@ public class Player : MonoBehaviour {
 		var axis = inputMovement.x;
 		var rotationY = -axis * moveRotation;
 		var moveAmount = axis * playerSpeed * Time.deltaTime;
+		
+		// Testing vertical movement
+		var yAxis = inputMovement.y;
+		var yMoveAmount = yAxis * playerSpeed * Time.deltaTime;
+		pos += Vector3.up * yMoveAmount;
 
 		pos += Vector3.right * moveAmount;
 		trans.position = pos;
