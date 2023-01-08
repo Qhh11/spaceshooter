@@ -27,8 +27,8 @@ public class CamShaker : MonoBehaviour
 
         while (elapsed < duration)
         {
-            float x = Random.Range(-1f, 1f) * magnitude;
-            float y = Random.Range(-1f, 1f) * magnitude;
+            float x = Random.Range(-1f, 1f) * magnitude + originalPos.x;
+            float y = Random.Range(-1f, 1f) * magnitude + originalPos.y;
 
             transform.localPosition = new Vector3(x, y, originalPos.z);
 

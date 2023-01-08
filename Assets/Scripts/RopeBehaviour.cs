@@ -85,7 +85,7 @@ public class RopeBehaviour : MonoBehaviour {
 		var newPos = springAnchObj.transform.position;
 		
 		StartCoroutine(Camera.main.GetComponent<CamShaker>()
-			.ShakeFadeout(.1f, bounceFactor / 8));
+			.ShakeSteady(.1f, bounceFactor / 10));
 
 		newPos -= new Vector3(0, bounceFactor, 0);
 		springAnchObj.transform.position = newPos;
