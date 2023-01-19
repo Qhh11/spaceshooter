@@ -28,9 +28,6 @@ public class Projectile : MonoBehaviour {
 		enemy.ChangeSpeed(0.1f);
 		enemy.SetSpeedAndPosition();
 		Destroy(gameObject);
-
-		Player.Score += 10;
-		shooter.UpdateUI();
 	}
 
 }

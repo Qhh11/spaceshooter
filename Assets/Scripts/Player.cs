@@ -1,34 +1,29 @@
+using System;
 using System.Collections;
-using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour {
 
-	public static int Score = 0;
-	public static int Health = 3;
+	private Vector2 InputMovement { get; set; }
+	private Camera cam;
 
-	public Vector2 InputMovement { get; private set; }
-
-	protected Camera cam;
-	private new Renderer renderer;
-	[Header("Basic Player Data")]
+	[Header("Player Data")]
 	[SerializeField]
-	private Vector2 respawnPoint = Vector2.zero;
+	private int health;
 	[SerializeField]
 	private float playerSpeed = 0.2f;
 	[SerializeField]
 	private float moveRotation = 35f;
-	[SerializeField]
-	private ParticleSystem explosion;
 	[FormerlySerializedAs("state")]
 	[SerializeField]
 	private ShipState shipState;
 
-	[Header("Rope and other Ship")]
+	[Header("Parts of convoy")]
+	[SerializeField]
+	private Light shipLight;
 	[SerializeField]
 	private Player otherShip;
 	[SerializeField]
@@ -38,9 +33,7 @@ public class Player : MonoBehaviour {
 
 	[Header("UI Elements")]
 	[SerializeField]
-	private TMP_Text scoreText;
-	[SerializeField]
-	private TMP_Text healthText;
+	private PlayerHealthUI healthUI;
 	[SerializeField]
 	private Image transitionScreen;
 
@@ -49,33 +42,45 @@ public class Player : MonoBehaviour {
 	private float transitionDuration;
 	private float currentTransitionTime;
 
-	[Header("Projectiles")]
-	[SerializeField]
-	private Transform laserCannonTransform;
-	[SerializeField]
-	private GameObject laserPrefab;
-	[SerializeField]
-	private GameObject clickPlane;
+	// TODO: Idk if we still want to use this?
+	// [Header("Projectiles")]
+	// [SerializeField]
+	// private Transform laserCannonTransform;
+	// [SerializeField]
+	// private GameObject laserPrefab;
 
 	// Start is called before the first frame update
 	void Start() {
-		Score = 0;
-		Health = 3;
 		cam = Camera.main;
-		renderer = GetComponent<Renderer>();
-		UpdateUI();
+		GetComponent<Renderer>();
+		healthUI.UpdateUI();
 	}
 
 	// Update is called once per frame
 	void Update() {
 		HandleKeyInput();
+		HandleShipLight();
 
-		if (shipState == ShipState.Death) {
-			currentTransitionTime += Time.deltaTime;
+		// TODO: Should get handled by GameManager in the future
+		// if (shipState == ShipState.Destroyed) {
+		// currentTransitionTime += Time.deltaTime;
+		//
+		// var color = transitionScreen.color;
+		// transitionScreen.color =
+		// 	new Color(color.r, color.g, color.b, (currentTransitionTime / transitionDuration) * 1.25f);
+		// }
+	}
 
-			var color = transitionScreen.color;
-			transitionScreen.color =
-				new Color(color.r, color.g, color.b, (currentTransitionTime / transitionDuration) * 1.25f);
+	private void HandleShipLight() {
+		switch (shipState) {
+			case ShipState.Alive: {
+				if (!shipLight.enabled) shipLight.enabled = true;
+				break;
+			}
+			case ShipState.Destroyed: {
+				if (shipLight.enabled) shipLight.enabled = false;
+				break;
+			}
 		}
 	}
 
@@ -86,34 +91,38 @@ public class Player : MonoBehaviour {
 	}
 
 	private void HandleKeyInput() {
-		if (shipState != ShipState.Playing) return;
+		if (shipState != ShipState.Alive) return;
 
 		// var axis = Input.GetAxis("Horizontal");
 		MoveShip();
 
-		if (Input.GetKeyDown(KeyCode.Mouse0)) {
-			Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-			if (!Physics.Raycast(ray, out _, 150f)) return;
-			Vector3 point = ray.GetPoint(50);
-
-			Debug.Log($"Clicked at {Input.mousePosition} which is {point} as world point");
-			var cannonPos = laserCannonTransform.position;
-			var rotation = Quaternion.FromToRotation(Vector3.up, cannonPos - point);
-			var obj = Instantiate(laserPrefab, cannonPos, Quaternion.identity);
-			// ReSharper disable once Unity.PerformanceCriticalCodeInvocation Required to set shooter onto element
-			obj.GetComponent<Projectile>().shooter = this;
-			obj.transform.rotation = rotation;
-		}
+		// if (Input.GetKeyDown(KeyCode.Mouse0)) {
+		// 	Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+		// 	if (!Physics.Raycast(ray, out _, 150f)) return;
+		// 	Vector3 point = ray.GetPoint(50);
+		//
+		// 	Debug.Log($"Clicked at {Input.mousePosition} which is {point} as world point");
+		// 	var cannonPos = laserCannonTransform.position;
+		// 	var rotation = Quaternion.FromToRotation(Vector3.up, cannonPos - point);
+		// 	var obj = Instantiate(laserPrefab, cannonPos, Quaternion.identity);
+		// 	// ReSharper disable once Unity.PerformanceCriticalCodeInvocation Required to set shooter onto element
+		// 	obj.GetComponent<Projectile>().shooter = this;
+		// 	obj.transform.rotation = rotation;
+		// }
 	}
+
+	#region Movement Management
 
 	private void MoveShip() {
 		var trans = transform;
 		var pos = trans.position;
 
+		var speedModifierByHealth = health / 3f;
+
 		var xAxis = InputMovement.x;
-		var moveAmountX = xAxis * playerSpeed * Time.deltaTime;
+		var moveAmountX = xAxis * playerSpeed * speedModifierByHealth * Time.deltaTime;
 		var yAxis = InputMovement.y;
-		var moveAmountY = yAxis * playerSpeed * Time.deltaTime;
+		var moveAmountY = yAxis * playerSpeed * speedModifierByHealth * Time.deltaTime;
 		var otherPos = otherShip.transform.position;
 		var isLeftOfOther = pos.x < otherPos.x;
 		var isBelowOther = pos.y < otherPos.y;
@@ -164,11 +173,6 @@ public class Player : MonoBehaviour {
 		PerformRotation();
 	}
 
-	private Vector3 RestrictMovementInCircle(Vector3 pos) {
-		var center = rope.GetRopeCenter();
-		return center + Vector3.ClampMagnitude(pos - center, rope.GetMaxLength() / 2);
-	}
-
 	private void PerformRotation() {
 		var axis = InputMovement.x;
 		if (shakeAnimation.active) {
@@ -182,10 +186,9 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	private IEnumerator DoShake(bool isLeftOf) {
-		shakeAnimation.Start(isLeftOf ? -1 : 1);
-		yield return new WaitForSeconds(shakeAnimation.shakeDurationSecs);
-		shakeAnimation.Stop();
+	private Vector3 RestrictMovementInCircle(Vector3 pos) {
+		var center = rope.GetRopeCenter();
+		return center + Vector3.ClampMagnitude(pos - center, rope.GetMaxLength() / 2);
 	}
 
 	private bool TriedToFlyOutOfView(Vector3 pos) {
@@ -193,6 +196,40 @@ public class Player : MonoBehaviour {
 		return posOnScreen.x <= 40 || posOnScreen.x > cam.pixelWidth - 40 ||
 			   posOnScreen.y <= 10 || posOnScreen.y > cam.pixelHeight - 10;
 	}
+
+	private IEnumerator DoShake(bool isLeftOf) {
+		shakeAnimation.Start(isLeftOf ? -1 : 1);
+		yield return new WaitForSeconds(shakeAnimation.shakeDurationSecs);
+		shakeAnimation.Stop();
+	}
+
+	#endregion
+
+	#region Health Management
+
+	public int GetHealth() => health;
+
+	public void Heal(int amount = 1) {
+		if (health >= 3) return;
+		health += Math.Min(3, amount);
+		healthUI.UpdateUI();
+
+		if (health <= 0) {
+			shipState = ShipState.Alive;
+		}
+	}
+
+	public void TakeDamage(int amount = 1) {
+		if (health <= 0) return;
+		health -= Math.Max(0, amount);
+		healthUI.UpdateUI();
+
+		if (health <= 0) {
+			shipState = ShipState.Destroyed;
+		}
+	}
+
+	#endregion
 
 	private StretchState GetRopeStretchState(bool negativeToOther, float ownMovement, float otherMovement) {
 		// ReSharper disable twice ConvertIfStatementToSwitchStatement
@@ -214,46 +251,60 @@ public class Player : MonoBehaviour {
 	private void OnTriggerEnter(Collider other) {
 		var enemy = other.GetComponent<Enemy>();
 
-		if (enemy == null) return;
+		if (enemy == null || health <= 0) return;
 		enemy.PlayExplosion();
 		enemy.SetSpeedAndPosition();
 
-		Health -= 1;
-		enemy.ChangeSpeed(-2f);
-		UpdateUI();
-		StartCoroutine(Death());
+		TakeDamage();
 	}
 
-	// TODO: Für 2 Schiffe entsprechend sinnvoll implementieren.
-	private IEnumerator Death() {
-		shipState = Health > 0 ? ShipState.Respawning : ShipState.Death;
-		Instantiate(explosion, transform.position, Quaternion.identity);
-		StartCoroutine(cam.GetComponent<CamShaker>().ShakeFadeout(2, .3f));
-		renderer.enabled = false;
+	// TODO: Könnte man für die Lose Condition (Planet wird zerstört) verwenden
+	// private IEnumerator Death() {
+	// 	shipState = Health > 0 ? ShipState.Respawning : ShipState.Death;
+	// 	Instantiate(explosion, transform.position, Quaternion.identity);
+	// 	StartCoroutine(cam.GetComponent<CamShaker>().ShakeFadeout(2, .3f));
+	// 	renderer.enabled = false;
+	//
+	// 	yield return new WaitForSeconds(transitionDuration);
+	//
+	// 	if (Health <= 0) {
+	// 		SceneManager.LoadScene("LoseScene");
+	// 	} else {
+	// 		transform.position = new Vector3(respawnPoint.x, respawnPoint.y, 0);
+	// 		renderer.enabled = true;
+	// 		shipState = ShipState.Playing;
+	// 	}
+	// }
 
-		yield return new WaitForSeconds(transitionDuration);
+}
 
-		if (Health <= 0) {
-			SceneManager.LoadScene("LoseScene");
-		} else {
-			transform.position = new Vector3(respawnPoint.x, respawnPoint.y, 0);
-			renderer.enabled = true;
-			shipState = ShipState.Playing;
-		}
-	}
+[Serializable]
+public class PlayerHealthUI {
+
+	[SerializeField]
+	private Image[] hpImages = new Image[3];
+	[SerializeField]
+	private Sprite emptyIcon;
+	[SerializeField]
+	private Sprite filledIcon;
+	[SerializeField]
+	private Player player;
 
 	public void UpdateUI() {
-		scoreText.text = "Score: " + Score;
-		healthText.text = Health + (Health != 1 ? " Lives" : " Life");
+		var health = player.GetHealth();
+		for (var i = 1; i <= 3; i++) {
+			var image = hpImages[i - 1];
+			image.sprite = health >= i ? filledIcon : emptyIcon;
+		}
 	}
 
 }
 
+
 public enum ShipState {
 
-	Playing,
-	Respawning,
-	Death
+	Alive,
+	Destroyed
 
 }
 
