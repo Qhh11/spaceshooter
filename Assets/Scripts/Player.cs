@@ -25,6 +25,9 @@ public class Player : MonoBehaviour {
 	[SerializeField]
 	private Light shipLight;
 	[SerializeField]
+	private GameObject smokingShipParticles;
+	private GameObject smokingShipParticlesInstantiated;
+	[SerializeField]
 	private Player otherShip;
 	[SerializeField]
 	private RopeBehaviour rope;
@@ -59,7 +62,7 @@ public class Player : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		HandleKeyInput();
-		HandleShipLight();
+		HandleShipState();
 
 		// TODO: Should get handled by GameManager in the future
 		// if (shipState == ShipState.Destroyed) {
@@ -71,14 +74,25 @@ public class Player : MonoBehaviour {
 		// }
 	}
 
-	private void HandleShipLight() {
+	private void HandleShipState() {
 		switch (shipState) {
 			case ShipState.Alive: {
 				if (!shipLight.enabled) shipLight.enabled = true;
+				if (smokingShipParticlesInstantiated is not null) {
+					Destroy(smokingShipParticlesInstantiated);
+					smokingShipParticlesInstantiated = null;
+				}
+
 				break;
 			}
 			case ShipState.Destroyed: {
 				if (shipLight.enabled) shipLight.enabled = false;
+				if (smokingShipParticlesInstantiated is null) {
+					var obj = Instantiate(smokingShipParticles, transform.position,
+						Quaternion.Euler(-90, 0, 0), transform);
+					smokingShipParticlesInstantiated = obj;
+				}
+
 				break;
 			}
 		}
@@ -87,12 +101,11 @@ public class Player : MonoBehaviour {
 	// Siehe Component "Player Input"
 	// onMove wird aufgerufen, wenn das zugehörige Input-Device einen Input (Joystick / WASD) liefert.
 	public void onMove(InputAction.CallbackContext context) {
+		if (shipState != ShipState.Alive) return;
 		InputMovement = context.ReadValue<Vector2>();
 	}
 
 	private void HandleKeyInput() {
-		if (shipState != ShipState.Alive) return;
-
 		// var axis = Input.GetAxis("Horizontal");
 		MoveShip();
 
@@ -116,13 +129,11 @@ public class Player : MonoBehaviour {
 	private void MoveShip() {
 		var trans = transform;
 		var pos = trans.position;
-
-		var speedModifierByHealth = health / 3f;
-
+		
 		var xAxis = InputMovement.x;
-		var moveAmountX = xAxis * playerSpeed * speedModifierByHealth * Time.deltaTime;
+		var moveAmountX = xAxis * playerSpeed * GetMoveSpeedModifier() * Time.deltaTime;
 		var yAxis = InputMovement.y;
-		var moveAmountY = yAxis * playerSpeed * speedModifierByHealth * Time.deltaTime;
+		var moveAmountY = yAxis * playerSpeed * GetMoveSpeedModifier() * Time.deltaTime;
 		var otherPos = otherShip.transform.position;
 		var isLeftOfOther = pos.x < otherPos.x;
 		var isBelowOther = pos.y < otherPos.y;
@@ -154,21 +165,21 @@ public class Player : MonoBehaviour {
 			}
 
 			if (stretchStateX == StretchState.ByOther || stretchStateY == StretchState.ByOther) {
-				var otherMoveAmountX = otherShip.InputMovement.x * otherShip.playerSpeed * Time.deltaTime;
-				var otherMoveAmountY = otherShip.InputMovement.y * otherShip.playerSpeed * Time.deltaTime;
+				var otherMoveAmountX = otherShip.InputMovement.x * otherShip.playerSpeed
+																 * otherShip.GetMoveSpeedModifier() * Time.deltaTime;
+				var otherMoveAmountY = otherShip.InputMovement.y * otherShip.playerSpeed
+																 * otherShip.GetMoveSpeedModifier() * Time.deltaTime;
+
 				pos += Vector3.right * otherMoveAmountX / 2;
 				pos += Vector3.up * otherMoveAmountY / 2;
+				Debug.Log($"Getting pulled by {otherShip.gameObject.name} to {pos}");
 				shakeAnimation.playable = false;
 			}
 		} else {
 			shakeAnimation.playable = true;
 		}
 
-		if (stretchStateX == StretchState.Both || stretchStateY == StretchState.Both) {
-			trans.position = RestrictMovementInCircle(pos);
-		} else {
-			trans.position = pos;
-		}
+		trans.position = RestrictMovementInCircle(pos);
 
 		PerformRotation();
 	}
@@ -229,11 +240,21 @@ public class Player : MonoBehaviour {
 		}
 	}
 
+	public float GetMoveSpeedModifier() => health / 3f;
+
 	#endregion
 
 	private StretchState GetRopeStretchState(bool negativeToOther, float ownMovement, float otherMovement) {
 		// ReSharper disable twice ConvertIfStatementToSwitchStatement
 		// Switch statements make it more unreadable
+
+		if (otherShip.shipState == ShipState.Destroyed) {
+			return StretchState.ByMyself;
+		}
+
+		if (shipState == ShipState.Destroyed) {
+			return StretchState.ByOther;
+		}
 
 		if (negativeToOther) {
 			if (ownMovement < 0 && otherMovement > 0) return StretchState.Both;
