@@ -162,24 +162,27 @@ public class Player : MonoBehaviour {
 				pos -= Vector3.right * moveAmountX / 2;
 				pos -= Vector3.up * moveAmountY / 2;
 				shakeAnimation.playable = false;
+
+				otherShip.transform.position = RestrictMovementInCircle(otherShip.transform.position);
 			}
 
-			if (stretchStateX == StretchState.ByOther || stretchStateY == StretchState.ByOther) {
-				var otherMoveAmountX = otherShip.InputMovement.x * otherShip.playerSpeed
-																 * otherShip.GetMoveSpeedModifier() * Time.deltaTime;
-				var otherMoveAmountY = otherShip.InputMovement.y * otherShip.playerSpeed
-																 * otherShip.GetMoveSpeedModifier() * Time.deltaTime;
-
-				pos += Vector3.right * otherMoveAmountX / 2;
-				pos += Vector3.up * otherMoveAmountY / 2;
-				Debug.Log($"Getting pulled by {otherShip.gameObject.name} to {pos}");
-				shakeAnimation.playable = false;
-			}
+			// if (stretchStateX == StretchState.ByOther || stretchStateY == StretchState.ByOther) {
+			// 	var otherMoveAmountX = otherShip.InputMovement.x * otherShip.playerSpeed
+			// 													 * otherShip.GetMoveSpeedModifier() * Time.deltaTime;
+			// 	var otherMoveAmountY = otherShip.InputMovement.y * otherShip.playerSpeed
+			// 													 * otherShip.GetMoveSpeedModifier() * Time.deltaTime;
+			//
+			// 	pos += Vector3.right * otherMoveAmountX / 2;
+			// 	pos += Vector3.up * otherMoveAmountY / 2;
+			// 	Debug.Log($"Getting pulled by {otherShip.gameObject.name} to {pos}");
+			// 	shakeAnimation.playable = false;
+			// }
 		} else {
+			pos = RestrictMovementInCircle(pos);
 			shakeAnimation.playable = true;
 		}
 
-		trans.position = RestrictMovementInCircle(pos);
+		trans.position = pos;
 
 		PerformRotation();
 	}
