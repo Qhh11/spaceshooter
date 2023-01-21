@@ -33,7 +33,7 @@ public class RopeBehaviour : MonoBehaviour {
 
 		var cam = Camera.main;
 		var viewportToWorldPoint = cam!.ViewportToWorldPoint(Vector3.zero);
-		maxLength = Mathf.Abs(viewportToWorldPoint.z);
+		maxLength = Mathf.Abs(viewportToWorldPoint.z) / 1.5f;
 	}
 
 	private void Update() {
@@ -81,11 +81,11 @@ public class RopeBehaviour : MonoBehaviour {
 	IEnumerator Bounce(float meteorSize, float velocity) {
 		calculateAnchor = false;
 		springJoint.damper = 0;
-		float bounceFactor = (meteorSize*3 + velocity) * 0.1f;
+		float bounceFactor = (meteorSize * 3 + velocity) * 0.1f;
 		var newPos = springAnchObj.transform.position;
-		
+
 		StartCoroutine(Camera.main.GetComponent<CamShaker>()
-			.ShakeSteady(.1f, bounceFactor / 10));
+		   .ShakeSteady(.1f, bounceFactor / 10));
 
 		newPos -= new Vector3(0, bounceFactor, 0);
 		springAnchObj.transform.position = newPos;

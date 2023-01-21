@@ -129,7 +129,7 @@ public class Player : MonoBehaviour {
 	private void MoveShip() {
 		var trans = transform;
 		var pos = trans.position;
-		
+
 		var xAxis = InputMovement.x;
 		var moveAmountX = xAxis * playerSpeed * GetMoveSpeedModifier() * Time.deltaTime;
 		var yAxis = InputMovement.y;
@@ -145,7 +145,7 @@ public class Player : MonoBehaviour {
 		pos += Vector3.up * moveAmountY;
 
 		if (TriedToFlyOutOfView(pos)) {
-			trans.rotation = Quaternion.identity;
+			trans.localRotation = Quaternion.identity;
 			return;
 		}
 
@@ -191,13 +191,15 @@ public class Player : MonoBehaviour {
 		var axis = InputMovement.x;
 		if (shakeAnimation.active) {
 			shakeAnimation.CalculateRotation();
-			transform.rotation = Quaternion.Euler(0, shakeAnimation.rotationY, 0);
-		} else if (!shakeAnimation.playable) {
-			transform.rotation = Quaternion.identity;
+			transform.localRotation = Quaternion.Euler(0, shakeAnimation.rotationY, 0);
+		} else if (!shakeAnimation.playable || health == 0) {
+			transform.localRotation = Quaternion.identity;
 		} else {
 			var rotationY = -axis * moveRotation;
-			transform.rotation = Quaternion.Euler(0, rotationY, 0);
+			transform.localRotation = Quaternion.Euler(0, rotationY, 0);
 		}
+
+		healthUI.GetCanvas().transform.rotation = Quaternion.identity;
 	}
 
 	private Vector3 RestrictMovementInCircle(Vector3 pos) {
@@ -306,6 +308,8 @@ public class Player : MonoBehaviour {
 public class PlayerHealthUI {
 
 	[SerializeField]
+	private Canvas canvas;
+	[SerializeField]
 	private Image[] hpImages = new Image[3];
 	[SerializeField]
 	private Sprite emptyIcon;
@@ -316,10 +320,17 @@ public class PlayerHealthUI {
 
 	public void UpdateUI() {
 		var health = player.GetHealth();
+		
+		canvas.enabled = health != 3;
+		
 		for (var i = 1; i <= 3; i++) {
 			var image = hpImages[i - 1];
 			image.sprite = health >= i ? filledIcon : emptyIcon;
 		}
+	}
+
+	public Canvas GetCanvas() {
+		return canvas;
 	}
 
 }
