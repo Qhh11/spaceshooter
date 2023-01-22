@@ -275,11 +275,11 @@ public class Player : MonoBehaviour {
 	}
 
 	private void OnTriggerEnter(Collider other) {
-		var enemy = other.GetComponent<Enemy>();
+		var enemy = other.GetComponent<Asteroid>();
 
 		if (enemy == null || health <= 0) return;
 		enemy.PlayExplosion();
-		enemy.SetSpeedAndPosition();
+		enemy.OnRespawnRandomize();
 
 		TakeDamage();
 	}

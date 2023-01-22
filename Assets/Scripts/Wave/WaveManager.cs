@@ -6,19 +6,38 @@ using Random = UnityEngine.Random;
 
 public class WaveManager : MonoBehaviour {
 
+	[Tooltip("Parent object used to group all asteroids under")]
+	[SerializeField]
+	private GameObject parentObject;
+	[Tooltip("All specified waves")]
 	[SerializeField]
 	private Wave[] waves;
 	private float trackedTime;
-
-	// Start is called before the first frame update
-	void Start() { }
+	private Camera cam;
 
 	// Update is called once per frame
 	void Update() {
+		foreach (var wave in waves) {
+			if (wave.IsReady(this)) {
+				wave.Invoke(this);
+			}
+		}
+
 		trackedTime += Time.deltaTime;
 	}
 
+	private void OnDrawGizmos() {
+		var gm = GameManager.Instance;
+		if (gm is null) return;
+		Gizmos.color = Color.cyan;
+		Gizmos.DrawLine(gm.GetLeftCorner(), gm.GetOtherLeftCorner());
+		Gizmos.DrawLine(gm.GetOtherLeftCorner(), gm.GetRightCorner());
+		Gizmos.DrawLine(gm.GetLeftCorner(), gm.GetOtherRightCorner());
+		Gizmos.DrawLine(gm.GetOtherRightCorner(), gm.GetRightCorner());
+	}
+
 	public float GetTrackedTime() => trackedTime;
+	public Transform GetParent() => parentObject.transform;
 
 }
 
@@ -30,7 +49,7 @@ public class Wave {
 	public float afterGameStart;
 	[Tooltip("All the entries that should get spawned at some point of this wave")]
 	public WaveEntry[] entries;
-	private bool activated = false;
+	private bool activated;
 
 	public bool IsReady(WaveManager waveManager) {
 		return !activated && waveManager.GetTrackedTime() <= afterGameStart;
@@ -39,9 +58,10 @@ public class Wave {
 	public void Invoke(WaveManager waveManager) {
 		if (!IsReady(waveManager)) return;
 
-		var toActivate = entries.Where(x => x.IsReady(waveManager, this));
-		foreach (var entry in toActivate) {
-			entry.Invoke();
+		foreach (var entry in entries) {
+			if (entry.IsReady(waveManager, this)) {
+				entry.Invoke(waveManager);
+			}
 		}
 
 		if (entries.All(x => x.WasActivated())) activated = true;
@@ -58,52 +78,37 @@ public class WaveEntry {
 	[Tooltip("Seconds after which this object should be spawned (relative to the wave start)\n" +
 			 "0 means exactly when the wave starts")]
 	public float afterWaveStart;
+	[Min(1)]
 	[Tooltip("Amount of objects that should be spawned with this enty")]
-	public int spawnedAmount;
-	[Tooltip("Area in which the objects should get spawned")]
-	public SpawnBoundingBox spawnBoundingBox;
-	private bool activated = false;
+	public int spawnedAmount = 1;
+	private bool activated;
 
 	public bool IsReady(WaveManager waveManager, Wave wave) {
 		return !WasActivated() && waveManager.GetTrackedTime() <= wave.afterGameStart + afterWaveStart;
 	}
 
-	public void Invoke() {
+	public void Invoke(WaveManager manager) {
 		activated = true;
 
 		#region Calculate random spawn position
 
-		var firstCorner = spawnBoundingBox.GetFirstCorner();
-		var secondCorner = spawnBoundingBox.GetSecondCorner();
+		var gm = GameManager.Instance;
+		var firstCorner = gm.GetLeftCorner();
+		var secondCorner = gm.GetRightCorner();
 		var rx = Random.Range(firstCorner.x, secondCorner.x);
 		var ry = Random.Range(firstCorner.y, secondCorner.y);
 
-		Object.Instantiate(prefab);
+		var position = new Vector3(rx, ry, 0);
 
 		#endregion
 
+		for (var i = 0; i < spawnedAmount; i++) {
+			var obj = Object.Instantiate(prefab, position, Quaternion.identity, manager.GetParent());
+			var spawnable = obj.GetComponent<WaveSpawnable>();
+			spawnable.OnSpawned(position);
+		}
 	}
 
 	public bool WasActivated() => activated;
-
-}
-
-[Serializable]
-public class SpawnBoundingBox {
-
-	[SerializeField]
-	private Vector2 firstCorner;
-	[SerializeField]
-	private Vector2 secondCorner;
-
-	public Vector2 GetFirstCorner() => new(
-		Mathf.Min(firstCorner.x, secondCorner.x),
-		Mathf.Min(firstCorner.y, secondCorner.y)
-	);
-
-	public Vector2 GetSecondCorner() => new(
-		Mathf.Min(firstCorner.x, secondCorner.x),
-		Mathf.Min(firstCorner.y, secondCorner.y)
-	);
 
 }

@@ -21,12 +21,12 @@ public class Projectile : MonoBehaviour {
 	}
 
 	private void OnTriggerEnter(Collider other) {
-		var enemy = other.GetComponent<Enemy>();
+		var enemy = other.GetComponent<Asteroid>();
 
 		if (enemy == null) return;
 		enemy.PlayExplosion();
 		enemy.ChangeSpeed(0.1f);
-		enemy.SetSpeedAndPosition();
+		enemy.OnRespawnRandomize();
 		Destroy(gameObject);
 	}
 

@@ -22,7 +22,7 @@ public class RopeBehaviour : MonoBehaviour {
 	private Vector3[] positions;
 	private SpringJoint springJoint;
 	private bool calculateAnchor = true;
-	private Dictionary<Enemy, Vector3> closest = new();
+	private Dictionary<Asteroid, Vector3> closest = new();
 	private bool switchedToStretched;
 
 	void Start() {
@@ -102,14 +102,14 @@ public class RopeBehaviour : MonoBehaviour {
 		Gizmos.color = Color.yellow;
 
 		foreach (var entry in closest) {
-			if (!GameManager.Meteors.Contains(entry.Key)) continue;
+			if (!GameManager.Instance.Meteors.Contains(entry.Key)) continue;
 			// Debug.Log($"Drawing line from {entry.Key.transform.position} to {entry.Value}");
 			Gizmos.DrawLine(entry.Key.transform.position, entry.Value);
 		}
 	}
 
 	private void CheckCollision() {
-		var meteors = GameManager.Meteors;
+		var meteors = GameManager.Instance.Meteors;
 		for (int i = 0; i < meteors.Count; i++) {
 			var meteor = meteors[i];
 			Vector3 closestPoint = Vector3.zero;
@@ -124,8 +124,8 @@ public class RopeBehaviour : MonoBehaviour {
 
 				if (distance < 1) {
 					meteor.throwbackAngle = CalculateThrowbackAngle(point0.position, point1.position, Vector3.down);
-					meteor.fallingDown = false;
-					StartCoroutine(Bounce(meteor.getEnemyScale(), meteor.getEnemySpeed()));
+					meteor.FallingDown = false;
+					StartCoroutine(Bounce(meteor.GetEnemyScale(), meteor.GetEnemySpeed()));
 				}
 			}
 

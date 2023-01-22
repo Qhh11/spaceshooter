@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 8307321857745063594}
   - component: {fileID: 4964746496767721743}
   - component: {fileID: 7134447190619223493}
-  - component: {fileID: -7260081091911189297}
   - component: {fileID: 5414913201331571929}
+  - component: {fileID: 8621470359314164474}
   m_Layer: 0
   m_Name: Asteroid
   m_TagString: Untagged
@@ -85,25 +85,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &-7260081091911189297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8647572759830582288}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62d8753f252c8934582be487fc8dbbb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minSpeed: 4
-  maxSpeed: 6
-  minRotationSpeed: -2
-  maxRotationSpeed: 2
-  minScale: 0.25
-  maxScale: 2
-  explosion: {fileID: 2476257155559655172, guid: 54bdc6f08e0e62441a9eb3888aac7378, type: 3}
 --- !u!135 &5414913201331571929
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -117,3 +98,24 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1.16
   m_Center: {x: 0.05818683, y: -0.0012087226, z: 0.033405453}
+--- !u!114 &8621470359314164474
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8647572759830582288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62d8753f252c8934582be487fc8dbbb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSpeed: 2
+  maxSpeed: 5
+  minRotationSpeed: 0.2
+  maxRotationSpeed: 2
+  minScale: 0.2
+  maxScale: 1
+  explosion: {fileID: 2476257155559655172, guid: 54bdc6f08e0e62441a9eb3888aac7378, type: 3}
+  enemySpeed: 0
+  throwbackAngle: {x: 0, y: 0, z: 0}
