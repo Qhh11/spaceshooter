@@ -20,7 +20,7 @@ public class Enemy : MonoBehaviour
 	protected float enemyRotationSpeedY;
 	protected float enemyRotationSpeedZ;
 	public Vector3 throwbackAngle = Vector3.zero;
-	protected bool fallingDownVal = true;
+	public bool fallingDownVal = true;
 
 	public Vector3 fallDirection = Vector3.down;
 	public Vector3 throwbackDirection = Vector3.up;
