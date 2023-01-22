@@ -33,7 +33,7 @@ public class heart : MonoBehaviour
     public void SetPosition()
     {
         if (cam is null || cam.IsDestroyed()) return;
-        var minX = cam.ScreenToWorldPoint(Vector3.zero).x;
+      
         transform.position = new Vector3(-14f, 9.53f,8.13f);
     
     }
