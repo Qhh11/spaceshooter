@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -81,6 +82,9 @@ public class WaveEntry {
 	[Min(1)]
 	[Tooltip("Amount of objects that should be spawned with this enty")]
 	public int spawnedAmount = 1;
+	[Header("Asteroid attributes")]
+	public AsteroidAttributes attributes;
+	
 	private bool activated;
 
 	public bool IsReady(WaveManager waveManager, Wave wave) {
@@ -105,10 +109,28 @@ public class WaveEntry {
 		for (var i = 0; i < spawnedAmount; i++) {
 			var obj = Object.Instantiate(prefab, position, Quaternion.identity, manager.GetParent());
 			var spawnable = obj.GetComponent<WaveSpawnable>();
-			spawnable.OnSpawned(position);
+			spawnable.OnSpawned(position, attributes);
 		}
 	}
 
 	public bool WasActivated() => activated;
+
+}
+
+[Serializable]
+public class AsteroidAttributes {
+
+	[Min(0.01f)]
+	public float minSpeed = 1f;
+	[Min(0.01f)]
+	public float maxSpeed = 3f;
+	[Min(0f)]
+	public float minRotationSpeed = 1f;
+	[Min(0f)]
+	public float maxRotationSpeed = 10f;
+	[Min(0.01f)]
+	public float minScale = 0.2f;
+	[Min(0.01f)]
+	public float maxScale = 1f;
 
 }

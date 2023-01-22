@@ -56,8 +56,14 @@ public class Asteroid : WaveSpawnable {
 		trans.localScale = Vector3.one * enemyScale;
 	}
 
-	public override void OnSpawned(Vector3 spawnPos) {
+	public override void OnSpawned(Vector3 spawnPos, AsteroidAttributes asteroidAttributes) {
 		spawnPosition = spawnPos;
+		minSpeed = asteroidAttributes.minSpeed;
+		maxSpeed = asteroidAttributes.maxSpeed;
+		minRotationSpeed = asteroidAttributes.minRotationSpeed;
+		maxRotationSpeed = asteroidAttributes.maxRotationSpeed;
+		minScale = asteroidAttributes.minScale;
+		maxScale = asteroidAttributes.maxScale;
 	}
 
 	public void OnRespawnRandomize() {
