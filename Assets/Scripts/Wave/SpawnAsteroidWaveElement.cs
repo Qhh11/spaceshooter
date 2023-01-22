@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Wave System/Asteroid", fileName = "AsteroidWaveElement", order = 2)]
-public class AsteroidWaveElement : WaveElement {
+[CreateAssetMenu(menuName = "Wave System/Spawn Asteroid", fileName = "AsteroidWaveElement", order = 1)]
+public class SpawnAsteroidWaveElement : SpawningWaveElement {
 
 	[Header("Asteroid Data")]
 	[Min(0.01f)]

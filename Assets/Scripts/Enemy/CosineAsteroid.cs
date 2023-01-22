@@ -18,7 +18,7 @@ public class CosineAsteroid : Asteroid
         var trans = gameObject.transform;
         var enemySpeedNormalized = enemySpeed * Time.deltaTime;
         var translation = (fallingDownVal ? cosMovement(Vector3.down): Vector3.up) * enemySpeedNormalized;
-        translation += throwbackAngle * enemySpeedNormalized;
+        translation += flyDirection * enemySpeedNormalized;
         
         trans.Translate(translation, Space.World);
         trans.Rotate(new Vector3(enemyRotationSpeedX, enemyRotationSpeedY, enemyRotationSpeedZ));

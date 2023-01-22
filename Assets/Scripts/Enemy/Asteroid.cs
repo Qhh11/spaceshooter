@@ -25,7 +25,7 @@ public class Asteroid : WaveSpawnable {
 	protected float enemyRotationSpeedX;
 	protected float enemyRotationSpeedY;
 	protected float enemyRotationSpeedZ;
-	public Vector3 throwbackAngle = Vector3.zero;
+	public Vector3 flyDirection = Vector3.zero;
 	public bool fallingDownVal = true;
 
 	public bool FallingDown {
@@ -48,7 +48,7 @@ public class Asteroid : WaveSpawnable {
 		var trans = gameObject.transform;
 		var enemySpeedNormalized = enemySpeed * Time.deltaTime;
 		var translation = (fallingDownVal ? Vector3.down : Vector3.up) * enemySpeedNormalized;
-		translation += throwbackAngle * enemySpeedNormalized;
+		translation += flyDirection * enemySpeedNormalized;
 		translation.z = 0;
 
 		trans.Translate(translation, Space.World);
@@ -59,14 +59,14 @@ public class Asteroid : WaveSpawnable {
 	public override void OnSpawned(Vector3 spawnPos, WaveElement waveElement) {
 		spawnPosition = spawnPos;
 
-		if (waveElement is AsteroidWaveElement awe) {
-			minSpeed = awe.minSpeed;
-			maxSpeed = awe.maxSpeed;
-			minRotationSpeed = awe.minRotationSpeed;
-			maxRotationSpeed = awe.maxRotationSpeed;
-			minScale = awe.minScale;
-			maxScale = awe.maxScale;
-		}
+		if (waveElement is not SpawnAsteroidWaveElement awe) return;
+
+		minSpeed = awe.minSpeed;
+		maxSpeed = awe.maxSpeed;
+		minRotationSpeed = awe.minRotationSpeed;
+		maxRotationSpeed = awe.maxRotationSpeed;
+		minScale = awe.minScale;
+		maxScale = awe.maxScale;
 	}
 
 	public virtual void OnRespawnRandomize() {
@@ -91,8 +91,7 @@ public class Asteroid : WaveSpawnable {
 
 		#region Move towards randomized offset of camera center
 
-		throwbackAngle = (GameManager.Instance.GetCameraCenter() - randomSpawnPos).normalized;
-		Debug.Log("Set throwback angle to " + throwbackAngle);
+		flyDirection = (GameManager.Instance.GetCameraCenter() - randomSpawnPos).normalized;
 
 		#endregion
 
@@ -125,6 +124,8 @@ public class Asteroid : WaveSpawnable {
 		minSpeed += f;
 		maxSpeed += f;
 	}
+
+	public Vector3 GetRotationSpeed() => new(enemyRotationSpeedX, enemyRotationSpeedY, enemyRotationSpeedZ);
 
 	public float GetEnemyScale() => enemyScale;
 

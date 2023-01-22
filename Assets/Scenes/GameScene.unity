@@ -274,7 +274,7 @@ Transform:
   - {fileID: 1153950161}
   - {fileID: 127124842}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &79612068
 GameObject:
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSpeed: 1
-  waypoints: {fileID: 0}
+  waypoints: {fileID: 227685170}
   moveSpeed: 1
   distance: 0.1
 --- !u!54 &79612071
@@ -5154,7 +5154,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 98, y: 0, z: 0}
 --- !u!1 &127124840
 GameObject:
@@ -5320,7 +5320,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!81 &231844439
 AudioListener:
@@ -6028,7 +6028,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 8962ce0abfe81184cb6d30fb12ec551a, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8962ce0abfe81184cb6d30fb12ec551a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6548,7 +6548,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 8962ce0abfe81184cb6d30fb12ec551a, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8962ce0abfe81184cb6d30fb12ec551a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6630,7 +6630,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1118919910
 MonoBehaviour:
@@ -6650,9 +6650,11 @@ MonoBehaviour:
     events:
     - afterWaveStart: 0
       waveElement: {fileID: 11400000, guid: 7e3e2d26104b5014dabba7d897a596dc, type: 2}
+      amount: 1
     probabilisticEvents:
     - afterWaveStart: 0
       waveElement: {fileID: 11400000, guid: b13a4120394ed70479aa596cb00e6fb3, type: 2}
+      amount: 1
       chance: 0.5
 --- !u!1 &1133131152
 GameObject:
@@ -7277,7 +7279,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1604164971
 GameObject:
@@ -7648,7 +7650,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1764575961
 GameObject:
@@ -8115,7 +8117,7 @@ RectTransform:
   m_Children:
   - {fileID: 622526495}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}

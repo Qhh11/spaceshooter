@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
@@ -55,7 +54,7 @@ public class Wave {
 	private bool activated;
 
 	public bool IsReady(WaveManager waveManager) {
-		return !activated && waveManager.GetTrackedTime() <= afterGameStart;
+		return !activated && waveManager.GetTrackedTime() >= afterGameStart;
 	}
 
 	public void Invoke(WaveManager waveManager) {
@@ -81,11 +80,15 @@ public class WaveEvent {
 	[Tooltip("Seconds after which this object should be spawned (relative to the wave start)\n" +
 			 "0 means exactly when the wave starts")]
 	public float afterWaveStart;
+	[Tooltip("The element that should get spawned")]
 	public WaveElement waveElement;
+	[Min(1)]
+	[Tooltip("Amount of objects that should be spawned with this entry")]
+	public int amount = 1;
 	protected bool activated;
 
 	public bool IsReady(WaveManager waveManager, Wave wave) {
-		return !WasActivated() && waveManager.GetTrackedTime() <= wave.afterGameStart + afterWaveStart;
+		return !WasActivated() && waveManager.GetTrackedTime() >= wave.afterGameStart + afterWaveStart;
 	}
 
 	public virtual void Invoke(WaveManager manager) {
@@ -103,10 +106,31 @@ public class WaveEvent {
 
 		#endregion
 
-		for (var i = 0; i < waveElement.spawnAmount; i++) {
-			var obj = Object.Instantiate(waveElement.prefab, position, Quaternion.identity, manager.GetParent());
-			var spawnable = obj.GetComponent<WaveSpawnable>();
-			spawnable.OnSpawned(position, waveElement);
+		switch (waveElement) {
+			case SpawningWaveElement swe: {
+				for (var i = 0; i < amount; i++) {
+					var obj = Object.Instantiate(swe.prefab, position, Quaternion.identity, manager.GetParent());
+					var spawnable = obj.GetComponent<WaveSpawnable>();
+					spawnable.objectTag = swe.assignedTag;
+					spawnable.OnSpawned(position, waveElement);
+				}
+
+				break;
+			}
+			case DestroyingWaveElement dwe: {
+				var val = amount;
+				foreach (var child in manager.GetParent()) {
+					if (!(child is Transform t)) continue;
+					var obj = t.gameObject;
+					if (!dwe.IsValid(obj)) continue;
+
+					Object.Destroy(obj);
+					val--;
+					if (val <= 0) break;
+				}
+
+				break;
+			}
 		}
 	}
 

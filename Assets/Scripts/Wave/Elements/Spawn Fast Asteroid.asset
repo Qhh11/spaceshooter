@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f6151190c6d012748893e443d2e1c176, type: 3}
-  m_Name: FastCosineAsteroid
+  m_Name: Spawn Fast Asteroid
   m_EditorClassIdentifier: 
-  prefab: {fileID: 6398757039025614318, guid: 01420960b448a724cb1e8cd8bf93310b, type: 3}
-  spawnAmount: 1
+  prefab: {fileID: 8647572759830582288, guid: 51f95422d7d994844acaba7252e98d90, type: 3}
+  assignedTag: SlowAsteroid
   minSpeed: 4
   maxSpeed: 7.5
   minRotationSpeed: 1.5

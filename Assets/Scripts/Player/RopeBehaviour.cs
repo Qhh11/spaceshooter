@@ -115,6 +115,7 @@ public class RopeBehaviour : MonoBehaviour {
 			Vector3 closestPoint = Vector3.zero;
 			float smallestDistance = float.MaxValue;
 			foreach (var pos in positions) {
+				if (meteor == null) break;
 				var meteorPos = meteor.gameObject.transform.position;
 				var distance = Vector3.Distance(pos, meteorPos);
 				if (distance < smallestDistance) {
@@ -123,12 +124,13 @@ public class RopeBehaviour : MonoBehaviour {
 				}
 
 				if (distance < 1) {
-					meteor.throwbackAngle = CalculateThrowbackAngle(point0.position, point1.position, Vector3.down);
+					meteor.flyDirection = CalculateThrowbackAngle(point0.position, point1.position, Vector3.down);
 					meteor.FallingDown = false;
 					StartCoroutine(Bounce(meteor.GetEnemyScale(), meteor.GetEnemySpeed()));
 				}
 			}
 
+			if (meteor == null) continue;
 			closest[meteor] = closestPoint;
 		}
 	}

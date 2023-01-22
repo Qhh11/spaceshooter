@@ -164,6 +164,8 @@ public class Player : MonoBehaviour {
 				shakeAnimation.playable = false;
 
 				otherShip.transform.position = RestrictMovementInCircle(otherShip.transform.position);
+			} else if (stretchStateX == StretchState.NoOne || stretchStateY == StretchState.NoOne) {
+				pos = RestrictMovementInCircle(pos);
 			}
 
 			// if (stretchStateX == StretchState.ByOther || stretchStateY == StretchState.ByOther) {
