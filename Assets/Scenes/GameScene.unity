@@ -6647,17 +6647,13 @@ MonoBehaviour:
   parentObject: {fileID: 1579142848}
   waves:
   - afterGameStart: 0
-    entries:
-    - prefab: {fileID: 8647572759830582288, guid: 51f95422d7d994844acaba7252e98d90, type: 3}
-      afterWaveStart: 0
-      spawnedAmount: 1
-      attributes:
-        minSpeed: 2
-        maxSpeed: 4
-        minRotationSpeed: 1
-        maxRotationSpeed: 3
-        minScale: 0.2
-        maxScale: 0.5
+    events:
+    - afterWaveStart: 0
+      waveElement: {fileID: 11400000, guid: 7e3e2d26104b5014dabba7d897a596dc, type: 2}
+    probabilisticEvents:
+    - afterWaveStart: 0
+      waveElement: {fileID: 11400000, guid: b13a4120394ed70479aa596cb00e6fb3, type: 2}
+      chance: 0.5
 --- !u!1 &1133131152
 GameObject:
   m_ObjectHideFlags: 0

@@ -56,17 +56,20 @@ public class Asteroid : WaveSpawnable {
 		trans.localScale = Vector3.one * enemyScale;
 	}
 
-	public override void OnSpawned(Vector3 spawnPos, AsteroidAttributes asteroidAttributes) {
+	public override void OnSpawned(Vector3 spawnPos, WaveElement waveElement) {
 		spawnPosition = spawnPos;
-		minSpeed = asteroidAttributes.minSpeed;
-		maxSpeed = asteroidAttributes.maxSpeed;
-		minRotationSpeed = asteroidAttributes.minRotationSpeed;
-		maxRotationSpeed = asteroidAttributes.maxRotationSpeed;
-		minScale = asteroidAttributes.minScale;
-		maxScale = asteroidAttributes.maxScale;
+
+		if (waveElement is AsteroidWaveElement awe) {
+			minSpeed = awe.minSpeed;
+			maxSpeed = awe.maxSpeed;
+			minRotationSpeed = awe.minRotationSpeed;
+			maxRotationSpeed = awe.maxRotationSpeed;
+			minScale = awe.minScale;
+			maxScale = awe.maxScale;
+		}
 	}
 
-	public void OnRespawnRandomize() {
+	public virtual void OnRespawnRandomize() {
 		if (cam is null || cam.IsDestroyed()) return;
 		var gm = GameManager.Instance;
 

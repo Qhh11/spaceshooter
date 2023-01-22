@@ -49,7 +49,9 @@ public class Wave {
 	[Tooltip("Seconds after which this wave should start")]
 	public float afterGameStart;
 	[Tooltip("All the entries that should get spawned at some point of this wave")]
-	public WaveEntry[] entries;
+	public WaveEvent[] events;
+	[Tooltip("All the entries that should get spawned at some point of this wave but are bound to a specific chance")]
+	public ProbabilisticWaveEvent[] probabilisticEvents;
 	private bool activated;
 
 	public bool IsReady(WaveManager waveManager) {
@@ -59,39 +61,34 @@ public class Wave {
 	public void Invoke(WaveManager waveManager) {
 		if (!IsReady(waveManager)) return;
 
-		foreach (var entry in entries) {
-			if (entry.IsReady(waveManager, this)) {
-				entry.Invoke(waveManager);
-			}
+		foreach (var ev in events) {
+			if (ev.IsReady(waveManager, this)) ev.Invoke(waveManager);
 		}
 
-		if (entries.All(x => x.WasActivated())) activated = true;
+		foreach (var ev in probabilisticEvents) {
+			if (ev.IsReady(waveManager, this)) ev.Invoke(waveManager);
+		}
+
+		if (events.All(x => x.WasActivated())) activated = true;
 	}
 
 }
 
 [Serializable]
-public class WaveEntry {
+public class WaveEvent {
 
-	[Tooltip("The object to get spawned when this entry gets triggered")]
-	public GameObject prefab;
 	[Min(0)]
 	[Tooltip("Seconds after which this object should be spawned (relative to the wave start)\n" +
 			 "0 means exactly when the wave starts")]
 	public float afterWaveStart;
-	[Min(1)]
-	[Tooltip("Amount of objects that should be spawned with this enty")]
-	public int spawnedAmount = 1;
-	[Header("Asteroid attributes")]
-	public AsteroidAttributes attributes;
-	
-	private bool activated;
+	public WaveElement waveElement;
+	protected bool activated;
 
 	public bool IsReady(WaveManager waveManager, Wave wave) {
 		return !WasActivated() && waveManager.GetTrackedTime() <= wave.afterGameStart + afterWaveStart;
 	}
 
-	public void Invoke(WaveManager manager) {
+	public virtual void Invoke(WaveManager manager) {
 		activated = true;
 
 		#region Calculate random spawn position
@@ -106,10 +103,10 @@ public class WaveEntry {
 
 		#endregion
 
-		for (var i = 0; i < spawnedAmount; i++) {
-			var obj = Object.Instantiate(prefab, position, Quaternion.identity, manager.GetParent());
+		for (var i = 0; i < waveElement.spawnAmount; i++) {
+			var obj = Object.Instantiate(waveElement.prefab, position, Quaternion.identity, manager.GetParent());
 			var spawnable = obj.GetComponent<WaveSpawnable>();
-			spawnable.OnSpawned(position, attributes);
+			spawnable.OnSpawned(position, waveElement);
 		}
 	}
 
@@ -118,19 +115,21 @@ public class WaveEntry {
 }
 
 [Serializable]
-public class AsteroidAttributes {
+public class ProbabilisticWaveEvent : WaveEvent {
 
-	[Min(0.01f)]
-	public float minSpeed = 1f;
-	[Min(0.01f)]
-	public float maxSpeed = 3f;
-	[Min(0f)]
-	public float minRotationSpeed = 1f;
-	[Min(0f)]
-	public float maxRotationSpeed = 10f;
-	[Min(0.01f)]
-	public float minScale = 0.2f;
-	[Min(0.01f)]
-	public float maxScale = 1f;
+	[Tooltip("Chance of this wave event occurring\n" +
+			 "0 means this event will never happen\n" +
+			 "1 means this event will always happen\n" +
+			 "Any value in between will represent the chance of occurence")]
+	[Range(0, 1)]
+	public float chance = 0.5f;
+
+	public override void Invoke(WaveManager waveManager) {
+		activated = true;
+		var random = Random.Range(0f, 1f);
+		Debug.Log($"random value for probabilistic event: {random}");
+		if (chance == 0 || random > chance) return;
+		base.Invoke(waveManager);
+	}
 
 }
