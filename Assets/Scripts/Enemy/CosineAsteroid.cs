@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CosineAsteroid : Enemy
+public class CosineAsteroid : Asteroid
 {
     [Header("Cosine specific")]
     [SerializeField] private float _amplitude = .75f;
     [SerializeField] private float _frequency = 15f;
-    void Start()
+    new void Start()
     {
         cam = Camera.main;
-        SetSpeedAndPosition();
+        OnRespawnRandomize();
     }
 
     void Update()
@@ -18,7 +18,7 @@ public class CosineAsteroid : Enemy
         var trans = gameObject.transform;
         var enemySpeedNormalized = enemySpeed * Time.deltaTime;
         var translation = (fallingDownVal ? cosMovement(Vector3.down): Vector3.up) * enemySpeedNormalized;
-        translation += throwbackAngle * enemySpeedNormalized;
+        translation += flyDirection * enemySpeedNormalized;
         
         trans.Translate(translation, Space.World);
         trans.Rotate(new Vector3(enemyRotationSpeedX, enemyRotationSpeedY, enemyRotationSpeedZ));

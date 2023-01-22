@@ -62,11 +62,11 @@ public class heart : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Enemy enemy = other.GetComponent<Enemy>();
+        Asteroid enemy = other.GetComponent<Asteroid>();
         if (enemy != null && !enemy.fallingDownVal)
         {
            enemy.PlayExplosion();
-           enemy.SetSpeedAndPosition();
+           enemy.OnRespawnRandomize();
            SetHeart();
            hit = true;
            Debug.Log("Sweet Heart HIT.");
