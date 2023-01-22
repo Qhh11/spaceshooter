@@ -325,7 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemSpeed: 1
-  waypoints: {fileID: 227685170}
+  waypoints: {fileID: 0}
   moveSpeed: 1
   distance: 0.1
 --- !u!54 &79612071
