@@ -12,7 +12,7 @@ public class Planet : MonoBehaviour
     public Image transitionScreen;
     public float transitionDuration;
     public Camera cam;
-    public GameObject explosionPrefab;
+    //public GameObject explosionPrefab;
 
     // Start is called before the first frame update
     void Start()
@@ -34,7 +34,7 @@ public class Planet : MonoBehaviour
     //!!! not finished/ not working
     private IEnumerator DestructionPlanet()
     {
-        Instantiate(explosionPrefab, transform.position, Quaternion.identity);
+        //Instantiate(explosionPrefab, transform.position, Quaternion.identity);
         StartCoroutine(cam.GetComponent<CamShaker>().ShakeFadeout(2, .3f));
         yield return new WaitForSeconds(transitionDuration);
         

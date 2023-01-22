@@ -1857,7 +1857,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 483797040545763156, guid: 8ba71843046847a4881f282a412fdaae, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.64
+      value: -2.26
       objectReference: {fileID: 0}
     - target: {fileID: 483797040545763156, guid: 8ba71843046847a4881f282a412fdaae, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1881,7 +1881,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 483797040545763156, guid: 8ba71843046847a4881f282a412fdaae, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -233.58
+      value: -233.88
       objectReference: {fileID: 0}
     - target: {fileID: 483797040545763156, guid: 8ba71843046847a4881f282a412fdaae, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -3019,7 +3019,6 @@ MonoBehaviour:
   transitionScreen: {fileID: 622526496}
   transitionDuration: 2
   cam: {fileID: 231844440}
-  explosionPrefab: {fileID: 0}
 --- !u!1 &1236409817
 GameObject:
   m_ObjectHideFlags: 0
