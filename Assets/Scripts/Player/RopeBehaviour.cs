@@ -103,7 +103,6 @@ public class RopeBehaviour : MonoBehaviour {
 
 		foreach (var entry in closest) {
 			if (!GameManager.Instance.Meteors.Contains(entry.Key)) continue;
-			// Debug.Log($"Drawing line from {entry.Key.transform.position} to {entry.Value}");
 			Gizmos.DrawLine(entry.Key.transform.position, entry.Value);
 		}
 	}
