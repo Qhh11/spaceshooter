@@ -282,8 +282,8 @@ GameObject:
   - component: {fileID: 6890016623850791023}
   - component: {fileID: 6890016623850791021}
   - component: {fileID: 6890016623850791020}
-  - component: {fileID: 6890016623850791018}
   - component: {fileID: 6890016623850791019}
+  - component: {fileID: 210831675}
   m_Layer: 5
   m_Name: Panel
   m_TagString: Untagged
@@ -352,23 +352,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &6890016623850791018
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6890016623850791022}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5cca4686a7b0ed04e8057b3852678af3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actorImage: {fileID: 6890016624443948309}
-  actorName: {fileID: 6890016623219236624}
-  messageText: {fileID: 6890016622572079513}
-  backgroundBox: {fileID: 6890016623850791023}
-  textToDisplay: 
 --- !u!95 &6890016623850791019
 Animator:
   serializedVersion: 4
@@ -389,6 +372,23 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &210831675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6890016623850791022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b764023c3ad3d614498752ea01b3b27d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  actorImage: {fileID: 6890016624443948309}
+  actorName: {fileID: 6890016623219236624}
+  messageText: {fileID: 6890016622572079513}
+  backgroundBox: {fileID: 6890016623850791023}
+  textToDisplay: 
 --- !u!1 &6890016624443948311
 GameObject:
   m_ObjectHideFlags: 0

@@ -144,30 +144,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2303431844094793204}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b8b27c6f71d4c14981f7716aad6b2c7, type: 3}
+  m_Script: {fileID: 11500000, guid: bddbc6658db80bf49a0a9a51d4b33a91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   messages:
   - actorId: 0
-    message: Meow, Captain Whiskers here. Are you ready to save our planet, space
-      cadet?
-  - actorId: 1
-    message: Roger that, Captain. This is Lieutenant Mittens, ready for takeoff.
-      Let's bounce some comets back into space!
+    message: Hello World!
   - actorId: 0
-    message: Affirmative, Lieutenant. Engaging tractor beam... now!
-  - actorId: 0
-    message: We're connected, let's do this!
-  - actorId: 1
-    message: I've got my paws on the controls, Captain. Let's show those comets who's
-      boss!
+    message: Bruuuuuh
   actors:
-  - name: Player 1
-    sprite: {fileID: 21300000, guid: 4adcf49f3b47a20489cbc8ad4f238730, type: 3}
-  - name: Player 2
-    sprite: {fileID: 21300000, guid: 2c284a34a603625498f08dc5e8dd8a91, type: 3}
-  - name: LongWait
-    sprite: {fileID: 21300000, guid: 2c284a34a603625498f08dc5e8dd8a91, type: 3}
+  - name: Test Cat
+    sprite: {fileID: 21300000, guid: cd59ecd11a40e8d46954f8dfe3d821a1, type: 3}
 --- !u!1 &2303431844292331048
 GameObject:
   m_ObjectHideFlags: 0
