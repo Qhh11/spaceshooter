@@ -37,20 +37,16 @@ public class Player : MonoBehaviour {
 	[Header("UI Elements")]
 	[SerializeField]
 	private PlayerHealthUI healthUI;
-	[SerializeField]
-	private Image transitionScreen;
-
-	[Header("Transition")]
-	[SerializeField]
-	private float transitionDuration;
-	private float currentTransitionTime;
-
-	// TODO: Idk if we still want to use this?
-	// [Header("Projectiles")]
+	
+	// TODO Use when losing
 	// [SerializeField]
-	// private Transform laserCannonTransform;
+	// private Image transitionScreen;
+
+	
+	// [Header("Transition")]
 	// [SerializeField]
-	// private GameObject laserPrefab;
+	// private float transitionDuration;
+	// private float currentTransitionTime;
 
 	// Start is called before the first frame update
 	void Start() {
@@ -106,22 +102,7 @@ public class Player : MonoBehaviour {
 	}
 
 	private void HandleKeyInput() {
-		// var axis = Input.GetAxis("Horizontal");
 		MoveShip();
-
-		// if (Input.GetKeyDown(KeyCode.Mouse0)) {
-		// 	Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-		// 	if (!Physics.Raycast(ray, out _, 150f)) return;
-		// 	Vector3 point = ray.GetPoint(50);
-		//
-		// 	Debug.Log($"Clicked at {Input.mousePosition} which is {point} as world point");
-		// 	var cannonPos = laserCannonTransform.position;
-		// 	var rotation = Quaternion.FromToRotation(Vector3.up, cannonPos - point);
-		// 	var obj = Instantiate(laserPrefab, cannonPos, Quaternion.identity);
-		// 	// ReSharper disable once Unity.PerformanceCriticalCodeInvocation Required to set shooter onto element
-		// 	obj.GetComponent<Projectile>().shooter = this;
-		// 	obj.transform.rotation = rotation;
-		// }
 	}
 
 	#region Movement Management
