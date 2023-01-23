@@ -10,11 +10,12 @@ public class heart : MonoBehaviour
     protected Camera cam;
     [SerializeField] protected float itemSpeed = 1f;
     [SerializeField] private Waypoints waypoints;
-    [SerializeField] private float moveSpeed = 1f;
-    [SerializeField] private float distance = 0.1f;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float distance = 0.2f;
     private Transform currentWaypoint;
     private bool hit = false;
-   
+    private int count = 0;
+    private bool animated = false;
 
 
 
@@ -23,22 +24,34 @@ public class heart : MonoBehaviour
     {
         cam = Camera.main;
         SetPosition();
-        waypoints = GetComponent<Waypoints>();
+      
     }
 
     // Update is called once per frame
     void Update()
     {
         var itemSpeedNormalized = itemSpeed * Time.deltaTime;
-        transform.Translate(itemSpeedNormalized * Vector3.right, Space.Self);
-        if (hit)
+        if (!hit)
         {
-            transform.position =
-                Vector3.MoveTowards(transform.position, currentWaypoint.position, moveSpeed * Time.deltaTime);
-            if (Vector3.Distance(transform.position, currentWaypoint.position) < distance)
+            transform.Translate(itemSpeedNormalized * Vector3.right, Space.Self);
+        }
+        else
+        {
+            hit = true;
+            animated = true;
+            if (count == 7)
             {
-                currentWaypoint = waypoints.GetNextWaypoint(currentWaypoint);
+                Debug.Log("is over");
             }
+            transform.position =
+                    Vector3.MoveTowards(transform.position, currentWaypoint.position, moveSpeed * Time.deltaTime);
+                Debug.Log("Distance is " + Vector3.Distance(transform.position, currentWaypoint.position));
+                if (Vector3.Distance(transform.position, currentWaypoint.position) < distance)
+                {
+                    transform.position = currentWaypoint.position;
+                    currentWaypoint = waypoints.GetNextWaypoint(currentWaypoint);
+                    count++;
+                }
         }
     }
 
@@ -47,23 +60,21 @@ public class heart : MonoBehaviour
     {
         if (cam is null || cam.IsDestroyed()) return;
 
-        transform.position = new Vector3(-14f, 9.53f, 8.13f);
+        transform.position = new Vector3(-14f, 7.88f, 0f);
 
     }
 
     private void SetHeart()
     {
         currentWaypoint = waypoints.getStart();
-        Vector3 newPosition = currentWaypoint.position; 
-        transform.position =
-            Vector3.MoveTowards(transform.position, newPosition, 5f * Time.deltaTime);
+        transform.position = currentWaypoint.position;
         currentWaypoint = waypoints.GetNextWaypoint(currentWaypoint);
     }
 
     private void OnTriggerEnter(Collider other)
     {
         Enemy enemy = other.GetComponent<Enemy>();
-        if (enemy != null && !enemy.fallingDownVal)
+        if (enemy != null && !enemy.fallingDownVal && !animated)
         {
            enemy.PlayExplosion();
            enemy.SetSpeedAndPosition();
