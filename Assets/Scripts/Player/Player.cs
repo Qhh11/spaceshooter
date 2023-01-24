@@ -37,6 +37,8 @@ public class Player : MonoBehaviour {
 	[Header("UI Elements")]
 	[SerializeField]
 	private PlayerHealthUI healthUI;
+
+	[SerializeField] private AudioSource audioSource;
 	
 	// TODO Use when losing
 	// [SerializeField]
@@ -263,7 +265,7 @@ public class Player : MonoBehaviour {
 		if (enemy == null || health <= 0) return;
 		enemy.PlayExplosion();
 		enemy.OnRespawnRandomize();
-
+		audioSource.Play();
 		TakeDamage();
 	}
 

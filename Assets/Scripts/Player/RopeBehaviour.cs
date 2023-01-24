@@ -15,6 +15,8 @@ public class RopeBehaviour : MonoBehaviour {
 	[FormerlySerializedAs("shipCenter")]
 	public GameObject springAnchObj;
 
+	[SerializeField] public AudioSource sound;
+
 	[Range(1, 100)]
 	public int numPoints = 50;
 	[Range(0, 1)]
@@ -86,7 +88,6 @@ public class RopeBehaviour : MonoBehaviour {
 
 		StartCoroutine(Camera.main.GetComponent<CamShaker>()
 		   .ShakeSteady(.1f, bounceFactor / 10));
-
 		newPos -= new Vector3(0, bounceFactor, 0);
 		springAnchObj.transform.position = newPos;
 		yield return new WaitForSeconds(.1f);
@@ -125,6 +126,7 @@ public class RopeBehaviour : MonoBehaviour {
 				if (distance < 1) {
 					meteor.flyDirection = CalculateThrowbackAngle(point0.position, point1.position, Vector3.down);
 					meteor.FallingDown = false;
+					sound.Play();
 					StartCoroutine(Bounce(meteor.GetEnemyScale(), meteor.GetEnemySpeed()));
 				}
 			}
