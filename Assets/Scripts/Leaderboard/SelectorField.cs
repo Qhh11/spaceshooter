@@ -6,10 +6,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-using System.Linq;
-using UnityEngine;
-using TMPro;
-
 public class SelectorField : MonoBehaviour
 {
     private static readonly string[] Alphabet = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "!"};
@@ -18,7 +14,7 @@ public class SelectorField : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI charText;
     [SerializeField] private GameObject activeIndicator;
-
+    
     private void Start()
     { 
         Hide();
@@ -26,6 +22,7 @@ public class SelectorField : MonoBehaviour
 
     private void Update()
     {
+        // TODO: Rewrite for actual Input System
         if (_isActive)
         {
             if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -50,7 +47,8 @@ public class SelectorField : MonoBehaviour
 
     public void Hide()
     {
-        charText.text = _isActive ? "" : "?";
+        // charText.text = _isActive ? "" : "?";
+        charText.text = "?";
     }
 
     public void SetInactive()

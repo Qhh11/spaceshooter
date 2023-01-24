@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using UnityEngine;
 
@@ -50,7 +51,14 @@ public class NameSelector : MonoBehaviour
 
     private void SetCurrentFieldActive()
     {
-        fields[currentIndex].SetActive();
+        try
+        {
+            fields[currentIndex].SetActive();
+        }
+        catch (IndexOutOfRangeException e)
+        {
+            Debug.LogException(e);
+        }
     }
 
     private void SetCurrentFieldInactive()
