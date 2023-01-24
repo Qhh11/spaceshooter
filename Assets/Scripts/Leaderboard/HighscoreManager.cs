@@ -9,9 +9,12 @@ using UnityEngine.UI;
 public class HighscoreManager : MonoBehaviour
 {
     public static HighscoreManager Instance { get; private set; }
+
+    private static readonly HighscoreEntry DefaultEntry = new HighscoreEntry() { Name = "???", Score = 0};
     
-    private XML xml = new();
+    // private XML xml = new();
     private List<HighscoreEntry> scores = new();
+    private XML _xml = new();
     [SerializeField] HighscoreDisplay[] highscoreDisplays;
     void Awake()
     {
@@ -19,13 +22,16 @@ public class HighscoreManager : MonoBehaviour
         {
             Instance = this;
         }
+        _xml.CreateHighscoresDirectory();
+        Load();
     }
 
     public void DisplayHighscores()
     {
         for (int i = 0; i < highscoreDisplays.Length; i++)
         {
-            highscoreDisplays[i].Display(scores[i]);
+            if (i < scores.Count) highscoreDisplays[i].Display(scores[i]);
+            else highscoreDisplays[i].Display(DefaultEntry);
         }
     }
 
@@ -39,19 +45,19 @@ public class HighscoreManager : MonoBehaviour
 
     public void AddScore(int score, string name)
     {
-        scores.Add(new HighscoreEntry(score, name));
+        scores.Add(new HighscoreEntry { Name = name, Score = score});
         Sort();
         Save();
     }
 
     private void Load()
     {
-        scores = xml.LoadScoresFromFile();
+        scores = _xml.LoadScoresFromFile();
     }
 
     private void Save()
     {
-        xml.SaveScoresToFile(scores);
+        _xml.SaveScoresToFile(scores);
     }
 
     private void Sort()
@@ -64,40 +70,13 @@ public class HighscoreEntry
 {
     public int Score;
     public string Name;
-
-    public HighscoreEntry(int score, string name)
-    {
-        Score = score;
-        Name = name;
-    }
 }
-
-public class HighscoreDisplay : MonoBehaviour
-{
-    [SerializeField] private Text nameText;
-    [SerializeField] private Text scoreText;
-    
-    public void Display(HighscoreEntry entry)
-    {
-        nameText.text = entry.Name;
-        scoreText.text = $"{entry.Score:000000}";
-    }
-    public void Hide()
-    {
-        nameText.text = "";
-        scoreText.text = "";
-    }
-}
-
 class XML
 {
+    public static XML Instance { get; private set; }
     public Leaderboard leaderboard = new();
     
     // private string highscoresFilePath;
-    public XML()
-    {
-        CreateHighscoresDirectory();
-    }
 
     public void SaveScoresToFile(List<HighscoreEntry> toSave)
     {
@@ -122,9 +101,10 @@ class XML
         return leaderboard.List;
     }
 
-    private void CreateHighscoresDirectory()
+    public void CreateHighscoresDirectory()
     {
         string highscoresDirectoryPath = GetHighscoresDirectoryPath();
+        Debug.Log(highscoresDirectoryPath);
         if (!Directory.Exists(highscoresDirectoryPath))
         {
             Directory.CreateDirectory(highscoresDirectoryPath);
@@ -141,7 +121,7 @@ class XML
         return GetHighscoresDirectoryPath() + "highscores.xml";
     }
 }
-class Leaderboard
+public class Leaderboard
 {
     public List<HighscoreEntry> List = new List<HighscoreEntry>();
 }
