@@ -65,6 +65,11 @@ public class HighscoreManager : MonoBehaviour
         scores = scores.OrderByDescending(x => x.Score).ToList();
     }
     
+    private void ResetAllScores()
+    {
+        scores.Clear();
+        Save();
+    }
 }
 public class HighscoreEntry
 {
