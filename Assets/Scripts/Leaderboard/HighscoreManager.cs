@@ -10,7 +10,7 @@ public class HighscoreManager : MonoBehaviour
 {
     public static HighscoreManager Instance { get; private set; }
 
-    private static readonly HighscoreEntry DefaultEntry = new HighscoreEntry() { Name = "???", Score = 0};
+    private static readonly HighscoreEntry DefaultEntry = new() { Name = "???", Score = 0 };
     
     // private XML xml = new();
     private List<HighscoreEntry> scores = new();
@@ -45,7 +45,7 @@ public class HighscoreManager : MonoBehaviour
 
     public void AddScore(int score, string name)
     {
-        scores.Add(new HighscoreEntry { Name = name, Score = score});
+        scores.Add(new() { Name = name, Score = score });
         Sort();
         Save();
     }
@@ -125,8 +125,6 @@ public class Leaderboard
 {
     public List<HighscoreEntry> List = new List<HighscoreEntry>();
 }
-
-
 
 /*
 class XML

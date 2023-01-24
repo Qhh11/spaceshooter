@@ -2748,6 +2748,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   highscoreDisplays:
   - {fileID: 1108334910}
+  - {fileID: 2142909025}
+  - {fileID: 586044855}
+  - {fileID: 827298080}
+  - {fileID: 1396977384}
 --- !u!4 &1759548003
 Transform:
   m_ObjectHideFlags: 0
