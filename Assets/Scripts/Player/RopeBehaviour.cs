@@ -11,6 +11,9 @@ public class RopeBehaviour : MonoBehaviour {
 	public GameObject spring;
 	private float maxLength;
 
+	private Mesh ropeMesh;
+	private MeshCollider ropeCollider;
+
 	[FormerlySerializedAs("springAnchor")]
 	[FormerlySerializedAs("shipCenter")]
 	public GameObject springAnchObj;
@@ -34,6 +37,9 @@ public class RopeBehaviour : MonoBehaviour {
 		lineRenderer.positionCount = numPoints;
 		springJoint = spring.GetComponent<SpringJoint>();
 
+		ropeCollider = GetComponent<MeshCollider>();
+		ropeMesh = new Mesh();
+
 		var cam = Camera.main;
 		var viewportToWorldPoint = cam!.ViewportToWorldPoint(Vector3.zero);
 		maxLength = Mathf.Abs(viewportToWorldPoint.z) / 1.5f;
@@ -42,6 +48,7 @@ public class RopeBehaviour : MonoBehaviour {
 	private void Update() {
 		DrawCurve();
 		MakeSpringAnchorPoint(point0.position, point1.position);
+		MakeMesh();
 		CheckCollision();
 	}
 
@@ -107,6 +114,12 @@ public class RopeBehaviour : MonoBehaviour {
 			if (!entry.Key.fallingDown) continue;
 			Gizmos.DrawLine(entry.Key.transform.position, entry.Value);
 		}
+	}
+
+	private void MakeMesh()
+	{
+		lineRenderer.BakeMesh(ropeMesh, Camera.main, true);
+		ropeCollider.sharedMesh = ropeMesh;
 	}
 
 	private void CheckCollision() {
