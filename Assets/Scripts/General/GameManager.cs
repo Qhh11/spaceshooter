@@ -25,24 +25,6 @@ public class GameManager : MonoBehaviour
 	private Vector3 cameraCenter;
 
 	#endregion
-
-	/*
-	public GameManager() {
-		var cam = Camera.main;
-		var camPos = cam!.transform.position;
-		
-		#region Setting WaveSpawnable positions
-
-		var playingFieldZ = 0 - camPos.z;
-		leftCorner = cam!.ViewportToWorldPoint(new Vector3(0, 3, playingFieldZ));
-		rightCorner = cam!.ViewportToWorldPoint(new Vector3(1, 2, playingFieldZ));
-		otherLeftCorner = new Vector3(rightCorner.x, leftCorner.y);
-		otherRightCorner = new Vector3(leftCorner.x, rightCorner.y);
-		cameraCenter = cam!.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, playingFieldZ));
-
-		#endregion
-	}
-	*/
 	
 	public Vector3 GetLeftCorner() => leftCorner;
 	public Vector3 GetOtherLeftCorner() => otherLeftCorner;
