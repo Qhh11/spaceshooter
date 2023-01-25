@@ -3,7 +3,6 @@ using System.Collections;
 using System.Linq;
 using Cinemachine;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class BossFightManager : MonoBehaviour {
 
@@ -25,8 +24,6 @@ public class BossFightManager : MonoBehaviour {
 		instance = this;
 		dolly = virtualCam.GetCinemachineComponent<CinemachineTrackedDolly>();
 		dolly.m_PositionUnits = CinemachinePathBase.PositionUnits.Normalized;
-
-		PanCameraOut();
 	}
 
 	private void Update() {
@@ -51,7 +48,7 @@ public class BossFightManager : MonoBehaviour {
 		while (Math.Abs(panTime - targetPanTime) > 0.0001f) {
 			yield return new WaitForEndOfFrame();
 			var delta = Time.deltaTime;
-			
+
 			if (panOut) {
 				panTime += delta;
 				if (panTime > targetPanTime) panTime = targetPanTime;
