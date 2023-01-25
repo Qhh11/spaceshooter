@@ -23,23 +23,23 @@ public class Hitzone : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (healthBar.getCurrentHP() <= 0) return;
-
-        //regulärer Asteroid
-        var enemy = other.GetComponent<Asteroid>();
-        
-        if (enemy != null)
-        {
-            float damage = enemy.GetEnemyScale() * (enemy.GetEnemySpeed()/2)+5f;
-            healthBar.DamageTaken(damage);
-            return;
-        }
         
         //Cosinus Asteroid
         var cosine = other.GetComponent<CosineAsteroid>();
 
         if (cosine != null)
         {
-            float damage = cosine.GetEnemyScale() * (cosine.GetEnemySpeed()/2)+10f;
+            float damage = cosine.GetEnemyScale()*2 * (cosine.GetEnemySpeed()/2)+5;
+            healthBar.DamageTaken(damage);
+            return;
+        }
+
+        //regulärer Asteroid
+        var enemy = other.GetComponent<Asteroid>();
+        
+        if (enemy != null)
+        {
+            float damage = enemy.GetEnemyScale()*2 * (enemy.GetEnemySpeed()/2);
             healthBar.DamageTaken(damage);
             return;
         }

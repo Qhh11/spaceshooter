@@ -8,7 +8,6 @@ public class Planet : MonoBehaviour
 {
     public float rotationSpeedY;
     
-    //for game over -> right now not working
     public float transitionDuration;
     public Camera cam;
     public GameObject explosionPrefab;
@@ -25,7 +24,7 @@ public class Planet : MonoBehaviour
         transform.Rotate(new Vector3(0, rotationSpeedY, 0));
     }
 
-    //falls Game over: Destroy Planet !! NOT WORKING
+    //falls Game over: Destroy Planet
     public IEnumerator DestroyItself()
     {
         Instantiate(explosionPrefab, new Vector3(0f, -10f, -3f), Quaternion.identity);
