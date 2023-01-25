@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,11 +25,11 @@ public class Hitzone : MonoBehaviour
         if (healthBar.getCurrentHP() <= 0) return;
 
         //regulärer Asteroid
-        var enemy = other.GetComponent<Enemy>();
+        var enemy = other.GetComponent<Asteroid>();
         
         if (enemy != null)
         {
-            float damage = enemy.getEnemyScale() * (enemy.getEnemySpeed()/2);
+            float damage = enemy.GetEnemyScale() * (enemy.GetEnemySpeed()/2)+5f;
             healthBar.DamageTaken(damage);
             return;
         }
@@ -38,9 +39,15 @@ public class Hitzone : MonoBehaviour
 
         if (cosine != null)
         {
-            float damage = cosine.getEnemyScale() * (cosine.getEnemySpeed()/2)+5f;
+            float damage = cosine.GetEnemyScale() * (cosine.GetEnemySpeed()/2)+10f;
             healthBar.DamageTaken(damage);
             return;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(0, 1, 0, 0.1f);
+        Gizmos.DrawCube(transform.position, new Vector3(38, 1, 13));
     }
 }

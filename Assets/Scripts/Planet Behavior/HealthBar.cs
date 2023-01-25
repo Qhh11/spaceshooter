@@ -11,6 +11,8 @@ public class HealthBar : MonoBehaviour
 
 	public float maxHP;
     private float currentHP;
+
+    private bool explosionPlayed;
     
     // Start is called before the first frame update
     void Start()
@@ -19,13 +21,14 @@ public class HealthBar : MonoBehaviour
         healthBar.maxValue = maxHP;
         healthBar.value = maxHP;
         currentHP = maxHP;
+        explosionPlayed = false;
     }
 
     // Update is called once per frame
     void Update()
     {
 	    //Game Over: Planet zerstört
-	    if (currentHP <= 0)
+	    if (currentHP <= 0 && explosionPlayed==false)
 	    {
 		    DestroyPlanet();
 	    }
@@ -62,7 +65,8 @@ public class HealthBar : MonoBehaviour
     //falls Planet-HP 0: End-Sequenz !!!NOT WORKING 
     public void DestroyPlanet()
     {
-	    earth.DestroyItself();
+	    StartCoroutine(earth.DestroyItself());
+	    explosionPlayed = true;
     }
 
 	//Getter

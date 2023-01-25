@@ -9,14 +9,14 @@ public class Planet : MonoBehaviour
     public float rotationSpeedY;
     
     //for game over -> right now not working
-    public Image transitionScreen;
     public float transitionDuration;
     public Camera cam;
-    //public GameObject explosionPrefab;
+    public GameObject explosionPrefab;
 
     // Start is called before the first frame update
     void Start()
     {
+        this.GetComponent<Renderer>().enabled = true;
     }
 
     // Update is called once per frame
@@ -26,18 +26,15 @@ public class Planet : MonoBehaviour
     }
 
     //falls Game over: Destroy Planet !! NOT WORKING
-    public void DestroyItself()
+    public IEnumerator DestroyItself()
     {
-        //StartCoroutine(DestructionPlanet());
-    }
-
-    //!!! not finished/ not working
-    private IEnumerator DestructionPlanet()
-    {
-        //Instantiate(explosionPrefab, transform.position, Quaternion.identity);
-        StartCoroutine(cam.GetComponent<CamShaker>().ShakeFadeout(2, .3f));
-        yield return new WaitForSeconds(transitionDuration);
+        Instantiate(explosionPrefab, new Vector3(0f, -10f, -3f), Quaternion.identity);
+        this.GetComponent<Renderer>().enabled = false;
         
-        SceneManager.LoadScene("LoseScene");
+        StartCoroutine(cam.GetComponent<CamShaker>().ShakeFadeout(3, .3f));
+        yield return new WaitForSeconds(transitionDuration);
+
+        //muss dann den end game screen laden
+        //SceneManager.LoadScene("LoseScene");
     }
 }
