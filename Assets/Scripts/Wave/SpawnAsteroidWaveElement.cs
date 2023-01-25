@@ -9,9 +9,9 @@ public class SpawnAsteroidWaveElement : SpawningWaveElement {
 	[Min(0.01f)]
 	public float maxSpeed = 0.01f;
 	[Min(0f)]
-	public float minRotationSpeed = 0;
+	public float minRotationSpeed;
 	[Min(0f)]
-	public float maxRotationSpeed = 0;
+	public float maxRotationSpeed;
 	[Min(0.01f)]
 	public float minScale = 0.01f;
 	[Min(0.01f)]

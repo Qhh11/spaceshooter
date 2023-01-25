@@ -113,6 +113,7 @@ public class WaveEvent {
 					var spawnable = obj.GetComponent<WaveSpawnable>();
 					spawnable.objectTag = swe.assignedTag;
 					spawnable.OnSpawned(position, waveElement);
+					swe.OnSpawned(obj);
 				}
 
 				break;

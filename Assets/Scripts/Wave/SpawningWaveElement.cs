@@ -7,4 +7,8 @@ public class SpawningWaveElement : WaveElement {
 	[Tooltip("The tag that the object should get assigned")]
 	public string assignedTag = "Untagged";
 
+	public virtual void OnSpawned(GameObject obj) {
+		
+	}
+
 }

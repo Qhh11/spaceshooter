@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
 	private Vector3 rightCorner;
 	private Vector3 otherRightCorner;
 	private Vector3 cameraCenter;
+	private Vector3 topCenter;
 
 	#endregion
 	
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
 	public Vector3 GetRightCorner() => rightCorner;
 	public Vector3 GetOtherRightCorner() => otherRightCorner;
 	public Vector3 GetCameraCenter() => cameraCenter;
+	public Vector3 GetTopCenter() => topCenter;
 
 	void Start()
 	{
@@ -49,6 +51,7 @@ public class GameManager : MonoBehaviour
 		otherLeftCorner = new Vector3(rightCorner.x, leftCorner.y);
 		otherRightCorner = new Vector3(leftCorner.x, rightCorner.y);
 		cameraCenter = cam!.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, playingFieldZ));
+		topCenter = cam!.ViewportToWorldPoint(new Vector3(0.5f, 0, playingFieldZ));
 
 		#endregion
 	}
