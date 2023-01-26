@@ -64,6 +64,8 @@ public class GameManager : MonoBehaviour
 		{
 			Player1.Heal();
 			Player2.Heal();
+			Player1.shipState = ShipState.Alive;
+			Player2.shipState = ShipState.Alive;
 			yield return new WaitForSeconds(0.1f);
 		}
 	}

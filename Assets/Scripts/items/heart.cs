@@ -88,7 +88,8 @@ public class heart : MonoBehaviour
     private void SetHeart()
     {
         currentWaypoint = waypoints.getStart();
-        transform.position = currentWaypoint.position;
+        transform.position =
+            Vector3.MoveTowards(transform.position, currentWaypoint.position, moveSpeed * Time.deltaTime);
         currentWaypoint = waypoints.GetNextWaypoint(currentWaypoint);
     }
 
@@ -96,7 +97,7 @@ public class heart : MonoBehaviour
     {
         Asteroid enemy = other.GetComponent<Asteroid>();
         if (enemy != null && !enemy.fallingDown && !animated)
-        {
+        { 
             sound.Play();
            enemy.PlayExplosion();
            enemy.OnRespawnRandomize();
