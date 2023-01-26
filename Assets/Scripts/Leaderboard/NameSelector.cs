@@ -41,6 +41,7 @@ public class NameSelector : MonoBehaviour
     // TODO: Implement adding new High Score
     private void FinishSelection()
     {
+        SetCurrentFieldInactive();
         Debug.Log("Name is " + builtName);
     }
 

@@ -17,7 +17,7 @@ public class SelectorField : MonoBehaviour
     
     private void Start()
     { 
-        Hide();
+        // 
     }
 
     private void Update()
@@ -49,12 +49,13 @@ public class SelectorField : MonoBehaviour
     {
         // charText.text = _isActive ? "" : "?";
         charText.text = "?";
+        activeIndicator.SetActive(false);
     }
 
     public void SetInactive()
     {
-        activeIndicator.SetActive(false);
         _isActive = false;
+        activeIndicator.SetActive(false);
     }
 
     private void UpdateDisplay()
