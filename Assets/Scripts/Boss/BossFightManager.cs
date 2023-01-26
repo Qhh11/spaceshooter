@@ -12,7 +12,6 @@ public class BossFightManager : MonoBehaviour {
 	[SerializeField]
 	private GameObject bossDestroyParticles;
 	public List<BossAsteroid> activeBosses = new();
-	public List<GameObject> spawnedBossFightElements = new();
 	[Header("UI transformation components")]
 	[SerializeField]
 	private CinemachineVirtualCamera virtualCam;
@@ -37,6 +36,9 @@ public class BossFightManager : MonoBehaviour {
 		position = Mathf.Min(1, Mathf.Max(0, position));
 		dolly.m_PathPosition = position;
 	}
+
+	public float GetTargetPanTime() => targetPanTime;
+	public bool IsPanning() => isPanning;
 
 	public void PanCameraOut(Action taskAfterwards = null) {
 		if (isPanning) return;
@@ -69,7 +71,7 @@ public class BossFightManager : MonoBehaviour {
 	}
 
 	public void OnBossFightEnd() {
-		PanCameraIn();
+		PanCameraIn(() => WaveManager.instance.isTrackingTime = true);
 
 		var player1 = GameManager.Player1;
 		var player2 = GameManager.Player2;
@@ -81,6 +83,10 @@ public class BossFightManager : MonoBehaviour {
 			Instantiate(bossDestroyParticles, a.transform.position, Quaternion.identity);
 			a.OnRespawnRandomize();
 		});
+	}
+
+	public bool IsCurrentlyEnding() {
+		return GetTargetPanTime() == 0 && IsPanning();
 	}
 
 }

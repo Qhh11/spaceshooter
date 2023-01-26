@@ -1,28 +1,36 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
-public class DialogTrigger : MonoBehaviour
-{
-    public Message[] messages;
-    public Actor[] actors;
+public class DialogTrigger : MonoBehaviour {
 
-    public void StartDialogue()
-    {
-        FindObjectOfType<DialogueManager>().OpenDialogue(messages,actors);
-    }
+	public Message[] messages;
+	public Actor[] actors;
+	private DialogueManager manager;
+
+	public void StartDialogue() {
+		manager ??= FindObjectOfType<DialogueManager>();
+		manager.OpenDialogue(messages, actors);
+	}
+
+	public void AddCallback(Action action) {
+		manager ??= FindObjectOfType<DialogueManager>();
+		manager.callbacks += action;
+	}
+
 }
 
-[System.Serializable]
-public class Message
-{
-    public int actorId;
-    public string message;
+[Serializable]
+public class Message {
+
+	public int actorId;
+	public string message;
+
 }
 
-[System.Serializable]
-public class Actor
-{
-    public string name;
-    public Sprite sprite;
+[Serializable]
+public class Actor {
+
+	public string name;
+	public Sprite sprite;
+
 }

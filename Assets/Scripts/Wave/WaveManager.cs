@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 
 public class WaveManager : MonoBehaviour {
 
+	public static WaveManager instance;
 	[Tooltip("Parent object used to group all asteroids under")]
 	[SerializeField]
 	private GameObject parentObject;
@@ -13,6 +14,11 @@ public class WaveManager : MonoBehaviour {
 	private Wave[] waves;
 	private float trackedTime;
 	private Camera cam;
+	public bool isTrackingTime = true;
+
+	private void Awake() {
+		instance = this;
+	}
 
 	// Update is called once per frame
 	void Update() {
@@ -22,7 +28,7 @@ public class WaveManager : MonoBehaviour {
 			}
 		}
 
-		trackedTime += Time.deltaTime;
+		if (isTrackingTime) trackedTime += Time.deltaTime;
 	}
 
 	public Vector3 ProduceRandomLocation() {

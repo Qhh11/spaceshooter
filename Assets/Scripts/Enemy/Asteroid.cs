@@ -36,6 +36,7 @@ public class Asteroid : WaveSpawnable {
 
 	// Update is called once per frame
 	protected void Update() {
+		if (!GameManager.Instance.isMovingAsteroids) return;
 		var trans = gameObject.transform;
 		var enemySpeedNormalized = enemySpeed * Time.deltaTime;
 		var translation = (fallingDown ? Vector3.down : Vector3.up) * enemySpeedNormalized;
@@ -108,7 +109,7 @@ public class Asteroid : WaveSpawnable {
 	public void PlayExplosion() {
 		Instantiate(explosion, transform.position, Quaternion.identity);
 	}
-	
+
 	private void OnBecameInvisible() => OnRespawnRandomize();
 
 	public float GetEnemyScale() => enemyScale;

@@ -1,129 +1,119 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
+public class DialogueManager : MonoBehaviour {
 
-public class DialogueManager : MonoBehaviour
-{
+	public Image actorImage;
+	public TextMeshProUGUI actorName;
+	public TextMeshProUGUI messageText;
+	public RectTransform backgroundBox;
 
-    public Image actorImage;
-    public TextMeshProUGUI actorName;
-    public TextMeshProUGUI messageText;
-    public RectTransform backgroundBox;
+	public String textToDisplay;
 
-    public String textToDisplay;
+	private Message[] currentMessages;
+	private Actor[] currentActors;
+	private int activeMessage = 0;
+	public static bool isActive = false;
+	public static bool isDone = false;
 
-    private Message[] currentMessages;
-    private Actor[] currentActors;
-    private int activeMessage = 0;
-    public static bool isActive = false;
-    public static bool isDone = false;
+	private Message messageToDisplay;
+	private Actor actorToDisplay;
 
-    private Message messageToDisplay;
-    private Actor actorToDisplay;
+	private Animator _anim;
 
-    private Animator _anim;
-    
-    // Start is called before the first frame update
+	public Action callbacks;
 
-    public void OpenDialogue(Message[] messages, Actor[] actors)
-    {
-        if (isActive == true) return;
-        Debug.Log("Conversation started!");
-        currentMessages = messages;
-        currentActors = actors;
-        activeMessage = 0;
-        isActive = true;
-        _anim.SetTrigger("OpenPanel");
-        DisplayMessage();
-    }
+	// Start is called before the first frame update
 
-    void Start()
-    {
-        _anim = GetComponent<Animator>();
-    }
+	public void OpenDialogue(Message[] messages, Actor[] actors) {
+		if (isActive == true) return;
+		Debug.Log("Conversation started!");
+		currentMessages = messages;
+		currentActors = actors;
+		activeMessage = 0;
+		isActive = true;
+		_anim.SetTrigger("OpenPanel");
+		DisplayMessage();
+	}
 
-    void DisplayMessage()
-    {
-        isDone = false;
-        messageText.text = "";
-        messageToDisplay = currentMessages[activeMessage];
-        
-        actorToDisplay = currentActors[messageToDisplay.actorId];
-        actorImage.sprite = actorToDisplay.sprite;
-        actorName.text = actorToDisplay.name;
+	void Start() {
+		_anim = GetComponent<Animator>();
+	}
 
-        StartCoroutine(AppendText(messageToDisplay.message));
+	void DisplayMessage() {
+		isDone = false;
+		messageText.text = "";
+		messageToDisplay = currentMessages[activeMessage];
 
-    }
+		actorToDisplay = currentActors[messageToDisplay.actorId];
+		actorImage.sprite = actorToDisplay.sprite;
+		actorName.text = actorToDisplay.name;
 
-    public void NextMessage()
-    {
-        if (++activeMessage < currentMessages.Length)
-        {
-            DisplayMessage();
-        }
-        else
-        {
-            CloseDialogue();
-        }
-    }
+		StartCoroutine(AppendText(messageToDisplay.message));
+	}
 
-    IEnumerator AppendText(String msg)
-    {
-        textToDisplay = "";
-        foreach (Char c in msg) {
-            textToDisplay += c;
-            messageText.text = textToDisplay;
-            yield return new WaitForSeconds(WaitTime.getWaitTime(c));
-            if (isDone) break;
-        }
-        messageText.text = msg;
-        isDone = true;
-    }
+	public void NextMessage() {
+		if (++activeMessage < currentMessages.Length) {
+			DisplayMessage();
+		} else {
+			CloseDialogue();
+		}
+	}
 
-    void CloseDialogue()
-    {
-        isActive = false;
-        _anim.SetTrigger("ClosePanel");
-        Debug.Log("Conversation ended!");
-    }
+	IEnumerator AppendText(String msg) {
+		textToDisplay = "";
+		foreach (Char c in msg) {
+			textToDisplay += c;
+			messageText.text = textToDisplay;
+			yield return new WaitForSeconds(WaitTime.getWaitTime(c));
+			if (isDone) break;
+		}
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && isActive == true)
-        {
-            if (!isDone)
-            {
-                isDone = true;
-                return;
-            }
-            NextMessage();
-        }
-    }
+		messageText.text = msg;
+		isDone = true;
+	}
+
+	void CloseDialogue() {
+		isActive = false;
+		_anim.SetTrigger("ClosePanel");
+		callbacks.Invoke();
+		callbacks = () => { };
+		Debug.Log("Conversation ended!");
+	}
+
+	// Update is called once per frame
+	void Update() {
+		if (Input.GetKeyDown(KeyCode.Space) && isActive == true) {
+			if (!isDone) {
+				isDone = true;
+				return;
+			}
+
+			NextMessage();
+		}
+	}
+
 }
 
 public static class WaitTime {
-    public const float Standard = 0.05f;
-    public const float Extended = 0.2f;
-    public const float SemiExtended = 0.1f;
-    public const float Cutscene = 2f;
 
-    public static float getWaitTime(Char character)
-    {
-        switch (character)
-        {
-            case '.' or '!':
-                return Extended;
-            case ',':
-                return SemiExtended;
-            default:
-                return Standard;
-        }
-    }
+	public const float Standard = 0.05f;
+	public const float Extended = 0.2f;
+	public const float SemiExtended = 0.1f;
+	public const float Cutscene = 2f;
+
+	public static float getWaitTime(Char character) {
+		switch (character) {
+			case '.' or '!':
+				return Extended;
+			case ',':
+				return SemiExtended;
+			default:
+				return Standard;
+		}
+	}
+
 }
