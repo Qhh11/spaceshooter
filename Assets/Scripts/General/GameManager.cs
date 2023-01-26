@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
 		otherLeftCorner = new Vector3(rightCorner.x, leftCorner.y);
 		otherRightCorner = new Vector3(leftCorner.x, rightCorner.y);
 		cameraCenter = cam!.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, playingFieldZ));
-		topCenter = cam!.ViewportToWorldPoint(new Vector3(0.5f, 0, playingFieldZ));
+		topCenter = cam!.ViewportToWorldPoint(new Vector3(0.5f, 1, playingFieldZ));
 
 		#endregion
 	}

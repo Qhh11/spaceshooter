@@ -1,5 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Asteroid : WaveSpawnable {
 
@@ -26,28 +27,27 @@ public class Asteroid : WaveSpawnable {
 	protected float enemyRotationSpeedY;
 	protected float enemyRotationSpeedZ;
 	public Vector3 flyDirection = Vector3.zero;
-	public bool fallingDownVal = true;
+	public bool fallingDown = true;
 
 	public bool FallingDown {
 		set {
-			fallingDownVal = value;
+			fallingDown = value;
 			var meteors = GameManager.Instance.Meteors;
-			if (!fallingDownVal) meteors.Remove(this);
+			if (!fallingDown) meteors.Remove(this);
 			else meteors.Add(this);
 		}
 	}
 
 	// Start is called before the first frame update
-	public void Start() {
+	protected void Awake() {
 		cam = Camera.main;
-		OnRespawnRandomize();
 	}
 
 	// Update is called once per frame
-	void Update() {
+	protected void Update() {
 		var trans = gameObject.transform;
 		var enemySpeedNormalized = enemySpeed * Time.deltaTime;
-		var translation = (fallingDownVal ? Vector3.down : Vector3.up) * enemySpeedNormalized;
+		var translation = (fallingDown ? Vector3.down : Vector3.up) * enemySpeedNormalized;
 		translation += flyDirection * enemySpeedNormalized;
 		translation.z = 0;
 
@@ -67,6 +67,8 @@ public class Asteroid : WaveSpawnable {
 		maxRotationSpeed = awe.maxRotationSpeed;
 		minScale = awe.minScale;
 		maxScale = awe.maxScale;
+		
+		OnRespawnRandomize();
 	}
 
 	public virtual void OnRespawnRandomize() {

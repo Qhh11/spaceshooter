@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Cinemachine;
 using UnityEngine;
@@ -7,6 +8,8 @@ using UnityEngine;
 public class BossFightManager : MonoBehaviour {
 
 	public static BossFightManager instance;
+	[Header("Boss fight data")]
+	public List<BossAsteroid> activeBosses = new();
 	[Header("UI transformation components")]
 	[SerializeField]
 	private CinemachineVirtualCamera virtualCam;
@@ -32,22 +35,22 @@ public class BossFightManager : MonoBehaviour {
 		dolly.m_PathPosition = position;
 	}
 
-	public void PanCameraOut() {
+	public void PanCameraOut(Action taskAfterwards = null) {
 		if (isPanning) return;
-		StartCoroutine(PanCamera(true));
+		StartCoroutine(PanCamera(true, taskAfterwards));
 	}
 
-	public void PanCameraIn() {
+	public void PanCameraIn(Action taskAfterwards = null) {
 		if (isPanning) return;
-		StartCoroutine(PanCamera(false));
+		StartCoroutine(PanCamera(false, taskAfterwards, 2));
 	}
 
-	private IEnumerator PanCamera(bool panOut) {
+	private IEnumerator PanCamera(bool panOut, Action taskAfterwards = null, float panSpeed = 1f) {
 		isPanning = true;
 		targetPanTime = panOut ? movementCurve.keys.Max(k => k.time) : 0;
 		while (Math.Abs(panTime - targetPanTime) > 0.0001f) {
 			yield return new WaitForEndOfFrame();
-			var delta = Time.deltaTime;
+			var delta = Time.deltaTime * panSpeed;
 
 			if (panOut) {
 				panTime += delta;
@@ -59,6 +62,7 @@ public class BossFightManager : MonoBehaviour {
 		}
 
 		isPanning = false;
+		taskAfterwards?.Invoke();
 	}
 
 }

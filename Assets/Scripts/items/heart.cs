@@ -95,7 +95,7 @@ public class heart : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Asteroid enemy = other.GetComponent<Asteroid>();
-        if (enemy != null && !enemy.fallingDownVal && !animated)
+        if (enemy != null && !enemy.fallingDown && !animated)
         {
             sound.Play();
            enemy.PlayExplosion();

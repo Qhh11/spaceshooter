@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SpawningWaveElement : WaveElement {
@@ -7,7 +8,9 @@ public class SpawningWaveElement : WaveElement {
 	[Tooltip("The tag that the object should get assigned")]
 	public string assignedTag = "Untagged";
 
-	public virtual void OnSpawned(GameObject obj) {
+	public virtual void BeforeSpawn(Action spawnTask) => spawnTask.Invoke();
+
+	public virtual void AfterSpawn(GameObject obj) {
 		
 	}
 

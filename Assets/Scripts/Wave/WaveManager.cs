@@ -109,11 +109,16 @@ public class WaveEvent {
 		switch (waveElement) {
 			case SpawningWaveElement swe: {
 				for (var i = 0; i < amount; i++) {
-					var obj = Object.Instantiate(swe.prefab, position, Quaternion.identity, manager.GetParent());
-					var spawnable = obj.GetComponent<WaveSpawnable>();
-					spawnable.objectTag = swe.assignedTag;
-					spawnable.OnSpawned(position, waveElement);
-					swe.OnSpawned(obj);
+					void Spawn() {
+						var obj = Object.Instantiate(swe.prefab, position, 
+							swe.prefab.gameObject.transform.rotation, manager.GetParent());
+						var spawnable = obj.GetComponent<WaveSpawnable>();
+						spawnable.objectTag = swe.assignedTag;
+						spawnable.OnSpawned(position, waveElement);
+						swe.AfterSpawn(obj);
+					}
+
+					swe.BeforeSpawn(Spawn);
 				}
 
 				break;

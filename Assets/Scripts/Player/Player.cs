@@ -38,13 +38,14 @@ public class Player : MonoBehaviour {
 	[SerializeField]
 	private PlayerHealthUI healthUI;
 
-	[SerializeField] private AudioSource audioSource;
-	
+	[SerializeField]
+	private AudioSource audioSource;
+
 	// TODO Use when losing
 	// [SerializeField]
 	// private Image transitionScreen;
 
-	
+
 	// [Header("Transition")]
 	// [SerializeField]
 	// private float transitionDuration;
@@ -266,7 +267,9 @@ public class Player : MonoBehaviour {
 		enemy.PlayExplosion();
 		enemy.OnRespawnRandomize();
 		audioSource.Play();
-		TakeDamage();
+
+		if (enemy is BossAsteroid) TakeDamage(health);
+		else TakeDamage();
 	}
 
 	// TODO: Könnte man für die Lose Condition (Planet wird zerstört) verwenden
@@ -305,9 +308,9 @@ public class PlayerHealthUI {
 
 	public void UpdateUI() {
 		var health = player.GetHealth();
-		
+
 		canvas.enabled = health != 3;
-		
+
 		for (var i = 1; i <= 3; i++) {
 			var image = hpImages[i - 1];
 			image.sprite = health >= i ? filledIcon : emptyIcon;

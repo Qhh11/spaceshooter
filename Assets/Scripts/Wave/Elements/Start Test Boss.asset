@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41c3a85b81172b34293b36328a6be0a2, type: 3}
   m_Name: Start Test Boss
   m_EditorClassIdentifier: 
-  prefab: {fileID: 8647572759830582288, guid: 008861df47b0e5e40840ef16e2fbf072, type: 3}
+  prefab: {fileID: 2550316351389929138, guid: aba3748e99c559449a25e8addb030e45, type: 3}
   assignedTag: Test Boss
-  minSpeed: 0.2
-  maxSpeed: 0.2
-  minRotationSpeed: 0.05
-  maxRotationSpeed: 0.1
-  minScale: 4
-  maxScale: 4
+  minSpeed: 0.25
+  maxSpeed: 0.25
+  minRotationSpeed: 0
+  maxRotationSpeed: 0
+  minScale: 3
+  maxScale: 3

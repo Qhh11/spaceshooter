@@ -7,17 +7,17 @@ public class CosineAsteroid : Asteroid
     [Header("Cosine specific")]
     [SerializeField] private float _amplitude = .75f;
     [SerializeField] private float _frequency = 15f;
-    new void Start()
+    void Start()
     {
         cam = Camera.main;
         OnRespawnRandomize();
     }
 
-    void Update()
+    new void Update()
     {
         var trans = gameObject.transform;
         var enemySpeedNormalized = enemySpeed * Time.deltaTime;
-        var translation = (fallingDownVal ? cosMovement(Vector3.down): Vector3.up) * enemySpeedNormalized;
+        var translation = (fallingDown ? cosMovement(Vector3.down): Vector3.up) * enemySpeedNormalized;
         translation += flyDirection * enemySpeedNormalized;
         
         trans.Translate(translation, Space.World);
