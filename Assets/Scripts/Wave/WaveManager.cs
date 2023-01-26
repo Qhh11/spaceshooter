@@ -1,7 +1,6 @@
 using System;
 using System.Linq;
 using UnityEngine;
-using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
 
 public class WaveManager : MonoBehaviour {
@@ -24,6 +23,16 @@ public class WaveManager : MonoBehaviour {
 		}
 
 		trackedTime += Time.deltaTime;
+	}
+
+	public Vector3 ProduceRandomLocation() {
+		var gm = GameManager.Instance;
+		var firstCorner = gm.GetLeftCorner();
+		var secondCorner = gm.GetRightCorner();
+		var rx = Random.Range(firstCorner.x, secondCorner.x);
+		var ry = Random.Range(firstCorner.y, secondCorner.y);
+
+		return new Vector3(rx, ry, 0);
 	}
 
 	private void OnDrawGizmos() {
@@ -96,45 +105,17 @@ public class WaveEvent {
 
 		#region Calculate random spawn position
 
-		var gm = GameManager.Instance;
-		var firstCorner = gm.GetLeftCorner();
-		var secondCorner = gm.GetRightCorner();
-		var rx = Random.Range(firstCorner.x, secondCorner.x);
-		var ry = Random.Range(firstCorner.y, secondCorner.y);
-
-		var position = new Vector3(rx, ry, 0);
+		var position = manager.ProduceRandomLocation();
 
 		#endregion
 
 		switch (waveElement) {
 			case SpawningWaveElement swe: {
-				for (var i = 0; i < amount; i++) {
-					void Spawn() {
-						var obj = Object.Instantiate(swe.prefab, position, 
-							swe.prefab.gameObject.transform.rotation, manager.GetParent());
-						var spawnable = obj.GetComponent<WaveSpawnable>();
-						spawnable.objectTag = swe.assignedTag;
-						spawnable.OnSpawned(position, waveElement);
-						swe.AfterSpawn(obj);
-					}
-
-					swe.BeforeSpawn(Spawn);
-				}
-
+				swe.Spawn(position, manager.GetParent(), _ => { }, amount);
 				break;
 			}
 			case DestroyingWaveElement dwe: {
-				var val = amount;
-				foreach (var child in manager.GetParent()) {
-					if (!(child is Transform t)) continue;
-					var obj = t.gameObject;
-					if (!dwe.IsValid(obj)) continue;
-
-					Object.Destroy(obj);
-					val--;
-					if (val <= 0) break;
-				}
-
+				dwe.Invoke(amount, manager.GetParent());
 				break;
 			}
 		}

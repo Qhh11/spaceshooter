@@ -1,6 +1,5 @@
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class Asteroid : WaveSpawnable {
 
@@ -29,18 +28,10 @@ public class Asteroid : WaveSpawnable {
 	public Vector3 flyDirection = Vector3.zero;
 	public bool fallingDown = true;
 
-	public bool FallingDown {
-		set {
-			fallingDown = value;
-			var meteors = GameManager.Instance.Meteors;
-			if (!fallingDown) meteors.Remove(this);
-			else meteors.Add(this);
-		}
-	}
-
 	// Start is called before the first frame update
 	protected void Awake() {
 		cam = Camera.main;
+		GameManager.Instance.Meteors.Add(this);
 	}
 
 	// Update is called once per frame
@@ -56,6 +47,10 @@ public class Asteroid : WaveSpawnable {
 		trans.localScale = Vector3.one * enemyScale;
 	}
 
+	private void OnDestroy() {
+		GameManager.Instance.Meteors.Remove(this);
+	}
+
 	public override void OnSpawned(Vector3 spawnPos, WaveElement waveElement) {
 		spawnPosition = spawnPos;
 
@@ -67,7 +62,7 @@ public class Asteroid : WaveSpawnable {
 		maxRotationSpeed = awe.maxRotationSpeed;
 		minScale = awe.minScale;
 		maxScale = awe.maxScale;
-		
+
 		OnRespawnRandomize();
 	}
 
@@ -106,28 +101,15 @@ public class Asteroid : WaveSpawnable {
 		enemyRotationSpeedZ = Random.Range(minRotationSpeed, maxRotationSpeed);
 
 		#endregion
+
+		fallingDown = true;
 	}
 
 	public void PlayExplosion() {
 		Instantiate(explosion, transform.position, Quaternion.identity);
 	}
-
-	private void OnBecameVisible() {
-		var meteors = GameManager.Instance.Meteors;
-		if (!meteors.Contains(this)) meteors.Add(this);
-	}
-
-	private void OnBecameInvisible() {
-		OnRespawnRandomize();
-		FallingDown = true;
-	}
-
-	public void ChangeSpeed(float f) {
-		minSpeed += f;
-		maxSpeed += f;
-	}
-
-	public Vector3 GetRotationSpeed() => new(enemyRotationSpeedX, enemyRotationSpeedY, enemyRotationSpeedZ);
+	
+	private void OnBecameInvisible() => OnRespawnRandomize();
 
 	public float GetEnemyScale() => enemyScale;
 

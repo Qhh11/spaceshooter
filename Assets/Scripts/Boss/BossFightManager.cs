@@ -9,7 +9,10 @@ public class BossFightManager : MonoBehaviour {
 
 	public static BossFightManager instance;
 	[Header("Boss fight data")]
+	[SerializeField]
+	private GameObject bossDestroyParticles;
 	public List<BossAsteroid> activeBosses = new();
+	public List<GameObject> spawnedBossFightElements = new();
 	[Header("UI transformation components")]
 	[SerializeField]
 	private CinemachineVirtualCamera virtualCam;
@@ -63,6 +66,21 @@ public class BossFightManager : MonoBehaviour {
 
 		isPanning = false;
 		taskAfterwards?.Invoke();
+	}
+
+	public void OnBossFightEnd() {
+		PanCameraIn();
+
+		var player1 = GameManager.Player1;
+		var player2 = GameManager.Player2;
+
+		player1.gameObject.transform.position = player1.GetStartPosition();
+		player2.gameObject.transform.position = player2.GetStartPosition();
+
+		GameManager.Instance.Meteors.ForEach(a => {
+			Instantiate(bossDestroyParticles, a.transform.position, Quaternion.identity);
+			a.OnRespawnRandomize();
+		});
 	}
 
 }

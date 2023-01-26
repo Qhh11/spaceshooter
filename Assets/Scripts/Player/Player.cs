@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
 	[FormerlySerializedAs("state")]
 	[SerializeField]
 	public ShipState shipState;
+	private Vector3 startPosition;
 
 	[Header("Parts of convoy")]
 	[SerializeField]
@@ -56,6 +57,7 @@ public class Player : MonoBehaviour {
 		cam = Camera.main;
 		GetComponent<Renderer>();
 		healthUI.UpdateUI();
+		startPosition = transform.position;
 	}
 
 	// Update is called once per frame
@@ -289,6 +291,8 @@ public class Player : MonoBehaviour {
 	// 		shipState = ShipState.Playing;
 	// 	}
 	// }
+
+	public Vector3 GetStartPosition() => startPosition;
 
 }
 

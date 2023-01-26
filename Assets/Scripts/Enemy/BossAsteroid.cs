@@ -99,10 +99,10 @@ public class BossAsteroid : Asteroid {
 		Instantiate(deathExplosionParticles, transform.position, Quaternion.identity);
 		Destroy(gameObject);
 
-		var gm = BossFightManager.instance;
-		gm.activeBosses.Remove(this);
-		if (gm.activeBosses.Count == 0) {
-			gm.PanCameraIn();
+		var bfm = BossFightManager.instance;
+		bfm.activeBosses.Remove(this);
+		if (bfm.activeBosses.Count == 0) {
+			bfm.OnBossFightEnd();
 		}
 	}
 

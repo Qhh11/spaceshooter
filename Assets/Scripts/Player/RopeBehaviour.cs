@@ -15,7 +15,8 @@ public class RopeBehaviour : MonoBehaviour {
 	[FormerlySerializedAs("shipCenter")]
 	public GameObject springAnchObj;
 
-	[SerializeField] public AudioSource sound;
+	[SerializeField]
+	public AudioSource sound;
 
 	[Range(1, 100)]
 	public int numPoints = 50;
@@ -103,17 +104,17 @@ public class RopeBehaviour : MonoBehaviour {
 		Gizmos.color = Color.yellow;
 
 		foreach (var entry in closest) {
-			if (!GameManager.Instance.Meteors.Contains(entry.Key)) continue;
+			if (!entry.Key.fallingDown) continue;
 			Gizmos.DrawLine(entry.Key.transform.position, entry.Value);
 		}
 	}
 
 	private void CheckCollision() {
 		var meteors = GameManager.Instance.Meteors;
-		for (int i = 0; i < meteors.Count; i++) {
-			var meteor = meteors[i];
-			Vector3 closestPoint = Vector3.zero;
-			float smallestDistance = float.MaxValue;
+		foreach (var meteor in meteors) {
+			if (!meteor.fallingDown) continue;
+			var closestPoint = Vector3.zero;
+			var smallestDistance = float.MaxValue;
 			foreach (var pos in positions) {
 				if (meteor == null) break;
 				var meteorPos = meteor.gameObject.transform.position;
@@ -123,12 +124,11 @@ public class RopeBehaviour : MonoBehaviour {
 					closestPoint = pos;
 				}
 
-				if (distance < 1) {
-					meteor.flyDirection = CalculateThrowbackAngle(point0.position, point1.position, Vector3.down);
-					meteor.FallingDown = false;
-					sound.Play();
-					StartCoroutine(Bounce(meteor.GetEnemyScale(), meteor.GetEnemySpeed()));
-				}
+				if (!(distance < 1)) continue;
+				meteor.flyDirection = CalculateThrowbackAngle(point0.position, point1.position, Vector3.down);
+				meteor.fallingDown = false;
+				sound.Play();
+				StartCoroutine(Bounce(meteor.GetEnemyScale(), meteor.GetEnemySpeed()));
 			}
 
 			if (meteor == null) continue;
