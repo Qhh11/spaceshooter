@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
@@ -43,7 +44,6 @@ public class GameManager : MonoBehaviour
 	}
 	*/
 	
-
 	public Vector3 GetLeftCorner() => leftCorner;
 	public Vector3 GetOtherLeftCorner() => otherLeftCorner;
 	public Vector3 GetRightCorner() => rightCorner;
@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
 
 		#endregion
 	}
+	
 
 	public IEnumerator HealBothPlayers()
 	{
@@ -79,6 +80,11 @@ public class GameManager : MonoBehaviour
 			Player2.Heal();
 			yield return new WaitForSeconds(0.1f);
 		}
+	}
+
+	public bool IsBothDead()
+	{
+		return (Player1.shipState == ShipState.Destroyed && Player2.shipState == ShipState.Destroyed);
 	}
 
 }

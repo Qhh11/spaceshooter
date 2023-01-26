@@ -19,7 +19,7 @@ public class Player : MonoBehaviour {
 	private float moveRotation = 35f;
 	[FormerlySerializedAs("state")]
 	[SerializeField]
-	private ShipState shipState;
+	public ShipState shipState;
 
 	[Header("Parts of convoy")]
 	[SerializeField]
