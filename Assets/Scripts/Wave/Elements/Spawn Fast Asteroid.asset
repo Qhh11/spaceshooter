@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Spawn Fast Asteroid
   m_EditorClassIdentifier: 
   prefab: {fileID: 8647572759830582288, guid: 51f95422d7d994844acaba7252e98d90, type: 3}
-  assignedTag: SlowAsteroid
+  assignedTag: FastAsteroid
   minSpeed: 4
   maxSpeed: 7.5
   minRotationSpeed: 1.5
   maxRotationSpeed: 6
   minScale: 0.1
   maxScale: 0.3
+  score: 50

@@ -20,3 +20,4 @@ MonoBehaviour:
   maxRotationSpeed: 4
   minScale: 0.1
   maxScale: 0.4
+  score: 25

@@ -101,6 +101,7 @@ public class BossAsteroid : Asteroid {
 
 		var bfm = BossFightManager.instance;
 		bfm.activeBosses.Remove(this);
+		GameManager.Instance.score += score;
 		if (bfm.activeBosses.Count == 0) {
 			bfm.OnBossFightEnd();
 		}

@@ -25,6 +25,7 @@ public class Asteroid : WaveSpawnable {
 	protected float enemyRotationSpeedX;
 	protected float enemyRotationSpeedY;
 	protected float enemyRotationSpeedZ;
+	protected int score;
 	public Vector3 flyDirection = Vector3.zero;
 	public bool fallingDown = true;
 
@@ -63,6 +64,7 @@ public class Asteroid : WaveSpawnable {
 		maxRotationSpeed = awe.maxRotationSpeed;
 		minScale = awe.minScale;
 		maxScale = awe.maxScale;
+		score = awe.score;
 
 		OnRespawnRandomize();
 	}
@@ -110,7 +112,13 @@ public class Asteroid : WaveSpawnable {
 		Instantiate(explosion, transform.position, Quaternion.identity);
 	}
 
-	private void OnBecameInvisible() => OnRespawnRandomize();
+	private void OnBecameInvisible() {
+		if (!fallingDown) {
+			GameManager.Instance.score += score;
+		}
+
+		OnRespawnRandomize();
+	}
 
 	public float GetEnemyScale() => enemyScale;
 

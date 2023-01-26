@@ -20,4 +20,5 @@ MonoBehaviour:
   maxRotationSpeed: 0
   minScale: 3
   maxScale: 3
+  score: 500
   poofParticles: {fileID: 2476257155559655174, guid: d31f21de619c46f40900cc338bb04bdf, type: 3}

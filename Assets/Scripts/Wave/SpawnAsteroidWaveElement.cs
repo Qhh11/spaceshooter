@@ -16,5 +16,7 @@ public class SpawnAsteroidWaveElement : SpawningWaveElement {
 	public float minScale = 0.01f;
 	[Min(0.01f)]
 	public float maxScale = 0.01f;
+	[Min(0)]
+	public int score;
 
 }

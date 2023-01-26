@@ -112,6 +112,7 @@ public class Player : MonoBehaviour {
 	#region Movement Management
 
 	private void MoveShip() {
+		if (BossFightManager.instance.IsCurrentlyEnding()) return;
 		var trans = transform;
 		var pos = trans.position;
 
