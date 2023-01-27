@@ -218,7 +218,7 @@ public class Player : MonoBehaviour {
 		health += Math.Min(3, amount);
 		healthUI.UpdateUI();
 
-		if (health <= 0) {
+		if (health > 0) {
 			shipState = ShipState.Alive;
 		}
 	}

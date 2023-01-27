@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97f47c1af20009d428dce0b63e930851, type: 3}
+  m_Name: Destroy Slow Cosine Asteroid
+  m_EditorClassIdentifier: 
+  template: {fileID: 11400000, guid: e12a1a7f3ac58cf45a5a645e644191ec, type: 2}

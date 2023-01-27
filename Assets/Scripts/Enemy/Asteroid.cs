@@ -28,10 +28,12 @@ public class Asteroid : WaveSpawnable {
 	protected int score;
 	public Vector3 flyDirection = Vector3.zero;
 	public bool fallingDown = true;
+	private Renderer rendererComponent;
 
 	// Start is called before the first frame update
 	protected void Awake() {
 		cam = Camera.main;
+		rendererComponent = GetComponent<Renderer>();
 		GameManager.Instance.Meteors.Add(this);
 	}
 
@@ -118,6 +120,16 @@ public class Asteroid : WaveSpawnable {
 		}
 
 		OnRespawnRandomize();
+	}
+
+	public void Hide() {
+		if (isActiveAndEnabled && rendererComponent is null) return;
+		rendererComponent.enabled = false;
+	}
+
+	public void Show() {
+		if (isActiveAndEnabled && rendererComponent is null) return;
+		rendererComponent.enabled = true;
 	}
 
 	public float GetEnemyScale() => enemyScale;

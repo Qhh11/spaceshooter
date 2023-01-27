@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41c3a85b81172b34293b36328a6be0a2, type: 3}
-  m_Name: Start Test Boss
+  m_Name: Start Slow Boss
   m_EditorClassIdentifier: 
   prefab: {fileID: 2550316351389929138, guid: aba3748e99c559449a25e8addb030e45, type: 3}
-  assignedTag: Test Boss
+  assignedTag: PinguBoss
   minSpeed: 0.25
   maxSpeed: 0.25
   minRotationSpeed: 0

@@ -10,16 +10,26 @@ public class StartBossFight : SpawnAsteroidWaveElement {
 		var dialogTrigger = FindObjectOfType<DialogTrigger>();
 		dialogTrigger.gameObject.transform.position += new Vector3(0, 100, 0);
 		WaveManager.instance.isTrackingTime = false;
-		
+
 		var gm = GameManager.Instance;
 		gm.isMovingAsteroids = false;
 		gm.Meteors.ForEach(a => {
 			Instantiate(poofParticles, a.transform.position, Quaternion.identity);
-			a.OnRespawnRandomize();
+			a.Hide();
 		});
+
+		void OnPanOutFinished() {
+			gm.SetWaveSpawnablePositions();
+			gm.Meteors.ForEach(a => {
+				a.Show();
+				a.OnRespawnRandomize();
+				gm.isMovingAsteroids = true;
+			});
+			spawnTask.Invoke();
+		}
+
 		dialogTrigger.AddCallback(() => {
-			gm.isMovingAsteroids = true;
-			BossFightManager.instance.PanCameraOut(spawnTask);
+			BossFightManager.instance.PanCameraOut(OnPanOutFinished);
 		});
 		dialogTrigger.StartDialogue();
 	}

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 6398757039025614318, guid: 01420960b448a724cb1e8cd8bf93310b, type: 3}
   assignedTag: NormalCosineAsteroid
-  minSpeed: 3
-  maxSpeed: 5
+  minSpeed: 2
+  maxSpeed: 3
   minRotationSpeed: 1
   maxRotationSpeed: 4
-  minScale: 0.1
-  maxScale: 0.4
+  minScale: 0.5
+  maxScale: 1
   score: 50

@@ -15,9 +15,9 @@ MonoBehaviour:
   prefab: {fileID: 6398757039025614318, guid: 01420960b448a724cb1e8cd8bf93310b, type: 3}
   assignedTag: FastCosineAsteroid
   minSpeed: 4
-  maxSpeed: 7.5
+  maxSpeed: 5
   minRotationSpeed: 1.5
   maxRotationSpeed: 6
-  minScale: 0.1
-  maxScale: 0.3
+  minScale: 0.75
+  maxScale: 1.125
   score: 100

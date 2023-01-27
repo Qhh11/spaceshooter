@@ -71,7 +71,17 @@ public class BossFightManager : MonoBehaviour {
 	}
 
 	public void OnBossFightEnd() {
-		PanCameraIn(() => WaveManager.instance.isTrackingTime = true);
+		var gm = GameManager.Instance;
+		PanCameraIn(() => {
+			WaveManager.instance.isTrackingTime = true;
+
+			gm.SetWaveSpawnablePositions();
+			gm.Meteors.ForEach(a => {
+				a.OnRespawnRandomize();
+				a.Show();
+			});
+			gm.isMovingAsteroids = true;
+		});
 
 		var player1 = GameManager.Player1;
 		var player2 = GameManager.Player2;
@@ -79,9 +89,10 @@ public class BossFightManager : MonoBehaviour {
 		player1.gameObject.transform.position = player1.GetStartPosition();
 		player2.gameObject.transform.position = player2.GetStartPosition();
 
-		GameManager.Instance.Meteors.ForEach(a => {
+		gm.isMovingAsteroids = false;
+		gm.Meteors.ForEach(a => {
+			a.Hide();
 			Instantiate(bossDestroyParticles, a.transform.position, Quaternion.identity);
-			a.OnRespawnRandomize();
 		});
 	}
 

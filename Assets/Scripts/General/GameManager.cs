@@ -34,7 +34,6 @@ public class GameManager : MonoBehaviour
 	public Vector3 GetRightCorner() => rightCorner;
 	public Vector3 GetOtherRightCorner() => otherRightCorner;
 	public Vector3 GetCameraCenter() => cameraCenter;
-	public Vector3 GetTopCenter() => topCenter;
 
 	void Start()
 	{
@@ -42,22 +41,23 @@ public class GameManager : MonoBehaviour
 		if (Player2 == null) Player2 = _player2;
 		if (Instance == null) Instance = this;
 		
+		SetWaveSpawnablePositions();
+	}
+
+	public void SetWaveSpawnablePositions() {
 		var cam = Camera.main;
 		var camPos = cam!.transform.position;
+		Debug.Log("Setting wave spawnable positions from camera pos " + camPos);
 		
-		#region Setting WaveSpawnable positions
-
 		var playingFieldZ = 0 - camPos.z;
-		leftCorner = cam!.ViewportToWorldPoint(new Vector3(0, 3, playingFieldZ));
-		rightCorner = cam!.ViewportToWorldPoint(new Vector3(1, 2, playingFieldZ));
+		leftCorner = cam!.ViewportToWorldPoint(new Vector3(0.2f, 1.3f, playingFieldZ));
+		rightCorner = cam!.ViewportToWorldPoint(new Vector3(0.8f, 1.2f, playingFieldZ));
 		otherLeftCorner = new Vector3(rightCorner.x, leftCorner.y);
 		otherRightCorner = new Vector3(leftCorner.x, rightCorner.y);
 		cameraCenter = cam!.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, playingFieldZ));
 		topCenter = cam!.ViewportToWorldPoint(new Vector3(0.5f, 1, playingFieldZ));
-
-		#endregion
 	}
-	
+
 
 	public IEnumerator HealBothPlayers()
 	{
@@ -65,8 +65,6 @@ public class GameManager : MonoBehaviour
 		{
 			Player1.Heal();
 			Player2.Heal();
-			Player1.shipState = ShipState.Alive;
-			Player2.shipState = ShipState.Alive;
 			yield return new WaitForSeconds(0.1f);
 		}
 	}
