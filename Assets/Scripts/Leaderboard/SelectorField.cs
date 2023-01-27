@@ -17,7 +17,7 @@ public class SelectorField : MonoBehaviour
     
     private void Start()
     { 
-        // 
+        // Nothing
     }
 
     private void Update()

@@ -43,6 +43,7 @@ public class NameSelector : MonoBehaviour
     {
         SetCurrentFieldInactive();
         Debug.Log("Name is " + builtName);
+        HighscoreManager.Instance.AddScore(123, builtName);
     }
 
     private bool IsLastField()

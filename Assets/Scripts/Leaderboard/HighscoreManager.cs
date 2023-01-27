@@ -24,6 +24,7 @@ public class HighscoreManager : MonoBehaviour
         }
         _xml.CreateHighscoresDirectory();
         Load();
+        DisplayHighscores();
     }
 
     public void DisplayHighscores()
