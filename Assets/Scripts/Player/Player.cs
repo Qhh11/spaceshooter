@@ -37,19 +37,8 @@ public class Player : MonoBehaviour {
 	[Header("UI Elements")]
 	[SerializeField]
 	private PlayerHealthUI healthUI;
-
 	[SerializeField]
 	private AudioSource audioSource;
-
-	// TODO Use when losing
-	// [SerializeField]
-	// private Image transitionScreen;
-
-
-	// [Header("Transition")]
-	// [SerializeField]
-	// private float transitionDuration;
-	// private float currentTransitionTime;
 
 	// Start is called before the first frame update
 	void Start() {
@@ -63,15 +52,6 @@ public class Player : MonoBehaviour {
 	void Update() {
 		HandleKeyInput();
 		HandleShipState();
-
-		// TODO: Should get handled by GameManager in the future
-		// if (shipState == ShipState.Destroyed) {
-		// currentTransitionTime += Time.deltaTime;
-		//
-		// var color = transitionScreen.color;
-		// transitionScreen.color =
-		// 	new Color(color.r, color.g, color.b, (currentTransitionTime / transitionDuration) * 1.25f);
-		// }
 	}
 
 	private void HandleShipState() {
@@ -196,9 +176,9 @@ public class Player : MonoBehaviour {
 	}
 
 	private bool TriedToFlyOutOfView(Vector3 pos) {
-		var posOnScreen = cam.WorldToScreenPoint(pos);
-		return posOnScreen.x <= 40 || posOnScreen.x > cam.pixelWidth - 40 ||
-			   posOnScreen.y <= 10 || posOnScreen.y > cam.pixelHeight - 10;
+		var posOnScreen = cam.WorldToViewportPoint(pos);
+		return posOnScreen.x is < 0.05f or > 0.95f ||
+			   posOnScreen.y is < 0.1f or > 0.7f;
 	}
 
 	private IEnumerator DoShake(bool isLeftOf) {

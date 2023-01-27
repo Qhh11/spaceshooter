@@ -32,6 +32,8 @@ public class Planet : MonoBehaviour
         
         StartCoroutine(cam.GetComponent<CamShaker>().ShakeFadeout(3, .3f));
         yield return new WaitForSeconds(transitionDuration);
+        
+        GameManager.Instance.EndGame();
 
         //muss dann den end game screen laden
         //SceneManager.LoadScene("LoseScene");

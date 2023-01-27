@@ -33,7 +33,7 @@ public class RopeBehaviour : MonoBehaviour {
 		positions = new Vector3[numPoints];
 		lineRenderer.positionCount = numPoints;
 		springJoint = spring.GetComponent<SpringJoint>();
-		
+
 
 		var cam = Camera.main;
 		var viewportToWorldPoint = cam!.ViewportToWorldPoint(Vector3.zero);
@@ -117,7 +117,8 @@ public class RopeBehaviour : MonoBehaviour {
 			var closestPoint = Vector3.zero;
 			var smallestDistance = float.MaxValue;
 			foreach (var pos in positions) {
-				if (meteor == null) break;
+				var coll = meteor.GetCollider();
+				if (meteor == null || coll == null) break;
 				var meteorPos = meteor.gameObject.transform.position;
 				var distance = Vector3.Distance(pos, meteorPos);
 				if (distance < smallestDistance) {
@@ -125,7 +126,7 @@ public class RopeBehaviour : MonoBehaviour {
 					closestPoint = pos;
 				}
 
-				if (!(distance < 1)) continue;
+				if (!(distance < coll.radius * meteor.transform.localScale.x)) continue;
 				meteor.flyDirection = CalculateThrowbackAngle(point0.position, point1.position, Vector3.down);
 				meteor.fallingDown = false;
 				sound.Play();

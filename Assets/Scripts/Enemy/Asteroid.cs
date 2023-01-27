@@ -29,11 +29,13 @@ public class Asteroid : WaveSpawnable {
 	public Vector3 flyDirection = Vector3.zero;
 	public bool fallingDown = true;
 	private Renderer rendererComponent;
+	private SphereCollider colliderComponent;
 
 	// Start is called before the first frame update
 	protected void Awake() {
 		cam = Camera.main;
 		rendererComponent = GetComponent<Renderer>();
+		colliderComponent = GetComponent<SphereCollider>();
 		GameManager.Instance.Meteors.Add(this);
 	}
 
@@ -134,5 +136,7 @@ public class Asteroid : WaveSpawnable {
 	public float GetEnemyScale() => enemyScale;
 
 	public float GetEnemySpeed() => enemySpeed;
+
+	public SphereCollider GetCollider() => colliderComponent;
 
 }
