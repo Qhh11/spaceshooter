@@ -505,7 +505,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 231844437}
-  m_LocalRotation: {x: -0.0061957724, y: -0.0032287447, z: -0.000020005054, w: 0.9999756}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 3.5, z: -9.432}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1011,7 +1011,7 @@ RectTransform:
   m_Children:
   - {fileID: 1641803035}
   m_Father: {fileID: 1928367483}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1232,6 +1232,63 @@ Transform:
   m_Father: {fileID: 924047216}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &644138181
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 7564585945529345297, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
+      propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7564585945529345297, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 490.16437
+      objectReference: {fileID: 0}
+    - target: {fileID: 7564585945529345297, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 228.27393
+      objectReference: {fileID: 0}
+    - target: {fileID: 7564585945529345297, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.102386475
+      objectReference: {fileID: 0}
+    - target: {fileID: 7564585945529345297, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7564585945529345297, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7564585945529345297, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7564585945529345297, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7564585945529345297, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7564585945529345297, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7564585945529345297, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7564585945529345311, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
+      propertyPath: m_Name
+      value: TransitionManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
 --- !u!1 &677267621
 GameObject:
   m_ObjectHideFlags: 0
@@ -1766,7 +1823,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6598aeda16c74af4ea7d32bdee849f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
+  health: 1
   playerSpeed: 12.5
   moveRotation: 10
   shipState: 0
@@ -2504,7 +2561,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6890016623850791023, guid: 0bc1af59c82906942ab4fff9ad3863f5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6890016623850791023, guid: 0bc1af59c82906942ab4fff9ad3863f5, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3524,7 +3581,7 @@ Transform:
   - {fileID: 694744637}
   - {fileID: 436291146}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1293082030
 GameObject:
@@ -3736,7 +3793,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1928367483}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -4657,7 +4714,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37175abc1b63046498c8ab71f29ab3c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameManager: {fileID: 1924307194}
 --- !u!1 &1870301434 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8962ce0abfe81184cb6d30fb12ec551a, type: 3}
@@ -4680,7 +4736,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6598aeda16c74af4ea7d32bdee849f0d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 3
+  health: 1
   playerSpeed: 12.5
   moveRotation: 10
   shipState: 0
@@ -5011,6 +5067,7 @@ GameObject:
   - component: {fileID: 1924307193}
   - component: {fileID: 1924307195}
   - component: {fileID: 1924307194}
+  - component: {fileID: 1924307196}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -5061,6 +5118,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9648e61145b5c6a4fb27d02c5f32620c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1924307196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1924307192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bddbc6658db80bf49a0a9a51d4b33a91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  messages:
+  - actorId: 0
+    message: Hey there, fellow space cat! This is astronaut Whiskers, reporting for
+      comet bouncing duty!
+  - actorId: 1
+    message: This is astronaut Fluffy, ready to save our planet with my trusty space
+      ship and some fancy rope work.
+  - actorId: 0
+    message: Chief Excellence, do you read me? We're all set to start bouncing these
+      comets back into the great unknown.
+  - actorId: 2
+    message: Good luck, astronauts. The fate of our planet rests in your paws. Don't
+      let us down
+  - actorId: 1
+    message: Ha! As if we would. Let's do this, Whiskers
+  - actorId: 0
+    message: You got it, Fluffy. Comet bouncing, engage!
+  actors:
+  - name: Whiskers
+    sprite: {fileID: 0}
+  - name: Fluffy
+    sprite: {fileID: 0}
+  - name: Chief Excellence (transmission ...)
+    sprite: {fileID: 0}
 --- !u!1 &1924695154
 GameObject:
   m_ObjectHideFlags: 0
@@ -5230,8 +5323,8 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 622526495}
-  - {fileID: 498717016}
   - {fileID: 1007623017}
+  - {fileID: 498717016}
   - {fileID: 1505877970}
   m_Father: {fileID: 0}
   m_RootOrder: 5
@@ -5273,7 +5366,7 @@ Transform:
   - {fileID: 1218682187}
   - {fileID: 795422898}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2033975770
 GameObject:

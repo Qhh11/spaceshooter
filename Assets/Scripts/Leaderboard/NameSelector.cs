@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class NameSelector : MonoBehaviour
@@ -11,11 +13,36 @@ public class NameSelector : MonoBehaviour
     public GameObject SelectorCanvas;
     public GameObject HighScoreCanvas;
 
+    public TextMeshProUGUI YourScore;
+    private int score = 0;
+
+    public static void toMenu()
+    {
+        TransitionManager current = FindObjectOfType<TransitionManager>();
+        current.FromLoseToMenu();
+    }
+
+    public static void toGame()
+    {
+        TransitionManager current = FindObjectOfType<TransitionManager>();
+        current.StartGameFromMenu();
+    }
+
     private void Start()
     {
+        try
+        {
+            score = GameManager.Instance.score;
+        }
+        catch (NullReferenceException)
+        {
+            score = 0;
+        }
+
         SelectorCanvas.SetActive(true);
         HighScoreCanvas.SetActive(false);
         SetCurrentFieldActive();
+        YourScore.text = "YOUR SCORE: " + score;
     }
 
     private void Update()
@@ -48,7 +75,7 @@ public class NameSelector : MonoBehaviour
     {
         SetCurrentFieldInactive();
         Debug.Log("Name is " + builtName);
-        HighscoreManager.Instance.AddScore(123, builtName);
+        HighscoreManager.Instance.AddScore(score, builtName);
         SelectorCanvas.SetActive(false);
         HighScoreCanvas.SetActive(true);
     }

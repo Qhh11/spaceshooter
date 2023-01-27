@@ -8,11 +8,11 @@ using UnityEngine.SceneManagement;
 
 public enum PlayState
 {
-    MainMenu = 4,
+    MainMenu = 0,
     GameScene = 1,
     LoseScene = 2,
     WinScene = 3,
-    HighscoreScene = 6
+    HighscoreScene = 5
 }
 
 public class TransitionManager : MonoBehaviour
@@ -59,7 +59,9 @@ public class TransitionManager : MonoBehaviour
                 StartCoroutine(LoadScene(state));
                 break;
             default:
-                throw new ArgumentOutOfRangeException(nameof(state), state, null);
+                EndState();
+                StartCoroutine(LoadScene(state));
+                break;
         }
     }
 
@@ -96,6 +98,7 @@ public class TransitionManager : MonoBehaviour
 
     public void FromLoseToMenu()
     {
+        
         Instance.SwitchState(PlayState.MainMenu);
     }
     
