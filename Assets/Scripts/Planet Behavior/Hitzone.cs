@@ -6,17 +6,19 @@ using UnityEngine;
 public class Hitzone : MonoBehaviour
 {
     public HealthBar healthBar;
-    
+
+    private Camera cam;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        cam = Camera.main;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        transform.position = cam.ViewportToWorldPoint(new Vector3(0.5f, -0.1f, -cam.transform.position.z));
     }
 
     //Asteroid kollidiert mit dem Planeten
@@ -31,6 +33,7 @@ public class Hitzone : MonoBehaviour
         {
             float damage = cosine.GetEnemyScale()*2 * (cosine.GetEnemySpeed()/2)+5;
             healthBar.DamageTaken(damage);
+            cosine.OnRespawnRandomize();
             return;
         }
 
@@ -41,6 +44,7 @@ public class Hitzone : MonoBehaviour
         {
             float damage = enemy.GetEnemyScale()*2 * (enemy.GetEnemySpeed()/2);
             healthBar.DamageTaken(damage);
+            enemy.OnRespawnRandomize();
             return;
         }
     }

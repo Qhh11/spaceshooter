@@ -117,9 +117,8 @@ public class Asteroid : WaveSpawnable {
 	private void OnBecameInvisible() {
 		if (!fallingDown) {
 			GameManager.Instance.score += score;
+			OnRespawnRandomize();
 		}
-
-		OnRespawnRandomize();
 	}
 
 	public virtual void Hide() {
