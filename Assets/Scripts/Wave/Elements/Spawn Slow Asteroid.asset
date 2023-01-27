@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 8647572759830582288, guid: 51f95422d7d994844acaba7252e98d90, type: 3}
   assignedTag: SlowAsteroid
-  minSpeed: 1
-  maxSpeed: 1.25
+  minSpeed: 1.5
+  maxSpeed: 2
   minRotationSpeed: 0.5
   maxRotationSpeed: 2
   minScale: 0.4

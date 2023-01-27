@@ -43,7 +43,7 @@ public class heart : MonoBehaviour
             animated = true;
             if (count == 7)
             {
-                Debug.Log("is over");
+                //Debug.Log("is over");
                 GameManager gameManager = GameManager.Instance;
                 StartCoroutine(GameManager.Instance.HealBothPlayers());
                 StartCoroutine(Rotate(2f));
