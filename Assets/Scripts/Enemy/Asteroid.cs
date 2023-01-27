@@ -122,13 +122,13 @@ public class Asteroid : WaveSpawnable {
 		OnRespawnRandomize();
 	}
 
-	public void Hide() {
-		if (isActiveAndEnabled && rendererComponent is null) return;
+	public virtual void Hide() {
+		if (!isActiveAndEnabled || rendererComponent is null) return;
 		rendererComponent.enabled = false;
 	}
 
-	public void Show() {
-		if (isActiveAndEnabled && rendererComponent is null) return;
+	public virtual void Show() {
+		if (!isActiveAndEnabled || rendererComponent is null) return;
 		rendererComponent.enabled = true;
 	}
 

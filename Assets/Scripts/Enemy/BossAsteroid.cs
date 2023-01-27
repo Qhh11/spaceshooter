@@ -113,4 +113,7 @@ public class BossAsteroid : Asteroid {
 		}
 	}
 
+	public override void Hide() { }
+	public override void Show() { }
+
 }
