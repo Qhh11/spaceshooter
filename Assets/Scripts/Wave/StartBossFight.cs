@@ -19,18 +19,23 @@ public class StartBossFight : SpawnAsteroidWaveElement {
 		});
 
 		void OnPanOutFinished() {
+			HeartPowerUpManager.instance.UpdateSpawnPosition();
 			gm.SetWaveSpawnablePositions();
 			gm.Meteors.ForEach(a => {
 				a.Show();
 				a.OnRespawnRandomize();
 				gm.isMovingAsteroids = true;
+				gm.playersInvincible = false;
 			});
+			GameManager.Instance.playersCanMove = true;
 			spawnTask.Invoke();
 		}
 
 		dialogTrigger.AddCallback(() => {
 			BossFightManager.instance.PanCameraOut(OnPanOutFinished);
 		});
+		gm.playersInvincible = true;
+		GameManager.Instance.playersCanMove = false;
 		dialogTrigger.StartDialogue();
 	}
 

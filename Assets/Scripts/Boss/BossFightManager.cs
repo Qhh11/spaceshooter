@@ -81,6 +81,7 @@ public class BossFightManager : MonoBehaviour {
 				a.Show();
 			});
 			gm.isMovingAsteroids = true;
+			HeartPowerUpManager.instance.UpdateSpawnPosition();
 		});
 
 		var player1 = GameManager.Player1;
