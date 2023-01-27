@@ -22,6 +22,7 @@ public class HealthBar : MonoBehaviour
         healthBar.value = maxHP;
         currentHP = maxHP;
         explosionPlayed = false;
+        inner.color = new Color(0f, 1f, 0f, 1f);
     }
 
     // Update is called once per frame
@@ -62,7 +63,7 @@ public class HealthBar : MonoBehaviour
 		}
     }
 
-    //falls Planet-HP 0: End-Sequenz !!!NOT WORKING 
+    //falls Planet-HP 0: End-Sequenz
     public void DestroyPlanet()
     {
 	    StartCoroutine(earth.DestroyItself());
