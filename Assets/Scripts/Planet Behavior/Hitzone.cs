@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class Hitzone : MonoBehaviour
@@ -8,6 +9,7 @@ public class Hitzone : MonoBehaviour
     public HealthBar healthBar;
 
     private Camera cam;
+    public GameObject explosionBoss;
 
     // Start is called before the first frame update
     void Start()
@@ -31,9 +33,20 @@ public class Hitzone : MonoBehaviour
 
         if (cosine != null)
         {
-            float damage = cosine.GetEnemyScale()*2 * (cosine.GetEnemySpeed()/2)+5;
+            float damage = cosine.GetEnemyScale()*2 * (cosine.GetEnemySpeed()/2)*10;
             healthBar.DamageTaken(damage);
             cosine.OnRespawnRandomize();
+            return;
+        }
+        
+        //Boss Asteroid -> Immediate Death upon collision
+        var boss = other.GetComponent<BossAsteroid>();
+
+        if (boss != null)
+        {
+            healthBar.DamageTaken(healthBar.maxHP);
+            Destroy(boss.gameObject);
+            Instantiate(explosionBoss, boss.transform.position, Quaternion.identity);
             return;
         }
 
@@ -42,10 +55,9 @@ public class Hitzone : MonoBehaviour
         
         if (enemy != null)
         {
-            float damage = enemy.GetEnemyScale()*2 * (enemy.GetEnemySpeed()/2);
+            float damage = enemy.GetEnemyScale()*2 * (enemy.GetEnemySpeed()/2)*5;
             healthBar.DamageTaken(damage);
             enemy.OnRespawnRandomize();
-            return;
         }
     }
 
