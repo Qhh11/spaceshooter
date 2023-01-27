@@ -45,7 +45,6 @@ public class heart : MonoBehaviour {
 			animated = true;
 			if (count == 7) {
 				//Debug.Log("is over");
-				GameManager gameManager = GameManager.Instance;
 				StartCoroutine(GameManager.Instance.HealBothPlayers());
 				StartCoroutine(Rotate(2f));
 				hit = false;
@@ -61,37 +60,6 @@ public class heart : MonoBehaviour {
 			}
 		}
 	}
-    // Update is called once per frame
-    void Update()
-    {
-        var itemSpeedNormalized = itemSpeed * Time.deltaTime;
-        if (!hit && !animated)
-        {
-            transform.Translate(itemSpeedNormalized * Vector3.right, Space.Self);
-        }
-        else
-        {
-            hit = true;
-            animated = true;
-            if (count == 7)
-            {
-                //Debug.Log("is over");
-                GameManager gameManager = GameManager.Instance;
-                StartCoroutine(GameManager.Instance.HealBothPlayers());
-                StartCoroutine(Rotate(2f));
-                hit = false;
-                return;
-            }
-            transform.position =
-                    Vector3.MoveTowards(transform.position, currentWaypoint.position, moveSpeed * Time.deltaTime);
-            if (Vector3.Distance(transform.position, currentWaypoint.position) < distance)
-                {
-                    transform.position = currentWaypoint.position;
-                    currentWaypoint = waypoints.GetNextWaypoint(currentWaypoint);
-                    count++;
-                }
-        }
-    }
 
 	IEnumerator Rotate(float duration) {
 		transform.position =
