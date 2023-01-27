@@ -8,10 +8,11 @@ using UnityEngine.SceneManagement;
 
 public enum PlayState
 {
-    MainMenu = 0,
+    MainMenu = 4,
     GameScene = 1,
     LoseScene = 2,
-    WinScene = 3
+    WinScene = 3,
+    HighscoreScene = 6
 }
 
 public class TransitionManager : MonoBehaviour
@@ -90,12 +91,13 @@ public class TransitionManager : MonoBehaviour
 
     public void FromGameToLose()
     {
-        Instance.SwitchState(PlayState.LoseScene);
+        Instance.SwitchState(PlayState.HighscoreScene);
     }
 
     public void FromLoseToMenu()
     {
         Instance.SwitchState(PlayState.MainMenu);
     }
+    
 }
 

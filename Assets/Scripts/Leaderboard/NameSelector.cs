@@ -8,8 +8,13 @@ public class NameSelector : MonoBehaviour
     private int currentIndex = 0;
     private string builtName;
 
+    public GameObject SelectorCanvas;
+    public GameObject HighScoreCanvas;
+
     private void Start()
     {
+        SelectorCanvas.SetActive(true);
+        HighScoreCanvas.SetActive(false);
         SetCurrentFieldActive();
     }
 
@@ -44,6 +49,8 @@ public class NameSelector : MonoBehaviour
         SetCurrentFieldInactive();
         Debug.Log("Name is " + builtName);
         HighscoreManager.Instance.AddScore(123, builtName);
+        SelectorCanvas.SetActive(false);
+        HighScoreCanvas.SetActive(true);
     }
 
     private bool IsLastField()

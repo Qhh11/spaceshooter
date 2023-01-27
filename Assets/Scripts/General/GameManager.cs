@@ -44,6 +44,11 @@ public class GameManager : MonoBehaviour
 		SetWaveSpawnablePositions();
 	}
 
+	public void EndGame()
+	{
+		TransitionManager.Instance.FromGameToLose();
+	}
+
 	public void SetWaveSpawnablePositions() {
 		var cam = Camera.main;
 		var camPos = cam!.transform.position;

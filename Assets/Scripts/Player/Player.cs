@@ -231,6 +231,7 @@ public class Player : MonoBehaviour {
 		if (health <= 0) {
 			shipState = ShipState.Destroyed;
 		}
+		if (GameManager.Instance.IsBothDead()) GameManager.Instance.EndGame();
 	}
 
 	public float GetMoveSpeedModifier() => health / 3f;

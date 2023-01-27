@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Setting.unity
     guid: e4de061e7936a2a41afc68f16828e20c
+  - enabled: 1
+    path: Assets/Scenes/HighscoreLoseScene.unity
+    guid: fda321662fd6885468101b009e192a2c
   m_configObjects: {}
