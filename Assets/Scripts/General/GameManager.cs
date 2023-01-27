@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 	public static GameManager Instance;
 	public readonly List<Asteroid> Meteors = new();
 	public bool isMovingAsteroids = true;
+	public bool playersInvincible;
+	public bool playersCanMove = true;
 	public int score;
 
 	public static Player Player1;

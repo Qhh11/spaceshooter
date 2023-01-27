@@ -112,7 +112,7 @@ public class Player : MonoBehaviour {
 	#region Movement Management
 
 	private void MoveShip() {
-		if (BossFightManager.instance.IsCurrentlyEnding()) return;
+		if (BossFightManager.instance.IsCurrentlyEnding() || !GameManager.Instance.playersCanMove) return;
 		var trans = transform;
 		var pos = trans.position;
 
@@ -213,6 +213,8 @@ public class Player : MonoBehaviour {
 
 	public int GetHealth() => health;
 
+	public bool HasTakenDamage() => health < 3;
+
 	public void Heal(int amount = 1) {
 		if (health >= 3) return;
 		health += Math.Min(3, amount);
@@ -266,7 +268,7 @@ public class Player : MonoBehaviour {
 	private void OnTriggerEnter(Collider other) {
 		var enemy = other.GetComponent<Asteroid>();
 
-		if (enemy == null || health <= 0) return;
+		if (enemy == null || health <= 0 || GameManager.Instance.playersInvincible) return;
 		enemy.PlayExplosion();
 		enemy.OnRespawnRandomize();
 		audioSource.Play();
@@ -274,24 +276,6 @@ public class Player : MonoBehaviour {
 		if (enemy is BossAsteroid) TakeDamage(health);
 		else TakeDamage();
 	}
-
-	// TODO: Könnte man für die Lose Condition (Planet wird zerstört) verwenden
-	// private IEnumerator Death() {
-	// 	shipState = Health > 0 ? ShipState.Respawning : ShipState.Death;
-	// 	Instantiate(explosion, transform.position, Quaternion.identity);
-	// 	StartCoroutine(cam.GetComponent<CamShaker>().ShakeFadeout(2, .3f));
-	// 	renderer.enabled = false;
-	//
-	// 	yield return new WaitForSeconds(transitionDuration);
-	//
-	// 	if (Health <= 0) {
-	// 		SceneManager.LoadScene("LoseScene");
-	// 	} else {
-	// 		transform.position = new Vector3(respawnPoint.x, respawnPoint.y, 0);
-	// 		renderer.enabled = true;
-	// 		shipState = ShipState.Playing;
-	// 	}
-	// }
 
 	public Vector3 GetStartPosition() => startPosition;
 
