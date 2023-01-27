@@ -37,6 +37,9 @@ public class Player : MonoBehaviour {
 	[Header("UI Elements")]
 	[SerializeField]
 	private PlayerHealthUI healthUI;
+
+	[SerializeField] private Image saveMeImg;
+
 	[SerializeField]
 	private AudioSource audioSource;
 
@@ -45,6 +48,7 @@ public class Player : MonoBehaviour {
 		cam = Camera.main;
 		GetComponent<Renderer>();
 		healthUI.UpdateUI();
+		saveMeImg.enabled = false;
 		startPosition = transform.position;
 	}
 
@@ -202,6 +206,7 @@ public class Player : MonoBehaviour {
 
 		if (health > 0) {
 			shipState = ShipState.Alive;
+			saveMeImg.enabled = false;
 		}
 	}
 
@@ -212,6 +217,7 @@ public class Player : MonoBehaviour {
 
 		if (health <= 0) {
 			shipState = ShipState.Destroyed;
+			saveMeImg.enabled = true;
 		}
 		if (GameManager.Instance.IsBothDead()) GameManager.Instance.EndGame();
 	}

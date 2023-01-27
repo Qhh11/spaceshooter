@@ -48,6 +48,13 @@ public class GameManager : MonoBehaviour
 		if (Instance == null) Instance = this;
 		
 		SetWaveSpawnablePositions();
+		GameStartDialogue();
+	}
+
+	public void GameStartDialogue()
+	{
+		DialogTrigger trig = GetComponent<DialogTrigger>();
+		trig.StartDialogue();
 	}
 
 	public void EndGame()

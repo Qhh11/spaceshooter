@@ -19,12 +19,15 @@ public class DialogueManager : MonoBehaviour {
 	public static bool isActive = false;
 	public static bool isDone = false;
 
+	private AudioSource _audioSource;
+	[SerializeField] private AudioClip nya;
+
 	private Message messageToDisplay;
 	private Actor actorToDisplay;
 
 	private Animator _anim;
 
-	public Action callbacks;
+	public Action callbacks = () => {};
 	private DialogTrigger dialogTrigger;
 
 	// Start is called before the first frame update
@@ -33,6 +36,9 @@ public class DialogueManager : MonoBehaviour {
 		if (isActive) return;
 		dialogTrigger = trigger;
 		Debug.Log("Conversation started!");
+		GameManager.Instance.playersCanMove = false;
+		WaveManager.instance.isTrackingTime = false;
+		GameManager.Instance.isMovingAsteroids = false;
 		currentMessages = messages;
 		currentActors = actors;
 		activeMessage = 0;
@@ -43,6 +49,7 @@ public class DialogueManager : MonoBehaviour {
 
 	void Start() {
 		_anim = GetComponent<Animator>();
+		_audioSource = GetComponent<AudioSource>();
 	}
 
 	void DisplayMessage() {
@@ -65,13 +72,20 @@ public class DialogueManager : MonoBehaviour {
 		}
 	}
 
+	private void PlaySound()
+	{
+		_audioSource.pitch = UnityEngine.Random.Range(1.3f,1.7f);
+		_audioSource.PlayOneShot(nya);
+	}
+
 	IEnumerator AppendText(String msg) {
 		dialogTrigger.typingSound.Play();
 		textToDisplay = "";
 		foreach (Char c in msg) {
 			textToDisplay += c;
 			messageText.text = textToDisplay;
-			yield return new WaitForSeconds(WaitTime.getWaitTime(c));
+			if (c != ' ') PlaySound();
+				yield return new WaitForSeconds(WaitTime.getWaitTime(c));
 			if (isDone) break;
 		}
 
@@ -81,6 +95,9 @@ public class DialogueManager : MonoBehaviour {
 
 	void CloseDialogue() {
 		isActive = false;
+		GameManager.Instance.playersCanMove = true;
+		WaveManager.instance.isTrackingTime = true;
+		GameManager.Instance.isMovingAsteroids = true;
 		_anim.SetTrigger("ClosePanel");
 		callbacks.Invoke();
 		callbacks = () => { };
