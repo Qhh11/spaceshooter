@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class VisualConfiguration : MonoBehaviour {
 
-    public float moveSpeed;
+    public Vector2 moveSpeed = new Vector2(1, 1);
 
 }

@@ -3679,7 +3679,7 @@ MonoBehaviour:
       waveElement: {fileID: 11400000, guid: e12a1a7f3ac58cf45a5a645e644191ec, type: 2}
       amount: 1
     probabilisticEvents: []
-  - afterGameStart: 0
+  - afterGameStart: 45
     events:
     - afterWaveStart: 0
       waveElement: {fileID: 11400000, guid: 21710764c21032e438d682b5ee560a60, type: 2}
@@ -5473,7 +5473,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 8
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -7433,7 +7433,6 @@ MonoBehaviour:
   - {fileID: 2087062213}
   prefabs:
   - {fileID: 8647572759830582288, guid: f3fb11f75cf08fd4b82112e0b8745421, type: 3}
-  - {fileID: 1762956031497668103, guid: 8fba440e0cd6d974c865f79043c90181, type: 3}
   distanceThreshold: 50
   removalThreshold: 3
   timeBetweenEvents: 10

@@ -50,7 +50,7 @@ public class RandomEvent : MonoBehaviour {
 		
 		var moveDir = (end.position - trans.position).normalized;
 		var visualConfig = obj.GetComponent<VisualConfiguration>();
-		var moveSpeed = visualConfig != null ? visualConfig.moveSpeed : 1;
+		var moveSpeed = visualConfig != null ? Random.Range(visualConfig.moveSpeed.x, visualConfig.moveSpeed.y) : 1;
 		
 		while (Vector3.Distance(trans.position, end.position) > removalThreshold) {
 			yield return new WaitForEndOfFrame();
