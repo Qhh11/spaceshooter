@@ -29,8 +29,9 @@ public class DialogueManager : MonoBehaviour {
 
 	// Start is called before the first frame update
 
-	public void OpenDialogue(Message[] messages, Actor[] actors) {
-		if (isActive == true) return;
+	public void OpenDialogue(DialogTrigger trigger, Message[] messages, Actor[] actors) {
+		if (isActive) return;
+		dialogTrigger = trigger;
 		Debug.Log("Conversation started!");
 		currentMessages = messages;
 		currentActors = actors;

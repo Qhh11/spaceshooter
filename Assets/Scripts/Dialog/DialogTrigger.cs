@@ -9,7 +9,7 @@ public class DialogTrigger : MonoBehaviour {
 	[SerializeField] public AudioSource typingSound;
 	public void StartDialogue() {
 		manager ??= FindObjectOfType<DialogueManager>();
-		manager.OpenDialogue(messages, actors);
+		manager.OpenDialogue(this, messages, actors);
 	}
 
 	public void AddCallback(Action action) {

@@ -95,7 +95,10 @@ public class Asteroid : WaveSpawnable {
 
 		#region Move towards randomized offset of camera center
 
-		flyDirection = (GameManager.Instance.GetCameraCenter() - randomSpawnPos).normalized;
+		var crx = Random.Range(gm.LeftOfCameraCenter().x, gm.RightOfCameraCenter().x);
+		var randomPointOnCenter = new Vector3(crx, gm.GetCameraCenter().y, gm.GetCameraCenter().z);
+		Debug.Log($"Flying towards {randomPointOnCenter}");
+		flyDirection = (randomPointOnCenter - randomSpawnPos).normalized;
 
 		#endregion
 
