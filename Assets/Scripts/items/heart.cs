@@ -24,7 +24,6 @@ public class heart : MonoBehaviour {
 	// Start is called before the first frame update
 	void Start() {
 		cam = Camera.main;
-		SetPosition();
 	}
 
 	// Update is called once per frame
@@ -77,13 +76,7 @@ public class heart : MonoBehaviour {
 		transform.rotation = startRot;
 		Destroy(gameObject);
 	}
-
-	public void SetPosition() {
-		if (cam is null || cam.IsDestroyed()) return;
-
-		transform.position = new Vector3(-14f, 7.88f, 0f);
-	}
-
+	
 	private void SetHeart() {
 		currentWaypoint = waypoints.getStart();
 		transform.position =

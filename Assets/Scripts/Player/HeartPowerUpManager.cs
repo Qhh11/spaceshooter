@@ -8,14 +8,13 @@ public class HeartPowerUpManager : MonoBehaviour {
 	[SerializeField]
 	private GameObject heartPrefab;
 	public float heartCooldown;
+	[HideInInspector]
 	public GameObject heart;
-	[SerializeField]
-	private Camera cam;
-	private Vector3 spawnPosition;
+	public Camera cam;
+	public Vector3 spawnPosition;
 
 	private void Start() {
 		instance = this;
-		cam = Camera.main;
 		UpdateSpawnPosition();
 	}
 
