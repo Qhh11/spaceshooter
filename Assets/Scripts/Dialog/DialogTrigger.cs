@@ -6,7 +6,7 @@ public class DialogTrigger : MonoBehaviour {
 	public Message[] messages;
 	public Actor[] actors;
 	private DialogueManager manager;
-
+	[SerializeField] public AudioSource typingSound;
 	public void StartDialogue() {
 		manager ??= FindObjectOfType<DialogueManager>();
 		manager.OpenDialogue(messages, actors);

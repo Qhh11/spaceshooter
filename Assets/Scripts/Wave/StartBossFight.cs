@@ -5,8 +5,10 @@ using UnityEngine;
 public class StartBossFight : SpawnAsteroidWaveElement {
 
 	public GameObject poofParticles;
-
+	private BossFightManager bossFightManager; 
 	public override void BeforeSpawn(Action spawnTask) {
+		bossFightManager.playBGM.Pause();
+		bossFightManager.bossBGM.Play();
 		var dialogTrigger = FindObjectOfType<DialogTrigger>();
 		dialogTrigger.gameObject.transform.position += new Vector3(0, 100, 0);
 		WaveManager.instance.isTrackingTime = false;

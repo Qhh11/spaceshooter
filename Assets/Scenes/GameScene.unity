@@ -152,7 +152,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c8883461ff471d7499e5154b355446d5, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.3
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1663,6 +1663,10 @@ PrefabInstance:
     - target: {fileID: 7564585945529345297, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7564585945529345310, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
+      propertyPath: currentState
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7564585945529345311, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
       propertyPath: m_Name
@@ -3786,7 +3790,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 4e7be0f7157e91c4595e5128c946b0f5, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -4679,7 +4683,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1364818915}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4699,7 +4703,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 3f5c01dd1e7789f45bff62bb48e39b4b, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.4
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -4887,7 +4891,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: bbac7bc08af61084d91f5738551e6f1d, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -6287,6 +6291,8 @@ MonoBehaviour:
   panTime: 0
   targetPanTime: 0
   isPanning: 0
+  playBGM: {fileID: 1179615652}
+  bossBGM: {fileID: 28314562}
 --- !u!114 &1879899390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6313,6 +6319,7 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: cd59ecd11a40e8d46954f8dfe3d821a1, type: 3}
   - name: Fluffy
     sprite: {fileID: 21300000, guid: 2a8b75e7f31a23e43954ca02641a3c7a, type: 3}
+  typingSound: {fileID: 1196481013}
 --- !u!1 &1891952592
 GameObject:
   m_ObjectHideFlags: 0
@@ -6508,6 +6515,7 @@ MonoBehaviour:
     sprite: {fileID: 0}
   - name: Chief Excellence (transmission ...)
     sprite: {fileID: 0}
+  typingSound: {fileID: 1196481013}
 --- !u!114 &1924307197
 MonoBehaviour:
   m_ObjectHideFlags: 0

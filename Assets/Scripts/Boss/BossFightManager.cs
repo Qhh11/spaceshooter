@@ -25,10 +25,14 @@ public class BossFightManager : MonoBehaviour {
 	[SerializeField]
 	private bool isPanning;
 
+	[SerializeField] public AudioSource playBGM;
+	[SerializeField] public AudioSource bossBGM;
+
 	private void Awake() {
 		instance = this;
 		dolly = virtualCam.GetCinemachineComponent<CinemachineTrackedDolly>();
 		dolly.m_PositionUnits = CinemachinePathBase.PositionUnits.Normalized;
+		
 	}
 
 	private void Update() {
@@ -95,6 +99,7 @@ public class BossFightManager : MonoBehaviour {
 			a.Hide();
 			Instantiate(bossDestroyParticles, a.transform.position, Quaternion.identity);
 		});
+		bossBGM.Pause();
 	}
 
 	public bool IsCurrentlyEnding() {

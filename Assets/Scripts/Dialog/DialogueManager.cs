@@ -25,6 +25,7 @@ public class DialogueManager : MonoBehaviour {
 	private Animator _anim;
 
 	public Action callbacks;
+	private DialogTrigger dialogTrigger;
 
 	// Start is called before the first frame update
 
@@ -64,6 +65,7 @@ public class DialogueManager : MonoBehaviour {
 	}
 
 	IEnumerator AppendText(String msg) {
+		dialogTrigger.typingSound.Play();
 		textToDisplay = "";
 		foreach (Char c in msg) {
 			textToDisplay += c;
@@ -82,6 +84,7 @@ public class DialogueManager : MonoBehaviour {
 		callbacks.Invoke();
 		callbacks = () => { };
 		Debug.Log("Conversation ended!");
+		dialogTrigger.typingSound.Pause();
 	}
 
 	// Update is called once per frame
