@@ -27,6 +27,7 @@ public class BossFightManager : MonoBehaviour {
 
 	[SerializeField] public AudioSource playBGM;
 	[SerializeField] public AudioSource bossBGM;
+	[SerializeField] public AudioSource DeathSound;
 
 	private void Awake() {
 		instance = this;
@@ -75,6 +76,7 @@ public class BossFightManager : MonoBehaviour {
 	}
 
 	public void OnBossFightEnd() {
+		DeathSound.Play();
 		var gm = GameManager.Instance;
 		PanCameraIn(() => {
 			WaveManager.instance.isTrackingTime = true;
@@ -100,6 +102,7 @@ public class BossFightManager : MonoBehaviour {
 			Instantiate(bossDestroyParticles, a.transform.position, Quaternion.identity);
 		});
 		bossBGM.Pause();
+		playBGM.Play();
 	}
 
 	public bool IsCurrentlyEnding() {
