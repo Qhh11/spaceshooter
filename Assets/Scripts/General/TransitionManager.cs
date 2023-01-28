@@ -8,6 +8,7 @@ public enum PlayState
     GameScene = 1,
     LoseScene = 2,
     WinScene = 3,
+    SettingScene = 4,
     HighscoreScene = 5
 }
 
@@ -54,6 +55,10 @@ public class TransitionManager : MonoBehaviour
                 EndState();
                 StartCoroutine(LoadScene(state));
                 break;
+            case PlayState.SettingScene:
+                EndState();
+                StartCoroutine(LoadScene(state));
+                break;
             default:
                 EndState();
                 StartCoroutine(LoadScene(state));
@@ -97,6 +102,16 @@ public class TransitionManager : MonoBehaviour
         
         Instance.SwitchState(PlayState.MainMenu);
     }
-    
+
+    public void FromMenuToSetting()
+    {
+        Instance.SwitchState(PlayState.SettingScene);
+    }
+
+    public void FromSettingToMenu()
+    {
+        Instance.SwitchState(PlayState.MainMenu);
+    }
+
 }
 
