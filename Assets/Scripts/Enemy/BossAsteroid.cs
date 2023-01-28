@@ -32,10 +32,23 @@ public class BossAsteroid : Asteroid {
 
 		var canvasTransform = canvas.transform;
 		canvasTransform.LookAt(cam!.transform);
+		
+		if (!shouldRespawn || BossFightManager.instance.awaitingStart) return;
+		shouldRespawn = false;
+		OnRespawnRandomize();
 	}
 
 	public override void OnRespawnRandomize() {
+		if (markedForRemoval) {
+			GameManager.Instance.Meteors.Remove(this);
+			Destroy(gameObject);
+			return;
+		}
 		if (cam is null || cam.IsDestroyed() || respawnAmount == 0) return;
+		if (BossFightManager.instance.awaitingStart) {
+			shouldRespawn = true;
+			return;
+		}
 		respawnAmount--;
 		var trans = gameObject.transform;
 

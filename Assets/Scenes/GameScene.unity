@@ -3789,6 +3789,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentObject: {fileID: 1579142848}
+  trackedTime: 0
   waves:
   - afterGameStart: 0
     events:
@@ -3814,27 +3815,18 @@ MonoBehaviour:
       waveElement: {fileID: 11400000, guid: 21710764c21032e438d682b5ee560a60, type: 2}
       amount: 1
     - afterWaveStart: 1
-      waveElement: {fileID: 11400000, guid: 12a9d63a96e438945b4d23b3c943cdb1, type: 2}
-      amount: 2
-    - afterWaveStart: 1
       waveElement: {fileID: 11400000, guid: 3a17f46490a34994ead874ff255d7715, type: 2}
       amount: 1
     - afterWaveStart: 1
+      waveElement: {fileID: 11400000, guid: 12a9d63a96e438945b4d23b3c943cdb1, type: 2}
+      amount: 2
+    - afterWaveStart: 1
       waveElement: {fileID: 11400000, guid: e7bb7385ceca9644e821777e3e57baee, type: 2}
       amount: 1
-    probabilisticEvents: []
-  - afterGameStart: 50
-    events:
-    - afterWaveStart: 0
+    - afterWaveStart: 2.5
       waveElement: {fileID: 11400000, guid: e7bb7385ceca9644e821777e3e57baee, type: 2}
       amount: 1
-    - afterWaveStart: 5
-      waveElement: {fileID: 11400000, guid: 2beb8cf959a0239428c68c94d10e8069, type: 2}
-      amount: 1
-    probabilisticEvents: []
-  - afterGameStart: 60
-    events:
-    - afterWaveStart: 3
+    - afterWaveStart: 4
       waveElement: {fileID: 11400000, guid: e7bb7385ceca9644e821777e3e57baee, type: 2}
       amount: 1
     probabilisticEvents: []
@@ -3850,10 +3842,31 @@ MonoBehaviour:
   - afterGameStart: 80
     events:
     - afterWaveStart: 0
-      waveElement: {fileID: 11400000, guid: b13a4120394ed70479aa596cb00e6fb3, type: 2}
+      waveElement: {fileID: 11400000, guid: 2beb8cf959a0239428c68c94d10e8069, type: 2}
+      amount: 1
+    - afterWaveStart: 0
+      waveElement: {fileID: 11400000, guid: 2beb8cf959a0239428c68c94d10e8069, type: 2}
       amount: 1
     probabilisticEvents: []
   - afterGameStart: 90
+    events:
+    - afterWaveStart: 0
+      waveElement: {fileID: 11400000, guid: 5fc4516455f50564fa61f42c98596901, type: 2}
+      amount: 1
+    - afterWaveStart: 1
+      waveElement: {fileID: 11400000, guid: 986f24b59fed12d4c889698786efa1fe, type: 2}
+      amount: 1
+    probabilisticEvents: []
+  - afterGameStart: 100
+    events:
+    - afterWaveStart: 0
+      waveElement: {fileID: 11400000, guid: 986f24b59fed12d4c889698786efa1fe, type: 2}
+      amount: 1
+    - afterWaveStart: 5
+      waveElement: {fileID: 11400000, guid: 54549f501f307404f847c65c456bb019, type: 2}
+      amount: 1
+    probabilisticEvents: []
+  - afterGameStart: 120
     events:
     - afterWaveStart: 0
       waveElement: {fileID: 11400000, guid: b13a4120394ed70479aa596cb00e6fb3, type: 2}

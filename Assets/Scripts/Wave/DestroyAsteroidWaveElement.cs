@@ -8,4 +8,11 @@ public class DestroyAsteroidWaveElement : DestroyingWaveElement {
 		return ws != null && ws.objectTag == template.assignedTag;
 	}
 
+	public override void PerformDestruction(GameObject obj) {
+		var asteroid = obj.GetComponent<Asteroid>();
+		if (asteroid == null) return;
+		
+		asteroid.MarkForRemoval();
+	}
+
 }

@@ -12,6 +12,7 @@ public class BossFightManager : MonoBehaviour {
 	[SerializeField]
 	private GameObject bossDestroyParticles;
 	public List<BossAsteroid> activeBosses = new();
+	public bool awaitingStart;
 	[Header("UI transformation components")]
 	[SerializeField]
 	private CinemachineVirtualCamera virtualCam;
@@ -25,15 +26,16 @@ public class BossFightManager : MonoBehaviour {
 	[SerializeField]
 	private bool isPanning;
 
-	[SerializeField] public AudioSource playBGM;
-	[SerializeField] public AudioSource bossBGM;
+	[SerializeField]
+	public AudioSource playBGM;
+	[SerializeField]
+	public AudioSource bossBGM;
 	[SerializeField] public AudioSource DeathSound;
 
 	private void Awake() {
 		instance = this;
 		dolly = virtualCam.GetCinemachineComponent<CinemachineTrackedDolly>();
 		dolly.m_PositionUnits = CinemachinePathBase.PositionUnits.Normalized;
-		
 	}
 
 	private void Update() {
@@ -44,6 +46,52 @@ public class BossFightManager : MonoBehaviour {
 
 	public float GetTargetPanTime() => targetPanTime;
 	public bool IsPanning() => isPanning;
+
+	public void StartBossFight(Action spawnTask) {
+		StartCoroutine(AwaitAllAsteroids(spawnTask));
+	}
+
+	private IEnumerator AwaitAllAsteroids(Action spawnTask) {
+		var gm = GameManager.Instance;
+		while (gm.Meteors.Any(x => !x.shouldRespawn)) {
+			yield return new WaitForEndOfFrame();
+		}
+
+		DoStartBossFight(spawnTask);
+	}
+
+	private void DoStartBossFight(Action spawnTask) {
+		var dialogTrigger = FindObjectOfType<DialogTrigger>();
+		dialogTrigger.gameObject.transform.position += new Vector3(0, 100, 0);
+
+		var gm = GameManager.Instance;
+		gm.isMovingAsteroids = false;
+		gm.Meteors.ForEach(a => {
+			//Instantiate(poofParticles, a.transform.position, Quaternion.identity);
+			a.Hide();
+		});
+
+		void OnPanOutFinished() {
+			HeartPowerUpManager.instance.UpdateSpawnPosition();
+			gm.SetWaveSpawnablePositions();
+			gm.Meteors.ForEach(a => {
+				a.Show();
+				a.OnRespawnRandomize();
+				awaitingStart = false;
+				gm.isMovingAsteroids = true;
+				gm.playersInvincible = false;
+			});
+			GameManager.Instance.playersCanMove = true;
+			spawnTask.Invoke();
+		}
+
+		dialogTrigger.AddCallback(() => {
+			instance.PanCameraOut(OnPanOutFinished);
+		});
+		gm.playersInvincible = true;
+		GameManager.Instance.playersCanMove = false;
+		dialogTrigger.StartDialogue();
+	}
 
 	public void PanCameraOut(Action taskAfterwards = null) {
 		if (isPanning) return;

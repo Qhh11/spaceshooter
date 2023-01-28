@@ -9,10 +9,11 @@ public class WaveManager : MonoBehaviour {
 	[Tooltip("Parent object used to group all asteroids under")]
 	[SerializeField]
 	private GameObject parentObject;
+	[SerializeField]
+	private float trackedTime;
 	[Tooltip("All specified waves")]
 	[SerializeField]
 	private Wave[] waves;
-	private float trackedTime;
 	private Camera cam;
 	public bool isTrackingTime = true;
 

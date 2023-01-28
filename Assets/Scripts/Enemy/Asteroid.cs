@@ -28,8 +28,10 @@ public class Asteroid : WaveSpawnable {
 	protected int score;
 	public Vector3 flyDirection = Vector3.zero;
 	public bool fallingDown = true;
+	public bool shouldRespawn;
 	private Renderer rendererComponent;
 	private SphereCollider colliderComponent;
+	protected bool markedForRemoval;
 
 	// Start is called before the first frame update
 	protected void Awake() {
@@ -51,6 +53,10 @@ public class Asteroid : WaveSpawnable {
 		trans.Translate(translation, Space.World);
 		trans.Rotate(new Vector3(enemyRotationSpeedX, enemyRotationSpeedY, enemyRotationSpeedZ));
 		trans.localScale = Vector3.one * enemyScale;
+
+		if (!shouldRespawn || BossFightManager.instance.awaitingStart) return;
+		shouldRespawn = false;
+		OnRespawnRandomize();
 	}
 
 	private void OnDestroy() {
@@ -74,7 +80,17 @@ public class Asteroid : WaveSpawnable {
 	}
 
 	public virtual void OnRespawnRandomize() {
+		if (markedForRemoval) {
+			GameManager.Instance.Meteors.Remove(this);
+			Destroy(gameObject);
+			return;
+		}
+
 		if (cam is null || cam.IsDestroyed()) return;
+		if (BossFightManager.instance.awaitingStart) {
+			shouldRespawn = true;
+			return;
+		}
 		var gm = GameManager.Instance;
 
 		#region Randomizing Respawn Position
@@ -120,10 +136,10 @@ public class Asteroid : WaveSpawnable {
 	}
 
 	private void OnBecameInvisible() {
-		if (!fallingDown) {
-			GameManager.Instance.score += score;
-			OnRespawnRandomize();
-		}
+		if (fallingDown) return;
+
+		GameManager.Instance.score += score;
+		OnRespawnRandomize();
 	}
 
 	public virtual void Hide() {
@@ -141,5 +157,7 @@ public class Asteroid : WaveSpawnable {
 	public float GetEnemySpeed() => enemySpeed;
 
 	public SphereCollider GetCollider() => colliderComponent;
+
+	public void MarkForRemoval() => markedForRemoval = true;
 
 }
