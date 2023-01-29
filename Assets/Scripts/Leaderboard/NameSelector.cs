@@ -19,13 +19,13 @@ public class NameSelector : MonoBehaviour
     public static void toMenu()
     {
         TransitionManager current = FindObjectOfType<TransitionManager>();
-        current.FromLoseToMenu();
+        // current.FromLoseToMenu();
     }
 
     public static void toGame()
     {
         TransitionManager current = FindObjectOfType<TransitionManager>();
-        current.StartGameFromMenu();
+        // current.StartGameFromMenu();
     }
 
     private void Start()

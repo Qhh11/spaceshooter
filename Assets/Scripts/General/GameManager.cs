@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
 
 	public void EndGame()
 	{
-		TransitionManager.Instance.FromGameToLose();
+		// TransitionManager.Instance.FromGameToLose();
 	}
 
 	public void SetWaveSpawnablePositions() {

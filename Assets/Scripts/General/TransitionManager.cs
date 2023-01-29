@@ -103,12 +103,12 @@ public class TransitionManager : MonoBehaviour
         Instance.SwitchState(PlayState.MainMenu);
     }
 
-    public void FromMenuToSetting()
+    public static void FromMenuToSetting()
     {
         Instance.SwitchState(PlayState.SettingScene);
     }
 
-    public void FromSettingToMenu()
+    public static void FromSettingToMenu()
     {
         Instance.SwitchState(PlayState.MainMenu);
     }

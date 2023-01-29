@@ -79,7 +79,7 @@ public class DialogueManager : MonoBehaviour {
 	}
 
 	IEnumerator AppendText(String msg) {
-		dialogTrigger.typingSound.Play();
+		// dialogTrigger.typingSound.Play();
 		textToDisplay = "";
 		foreach (Char c in msg) {
 			textToDisplay += c;
@@ -102,7 +102,7 @@ public class DialogueManager : MonoBehaviour {
 		callbacks.Invoke();
 		callbacks = () => { };
 		Debug.Log("Conversation ended!");
-		dialogTrigger.typingSound.Pause();
+		// dialogTrigger.typingSound.Pause();
 	}
 
 	// Update is called once per frame
