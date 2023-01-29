@@ -35,7 +35,7 @@ public class HealthBar : MonoBehaviour
 	    {
 		    DestroyPlanet();
 	    }
-    }
+	}
 
 	//Damage für Planet
     public void DamageTaken(float dmg)
