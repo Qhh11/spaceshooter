@@ -12,6 +12,8 @@ public class HealthBar : MonoBehaviour
 	public float maxHP;
     private float currentHP;
 
+    [SerializeField] private GameObject planet;
+
     private bool explosionPlayed;
     
     // Start is called before the first frame update
@@ -52,14 +54,20 @@ public class HealthBar : MonoBehaviour
 	//Modifizieren der Planet-HP Anzeige
     public void SetHealth(float hp)
     {
-        healthBar.value = hp;
+        // healthBar.value = hp;
+        LeanTween.value(gameObject, healthBar.value, hp, .3f).setEase(LeanTweenType.easeSpring)
+	        .setOnUpdate((float val) => healthBar.value = val);
 
-		if(currentHP > maxHP*0.4f){
-			inner.color = new Color(0f, 1f, 0f, 1f);
-		}else if(currentHP <= maxHP*0.4f && currentHP > maxHP*0.2f){
-			inner.color = new Color(1f, 0.92f, 0.016f, 1f);
-		}else{
-			inner.color = new Color(1f, 0f, 0f, 1f);
+
+        if(currentHP > maxHP*0.4f)
+        {
+	        LeanTween.color(inner.rectTransform, new Color(Random.Range(0f,1f), Random.Range(0f,1f), Random.Range(0f,1f), 1f), .6f).setEase(LeanTweenType.linear);
+        }else if(currentHP <= maxHP*0.6f && currentHP > maxHP*0.2f){
+			// inner.color = new Color(1f, 0.92f, 0.016f, 1f);
+			LeanTween.color(inner.rectTransform, new Color(1f, 0.92f, 0.016f, 1f), .6f).setEase(LeanTweenType.linear);
+        }else{
+			// inner.color = new Color(1f, 0f, 0f, 1f);
+			LeanTween.color(inner.rectTransform, new Color(1f, 0f, 0f, 1f), .6f).setEase(LeanTweenType.linear);
 		}
     }
 

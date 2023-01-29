@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
   m_Name: Vignette
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -27,16 +27,16 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0
+    value: 0.402
   smoothness:
     overrideState: 1
-    value: 0.156
+    value: 0.396
   roundness:
     overrideState: 1
     value: 1
   rounded:
     overrideState: 1
-    value: 1
+    value: 0
   mask:
     overrideState: 1
     value: {fileID: 10904, guid: 0000000000000000f000000000000000, type: 0}
@@ -212,13 +212,13 @@ MonoBehaviour:
     value: 100
   lift:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: -0.032138426}
+    value: {x: 1, y: 0.9142064, z: 0.4403801, w: -0.032138426}
   gamma:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: 0.2472188}
+    value: {x: 1, y: 0.4636246, z: 0.66150695, w: 0.2472188}
   gain:
     overrideState: 1
-    value: {x: 1, y: 1, z: 1, w: 0.17305315}
+    value: {x: 0.18972802, y: 1, z: 0.321118, w: 0.17305315}
   masterCurve:
     overrideState: 0
     value:
