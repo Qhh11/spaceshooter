@@ -2644,7 +2644,7 @@ MonoBehaviour:
     emptyIcon: {fileID: 21300000, guid: 8fe727310d380fc40890a25204573533, type: 3}
     filledIcon: {fileID: 21300000, guid: d67d19628481c4042b04c998bc33cbe1, type: 3}
     player: {fileID: 804544408}
-  saveMeImg: {fileID: 0}
+  saveMeImg: {fileID: 1144945481}
   audioSource: {fileID: 1364818917}
 --- !u!135 &804544409
 SphereCollider:
@@ -7446,7 +7446,7 @@ MonoBehaviour:
     emptyIcon: {fileID: 21300000, guid: 8fe727310d380fc40890a25204573533, type: 3}
     filledIcon: {fileID: 21300000, guid: 3231823e1d6fcd443849901a2915160c, type: 3}
     player: {fileID: 1870301438}
-  saveMeImg: {fileID: 0}
+  saveMeImg: {fileID: 1347221757}
   audioSource: {fileID: 1364818917}
 --- !u!54 &1870301441
 Rigidbody:
