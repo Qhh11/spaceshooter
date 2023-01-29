@@ -32,7 +32,7 @@ public class TransitionManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-        } else Destroy(gameObject);
+        }
     }
 
     public void SwitchState(PlayState state)
@@ -87,17 +87,17 @@ public class TransitionManager : MonoBehaviour
 
     // Update is called once per frame
 
-    public void StartGameFromMenu()
+    public static void StartGameFromMenu()
     {
         Instance.SwitchState(PlayState.GameScene);
     }
 
-    public void FromGameToLose()
+    public static void FromGameToLose()
     {
         Instance.SwitchState(PlayState.HighscoreScene);
     }
 
-    public void FromLoseToMenu()
+    public static void FromLoseToMenu()
     {
         
         Instance.SwitchState(PlayState.MainMenu);
