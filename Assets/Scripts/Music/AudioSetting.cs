@@ -6,7 +6,7 @@ public class AudioSetting : MonoBehaviour
 {
     private static readonly string MusicPref = "MusicPref";
     private static readonly string SFXPref = "SFXpref";
-    public float musicVolume, SFXVolume;
+    [HideInInspector]public float musicVolume, SFXVolume; 
     public AudioSource[] bgMusic;
     public AudioSource[] SFXs;
     void Awake()
