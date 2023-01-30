@@ -24,4 +24,4 @@ Lucia Vitekova
 [LeanTween](https://assetstore.unity.com/packages/tools/animation/leantween-3595) by Dented Pixel from Unity Asset Store. Licensed under Standard Unity Asset Store EULA.\
 [Customizable Planet Shader](https://assetstore.unity.com/packages/vfx/shaders/customizable-planet-shaders-131872) by Proxy from Unity Asset Store. Licensed under Standard Unity Asset Store EULA.\
 [FX Explosion Pack](https://assetstore.unity.com/packages/vfx/particles/fire-explosions/fx-explosion-pack-30102#publisher) by GAPH from Unity Asset Store. Licensed under Standard Unity Asset Store EULA.
-[Retro Noisy Explosion Sound Pack Lite] by hiro (hamstone) from Unity Asset Store. Licensed under Standard Unity Asset Store EULA.
+[Retro Noisy Explosion Sound Pack Lite](https://assetstore.unity.com/packages/audio/sound-fx/retro-noisy-explosion-sound-pack-lite-69305) by hiro (hamstone) from Unity Asset Store. Licensed under Standard Unity Asset Store EULA.
