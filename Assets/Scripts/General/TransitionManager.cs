@@ -33,6 +33,10 @@ public class TransitionManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
         }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void SwitchState(PlayState state)

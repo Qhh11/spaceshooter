@@ -460,7 +460,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1630361807}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TransitionManager, Assembly-CSharp
         m_MethodName: FromLoseToMenu
         m_Mode: 1
@@ -1973,7 +1973,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1630361807}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: TransitionManager, Assembly-CSharp
         m_MethodName: StartGameFromMenu
         m_Mode: 1
@@ -2263,17 +2263,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ad45b4a7f6b8b3b46b0e73970522cd24, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1630361807 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7564585945529345310, guid: 282141427a9e52549b6bb3561a776dcd, type: 3}
-  m_PrefabInstance: {fileID: 1694134466}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99f081d3799b194428b08db648c57f3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1650252098

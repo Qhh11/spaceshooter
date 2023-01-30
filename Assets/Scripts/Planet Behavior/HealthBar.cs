@@ -61,7 +61,7 @@ public class HealthBar : MonoBehaviour
 
         if(currentHP > maxHP*0.4f)
         {
-	        LeanTween.color(inner.rectTransform, new Color(Random.Range(0f,1f), Random.Range(0f,1f), Random.Range(0f,1f), 1f), .6f).setEase(LeanTweenType.linear);
+	        LeanTween.color(inner.rectTransform, new Color(0, 1f, 0, 1f), .6f).setEase(LeanTweenType.linear);
         }else if(currentHP <= maxHP*0.6f && currentHP > maxHP*0.2f){
 			// inner.color = new Color(1f, 0.92f, 0.016f, 1f);
 			LeanTween.color(inner.rectTransform, new Color(1f, 0.92f, 0.016f, 1f), .6f).setEase(LeanTweenType.linear);
