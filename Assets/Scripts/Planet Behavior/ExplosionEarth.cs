@@ -12,6 +12,7 @@ public class ExplosionEarth : MonoBehaviour {
     {
         i = 1;
         MakedObject = Instantiate(AllEffect[i - 1], AllEffect[i - 1].transform.position, Quaternion.identity) as GameObject;
+        StartCoroutine(CamShaker.Instance.ShakeSteady(10, 2));
     }
 
     void Update()

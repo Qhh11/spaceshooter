@@ -8,11 +8,17 @@ public class CamShaker : MonoBehaviour
 {
 
     private bool isShaking = false;
+    public static CamShaker Instance = null;
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.O))
+        
+    }
+
+    private void Awake()
+    {
+        if (Instance == null)
         {
-            StartCoroutine(ShakeFadeout(1,.4f));
+            Instance = this;
         }
     }
 

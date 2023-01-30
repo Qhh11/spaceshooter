@@ -131,6 +131,7 @@ public class RopeBehaviour : MonoBehaviour {
 				meteor.fallingDown = false;
 				sound.Play();
 				StartCoroutine(Bounce(meteor.GetEnemyScale(), meteor.GetEnemySpeed()));
+				StartCoroutine(CamShaker.Instance.ShakeFadeout(.2f, .1f));
 			}
 
 			if (meteor == null) continue;
