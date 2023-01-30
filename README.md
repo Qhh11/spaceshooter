@@ -7,7 +7,7 @@ In this mini game, two players each control one of two space ships that are conn
 Position the ships to intercept comets. Control each ship independently with keyboard or gamepad.
 
 **Keyboard:** 1st ship - WASD, 2nd ship - arrow keys.\
-**Gamepad:** One or both players can use a controller, plug in before starting the game. Use left joystick to control a ship.
+**Gamepad:** One or both players can use a controller, plug in before starting the game. Use left joystick to control a ship. (the ship controlled gets assigned randomly!)
 
 Note: Unplug all gamepads when only using the keyboard.
 
