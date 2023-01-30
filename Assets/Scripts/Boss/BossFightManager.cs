@@ -74,7 +74,8 @@ public class BossFightManager : MonoBehaviour {
 		void OnPanOutFinished() {
 			HeartPowerUpManager.instance.UpdateSpawnPosition();
 			gm.SetWaveSpawnablePositions();
-			gm.Meteors.ForEach(a => {
+			var meteors = new List<Asteroid>(gm.Meteors);
+			meteors.ForEach(a => {
 				a.Show();
 				a.OnRespawnRandomize();
 				awaitingStart = false;
