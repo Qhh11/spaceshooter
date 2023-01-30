@@ -35,4 +35,11 @@ public class HeartPowerUpManager : MonoBehaviour {
 		spawnPosition = cam!.ViewportToWorldPoint(new Vector3(-0.1f, 0.8f, -cam.transform.position.z));
 	}
 
+	public void TryRespawn(float cooldown, bool destroy = false) {
+		if (heart == null) return;
+		if(destroy) Destroy(heart);
+		heartCooldown = cooldown;
+		heart = null;
+	}
+
 }

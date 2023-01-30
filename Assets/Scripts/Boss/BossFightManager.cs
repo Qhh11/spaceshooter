@@ -25,6 +25,8 @@ public class BossFightManager : MonoBehaviour {
 	private float targetPanTime;
 	[SerializeField]
 	private bool isPanning;
+	[SerializeField]
+	private heart heart;
 
 	[SerializeField]
 	public AudioSource playBGM;
@@ -72,12 +74,13 @@ public class BossFightManager : MonoBehaviour {
 		});
 
 		void OnPanOutFinished() {
-			HeartPowerUpManager.instance.UpdateSpawnPosition();
+			var hpm = HeartPowerUpManager.instance;
+			hpm.UpdateSpawnPosition();
 			gm.SetWaveSpawnablePositions();
 			var meteors = new List<Asteroid>(gm.Meteors);
 			meteors.ForEach(a => {
-				a.Show();
 				a.OnRespawnRandomize();
+				a.Show();
 				awaitingStart = false;
 				gm.isMovingAsteroids = true;
 				gm.playersInvincible = false;
@@ -131,12 +134,15 @@ public class BossFightManager : MonoBehaviour {
 			WaveManager.instance.isTrackingTime = true;
 
 			gm.SetWaveSpawnablePositions();
-			gm.Meteors.ForEach(a => {
+			var meteors = new List<Asteroid>(gm.Meteors);
+			meteors.ForEach(a => {
 				a.OnRespawnRandomize();
 				a.Show();
 			});
 			gm.isMovingAsteroids = true;
-			HeartPowerUpManager.instance.UpdateSpawnPosition();
+			var hpm = HeartPowerUpManager.instance;
+			hpm.UpdateSpawnPosition();
+			hpm.TryRespawn(0, true);
 		});
 
 		var player1 = GameManager.Player1;

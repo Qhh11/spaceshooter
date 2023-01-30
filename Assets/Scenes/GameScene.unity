@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.024901927, g: 0.022690432, b: 0.07040433, a: 1}
+  m_IndirectSpecularColor: {r: 0.02495846, g: 0.02274444, b: 0.07047759, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3806,7 +3806,11 @@ PrefabInstance:
     - target: {fileID: 210831675, guid: 0bc1af59c82906942ab4fff9ad3863f5, type: 3}
       propertyPath: nya
       value: 
-      objectReference: {fileID: 8300000, guid: e6b2ea84ecbbf3f4b9d0c1d98ec3827a, type: 3}
+      objectReference: {fileID: 1196481013}
+    - target: {fileID: 210831675, guid: 0bc1af59c82906942ab4fff9ad3863f5, type: 3}
+      propertyPath: _audioSource
+      value: 
+      objectReference: {fileID: 1196481013}
     - target: {fileID: 6890016623850791020, guid: 0bc1af59c82906942ab4fff9ad3863f5, type: 3}
       propertyPath: m_Enabled
       value: 1
@@ -4959,7 +4963,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 7ff94f571fa703240827361873089846, type: 3}
+  m_audioClip: {fileID: 8300000, guid: e6b2ea84ecbbf3f4b9d0c1d98ec3827a, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.7
   m_Pitch: 1
@@ -7614,7 +7618,7 @@ MonoBehaviour:
   isPanning: 0
   playBGM: {fileID: 1179615652}
   bossBGM: {fileID: 28314562}
-  DeathSound: {fileID: 396953470}
+  DeathSound: {fileID: 675787488}
 --- !u!114 &1879899390
 MonoBehaviour:
   m_ObjectHideFlags: 0

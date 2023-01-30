@@ -17,7 +17,7 @@ MonoBehaviour:
   minSpeed: 4
   maxSpeed: 5
   minRotationSpeed: 1.5
-  maxRotationSpeed: 6
+  maxRotationSpeed: 3
   minScale: 0.75
   maxScale: 1.125
   score: 100

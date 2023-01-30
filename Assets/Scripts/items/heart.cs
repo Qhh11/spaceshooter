@@ -32,9 +32,7 @@ public class heart : MonoBehaviour {
 		if (!hit && !animated) {
 			if (!GameManager.Instance.isMovingAsteroids) return;
 			if (cam.ViewportToWorldPoint(new Vector3(1.1f, 0, -cam.transform.position.z)).x < transform.position.x) {
-				var manager = HeartPowerUpManager.instance;
-				manager.heartCooldown = 5f;
-				manager.heart = null;
+				HeartPowerUpManager.instance.TryRespawn(5);
 				Destroy(gameObject);
 			} else {
 				transform.Translate(itemSpeedNormalized * Vector3.right, Space.Self);
@@ -76,7 +74,7 @@ public class heart : MonoBehaviour {
 		transform.rotation = startRot;
 		Destroy(gameObject);
 	}
-	
+
 	private void SetHeart() {
 		currentWaypoint = waypoints.getStart();
 		transform.position =
@@ -93,9 +91,7 @@ public class heart : MonoBehaviour {
 			SetHeart();
 			hit = true;
 
-			var manager = HeartPowerUpManager.instance;
-			manager.heartCooldown = 15f;
-			manager.heart = null;
+			HeartPowerUpManager.instance.TryRespawn(15);
 			//Debug.Log("Sweet Heart HIT.");
 		}
 	}

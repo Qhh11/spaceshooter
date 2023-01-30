@@ -29,8 +29,8 @@ public class Asteroid : WaveSpawnable {
 	public Vector3 flyDirection = Vector3.zero;
 	public bool fallingDown = true;
 	public bool shouldRespawn;
-	private Renderer rendererComponent;
-	private SphereCollider colliderComponent;
+	protected Renderer rendererComponent;
+	protected SphereCollider colliderComponent;
 	protected bool markedForRemoval;
 
 	// Start is called before the first frame update
@@ -56,6 +56,8 @@ public class Asteroid : WaveSpawnable {
 
 		if (!shouldRespawn || BossFightManager.instance.awaitingStart) return;
 		shouldRespawn = false;
+		colliderComponent.enabled = true;
+		rendererComponent.enabled = true;
 		OnRespawnRandomize();
 	}
 
@@ -89,6 +91,8 @@ public class Asteroid : WaveSpawnable {
 		if (cam is null || cam.IsDestroyed()) return;
 		if (BossFightManager.instance.awaitingStart) {
 			shouldRespawn = true;
+			colliderComponent.enabled = false;
+			rendererComponent.enabled = false;
 			return;
 		}
 		var gm = GameManager.Instance;

@@ -11,6 +11,7 @@ public class StartBossFight : SpawnAsteroidWaveElement {
 	public override void BeforeSpawn(Action spawnTask) {
 		var bfm = BossFightManager.instance;
 		bfm.playBGM.Pause();
+		bfm.bossBGM.time = 0;
 		bfm.bossBGM.Play();
 		WaveManager.instance.isTrackingTime = false;
 

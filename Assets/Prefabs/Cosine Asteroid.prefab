@@ -27,8 +27,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6398757039025614318}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3.3577852, y: 5.310692, z: -0.34171045}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -121,5 +121,6 @@ MonoBehaviour:
   enemySpeed: 0
   flyDirection: {x: 0, y: 0, z: 0}
   fallingDown: 1
+  shouldRespawn: 0
   _amplitude: 1.5
   _frequency: 15

@@ -101,14 +101,14 @@ public class RopeBehaviour : MonoBehaviour {
 		calculateAnchor = true;
 	}
 
-	private void OnDrawGizmos() {
-		Gizmos.color = Color.yellow;
-
-		foreach (var entry in closest) {
-			if (!entry.Key.fallingDown) continue;
-			Gizmos.DrawLine(entry.Key.transform.position, entry.Value);
-		}
-	}
+	// private void OnDrawGizmos() {
+	// 	Gizmos.color = Color.yellow;
+	//
+	// 	foreach (var entry in closest) {
+	// 		if (!entry.Key.fallingDown) continue;
+	// 		Gizmos.DrawLine(entry.Key.transform.position, entry.Value);
+	// 	}
+	// }
 
 	private void CheckCollision() {
 		var meteors = GameManager.Instance.Meteors;

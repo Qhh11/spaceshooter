@@ -26,6 +26,12 @@ public class CosineAsteroid : Asteroid {
 		trans.Translate(translation, Space.World);
 		trans.Rotate(new Vector3(enemyRotationSpeedX, enemyRotationSpeedY, enemyRotationSpeedZ));
 		trans.localScale = Vector3.one * enemyScale;
+		
+		if (!shouldRespawn || BossFightManager.instance.awaitingStart) return;
+		shouldRespawn = false;
+		colliderComponent.enabled = true;
+		rendererComponent.enabled = true;
+		OnRespawnRandomize();
 	}
 
 	Vector3 cosMovement(Vector3 pos) {

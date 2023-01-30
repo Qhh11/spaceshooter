@@ -19,8 +19,8 @@ public class DialogueManager : MonoBehaviour {
 	public static bool isActive = false;
 	public static bool isDone = false;
 
-	private AudioSource _audioSource;
-	[SerializeField] private AudioClip nya;
+	[SerializeField] private AudioSource _audioSource;
+	//[SerializeField] private AudioClip nya;
 
 	private Message messageToDisplay;
 	private Actor actorToDisplay;
@@ -49,7 +49,7 @@ public class DialogueManager : MonoBehaviour {
 
 	void Start() {
 		_anim = GetComponent<Animator>();
-		_audioSource = GetComponent<AudioSource>();
+		//_audioSource = GetComponent<AudioSource>();
 	}
 
 	void DisplayMessage() {
@@ -75,7 +75,7 @@ public class DialogueManager : MonoBehaviour {
 	private void PlaySound()
 	{
 		_audioSource.pitch = UnityEngine.Random.Range(1.3f,1.7f);
-		_audioSource.PlayOneShot(nya);
+		_audioSource.PlayOneShot(_audioSource.clip);
 	}
 
 	IEnumerator AppendText(String msg) {
