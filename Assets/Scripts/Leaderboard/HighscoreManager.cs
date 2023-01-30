@@ -46,9 +46,15 @@ public class HighscoreManager : MonoBehaviour
 
     public void AddScore(int score, string name)
     {
-        scores.Add(new() { Name = name, Score = score });
+        scores.Add(new() { Name = name.Substring(0, 3), Score = score });
         Sort();
         Save();
+    }
+
+    public void Reload()
+    {
+        Load();
+        DisplayHighscores();
     }
 
     private void Load()

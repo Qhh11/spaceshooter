@@ -1,4 +1,5 @@
 using System.Collections;
+using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,9 +8,9 @@ public enum PlayState
     MainMenu = 0,
     GameScene = 1,
     LoseScene = 2,
-    WinScene = 3,
-    SettingScene = 4,
-    HighscoreScene = 5
+    SettingScene = 3,
+    HighscoreScene = 4,
+    HighscoreViewScene = 5
 }
 
 public class TransitionManager : MonoBehaviour
@@ -41,33 +42,8 @@ public class TransitionManager : MonoBehaviour
 
     public void SwitchState(PlayState state)
     {
-        switch (state)
-        {
-            case PlayState.MainMenu:
-                EndState();
-                StartCoroutine(LoadScene(state));
-                break;
-            case PlayState.GameScene:
-                EndState();
-                StartCoroutine(LoadScene(state));
-                break;
-            case PlayState.WinScene:
-                EndState();
-                StartCoroutine(LoadScene(state));
-                break;
-            case PlayState.LoseScene:
-                EndState();
-                StartCoroutine(LoadScene(state));
-                break;
-            case PlayState.SettingScene:
-                EndState();
-                StartCoroutine(LoadScene(state));
-                break;
-            default:
-                EndState();
-                StartCoroutine(LoadScene(state));
-                break;
-        }
+        EndState();
+        StartCoroutine(LoadScene(state));
     }
 
     IEnumerator LoadScene(PlayState state)
@@ -115,6 +91,11 @@ public class TransitionManager : MonoBehaviour
     public static void FromSettingToMenu()
     {
         Instance.SwitchState(PlayState.MainMenu);
+    }
+
+    public static void toHighscoreView()
+    {
+        Instance.SwitchState(PlayState.HighscoreViewScene);
     }
 
 }

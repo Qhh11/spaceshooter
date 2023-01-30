@@ -78,6 +78,7 @@ public class NameSelector : MonoBehaviour
         HighscoreManager.Instance.AddScore(score, builtName);
         SelectorCanvas.SetActive(false);
         HighScoreCanvas.SetActive(true);
+        HighscoreManager.Instance.Reload();
     }
 
     private bool IsLastField()
