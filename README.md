@@ -1,5 +1,5 @@
 # Space Bouncer 
-<img src="https://i.ibb.co/XYFRffc/SPACB.png" alt="Logo" width="100" height="100">
+<img src="https://i.ibb.co/XYFRffc/SPACB.png" alt="Logo" width="250" height="250">
 
 In this mini game, two players each control one of two space ships that are connected by a small rope. The objective is to protect a planet from incoming comets by catching and bouncing them back into space. Players must work together to position their ships and use the rope to catch the comets, taking care not to let any hit the planet or to get hit themselves. As the game progresses, the comets will come faster and in greater numbers, requiring quick reflexes and strategic teamwork to succeed. This game is a unique twist on the classic space shooter genre, as players must rely on their ship's physical movement and the use of the rope rather than bullets to defend against the incoming threat.
 
