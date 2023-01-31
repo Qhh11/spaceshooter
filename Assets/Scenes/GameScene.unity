@@ -4963,7 +4963,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: e6b2ea84ecbbf3f4b9d0c1d98ec3827a, type: 3}
+  m_audioClip: {fileID: 8300000, guid: b95d939f75fc5f444a0caec21fdd37c4, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.7
   m_Pitch: 1
@@ -7616,6 +7616,7 @@ MonoBehaviour:
   panTime: 0
   targetPanTime: 0
   isPanning: 0
+  heart: {fileID: 0}
   playBGM: {fileID: 1179615652}
   bossBGM: {fileID: 28314562}
   DeathSound: {fileID: 675787488}
